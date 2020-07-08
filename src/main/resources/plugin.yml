@@ -1,0 +1,8 @@
+name: Races
+version: ${version}
+main: net.nighthawkempires.races.RacesPlugin
+description: Nighthawk Empires' Races Plugin.
+author: NoneVale_
+api-version: 1.15
+depend: [Core]
+softdepend: [Regions]
