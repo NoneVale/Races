@@ -4,21 +4,26 @@ import com.google.common.collect.Maps;
 import net.nighthawkempires.core.datasection.DataSection;
 import net.nighthawkempires.core.datasection.Model;
 import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class UserModel implements Model {
 
     private String key;
     private Race race;
     private int perkPoints;
+    private HashMap<Ability, Integer> abilities;
 
     public UserModel(UUID uuid) {
         this.key = uuid.toString();
         this.race = RacesPlugin.getRaceManager().getDefaultRace();
         this.perkPoints = 0;
+        this.abilities = Maps.newHashMap();
     }
 
     public UserModel(String key, DataSection data) {
@@ -32,8 +37,12 @@ public class UserModel implements Model {
     }
 
     public void setRace(Race race) {
+        if (race.getRaceType() != this.race.getRaceType()) {
+            clearAbilities();
+        }
+
         this.race = race;
-        // RacesPlugin.getUserRegistry().register(this);
+        RacesPlugin.getUserRegistry().register(this);
     }
 
     public int getPerkPoints() {
@@ -42,7 +51,7 @@ public class UserModel implements Model {
 
     public void setPerkPoints(int perkPoints) {
         this.perkPoints = perkPoints;
-        // RacesPlugin.getUserRegistry().register(this);
+        RacesPlugin.getUserRegistry().register(this);
     }
 
     public void addPerkPoints(int perkPoints) {
@@ -51,6 +60,12 @@ public class UserModel implements Model {
 
     public void removePerkPoints(int perkPoints) {
         this.setPerkPoints(this.getPerkPoints() - perkPoints);
+    }
+
+    public void clearAbilities() {
+        this.abilities = Maps.newHashMap();
+        RacesPlugin.getUserRegistry().register(this);
+
     }
 
     public String getKey() {
@@ -62,6 +77,6 @@ public class UserModel implements Model {
 
         map.put("race", this.race.getName());
         map.put("perk_points", this.perkPoints);
-        return null;
+        return map;
     }
 }

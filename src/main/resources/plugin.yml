@@ -3,6 +3,11 @@ version: ${version}
 main: net.nighthawkempires.races.RacesPlugin
 description: Nighthawk Empires' Races Plugin.
 author: NoneVale_
-api-version: 1.15
+api-version: 1.16
 depend: [Core]
 softdepend: [Regions]
+commands:
+  races:
+    aliases: [race]
+    usage: </command>
+    description: Races command for Nighthawk Empires' Races Plugin.

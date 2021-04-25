@@ -12,18 +12,18 @@
         <dependency>
             <groupId>net.nighthawkempires</groupId>
             <artifactId>core</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.1.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>net.nighthawkempires</groupId>
             <artifactId>regions</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>NECombat-${version}</finalName>
+        <finalName>NERaces-${version}</finalName>
         <defaultGoal>clean install</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
         <resources>

@@ -78,6 +78,18 @@ public enum RaceType {
         }
     }
 
+    public String getRaceDescriptionString() {
+        StringBuilder description = new StringBuilder();
+        for (int i = 0; i < getRaceDescription().length; i++) {
+            description.append(getRaceDescription()[i]);
+
+            if (i < getRaceDescription().length - 1) {
+                description.append("\n");
+            }
+        }
+        return description.toString();
+    }
+
     public String[] getRaceInfection() {
         switch (this) {
             case ANGEL: return new String[] {"Angel Infection.."};

@@ -77,10 +77,12 @@ public class RaceManager {
 
     public Race getRace(RaceType type, int level) {
         switch (level) {
-            case 2: return raceMap.get(type).get(1);
-            case 3: return raceMap.get(type).get(2);
-            default: return raceMap.get(type).get(0);
+            case 1: level = 0; break;
+            case 2: level = 1; break;
+            case 3: level = 2; break;
+            default: level = 0; break;
         }
+        return raceMap.get(type).get(level);
     }
 
     public Race getDefaultRace() {
