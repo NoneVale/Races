@@ -5,10 +5,14 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
+import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.core.server.ServerType;
+import net.nighthawkempires.races.ability.AbilityManager;
 import net.nighthawkempires.races.commands.RacesCommand;
 import net.nighthawkempires.races.races.RaceManager;
+import net.nighthawkempires.races.races.RaceTag;
 import net.nighthawkempires.races.recipes.HellForgedDiamond;
+import net.nighthawkempires.races.scoreboard.RaceScoreboard;
 import net.nighthawkempires.races.user.registry.MUserRegistry;
 import net.nighthawkempires.races.user.registry.UserRegistry;
 import org.bukkit.Bukkit;
@@ -23,6 +27,7 @@ public class RacesPlugin extends JavaPlugin {
 
     private static UserRegistry userRegistry;
 
+    private static AbilityManager abilityManager;
     private static RaceManager raceManager;
 
     private static Plugin plugin;
@@ -32,6 +37,9 @@ public class RacesPlugin extends JavaPlugin {
     public static NamespacedKey ITEM_KEY;
     public static NamespacedKey RECIPE_KEY;
     public static NamespacedKey BEEF_KEY;
+    public static NamespacedKey BINDER_KEY;
+    public static NamespacedKey BINDINGS_KEY;
+    public static NamespacedKey CURRENT_BINDING_KEY;
 
     public void onEnable() {
         plugin = this;
@@ -49,6 +57,7 @@ public class RacesPlugin extends JavaPlugin {
 
                 userRegistry = new MUserRegistry(mongoDatabase);
 
+                abilityManager = new AbilityManager();
                 raceManager = new RaceManager();
 
                 getLogger().info("Successfully connected to MongoDB.");
@@ -59,6 +68,8 @@ public class RacesPlugin extends JavaPlugin {
                 registerRecipes();
 
                 //CorePlugin.getScoreboardManager().addScoreboard(new SurvivalScoreboard());
+                CorePlugin.getScoreboardManager().addScoreboard(new RaceScoreboard());
+                CorePlugin.getChatFormat().add(new RaceTag());
             } catch (Exception exception) {
                 exception.printStackTrace();
                 getLogger().warning("Could not connect to MongoDB, shutting plugin down...");
@@ -75,6 +86,9 @@ public class RacesPlugin extends JavaPlugin {
         ITEM_KEY = new NamespacedKey(this, "items");
         RECIPE_KEY = new NamespacedKey(this, "recipes");
         BEEF_KEY = new NamespacedKey(this, "beef");
+        BINDER_KEY = new NamespacedKey(this, "binded_to");
+        BINDINGS_KEY = new NamespacedKey(this, "binding");
+        CURRENT_BINDING_KEY = new NamespacedKey(this, "current_binding");
 
         //CREATURE_KEY = new NamespacedKey(this, "creature");
     }
@@ -95,6 +109,10 @@ public class RacesPlugin extends JavaPlugin {
 
     public static Plugin getPlugin() {
         return plugin;
+    }
+
+    public static AbilityManager getAbilityManager() {
+        return abilityManager;
     }
 
     public static RaceManager getRaceManager() {
