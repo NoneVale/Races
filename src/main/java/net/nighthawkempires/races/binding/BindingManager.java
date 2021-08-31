@@ -104,6 +104,22 @@ public class BindingManager {
         return abilities.get(index);
     }
 
+    public int getCurrentAbilityIndex(ItemStack itemStack) {
+        List<Ability> abilities = getBindings(itemStack);
+
+        if (abilities.isEmpty()) {
+            RacesPlugin.getAbilityManager().getAbility(0);
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        int index = 0;
+        if (itemMeta.getPersistentDataContainer().has(RacesPlugin.CURRENT_BINDING_KEY, PersistentDataType.INTEGER)) {
+            index = itemMeta.getPersistentDataContainer().get(RacesPlugin.CURRENT_BINDING_KEY, PersistentDataType.INTEGER);
+        }
+
+        return index;
+    }
+
     public ItemStack scrollNextAbility(ItemStack itemStack) {
         List<Ability> abilities = getBindings(itemStack);
 

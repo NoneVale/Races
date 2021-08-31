@@ -8,6 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.core.server.ServerType;
 import net.nighthawkempires.races.ability.AbilityManager;
+import net.nighthawkempires.races.binding.BindingManager;
 import net.nighthawkempires.races.commands.RacesCommand;
 import net.nighthawkempires.races.races.RaceManager;
 import net.nighthawkempires.races.races.RaceTag;
@@ -28,6 +29,7 @@ public class RacesPlugin extends JavaPlugin {
     private static UserRegistry userRegistry;
 
     private static AbilityManager abilityManager;
+    private static BindingManager bindingManager;
     private static RaceManager raceManager;
 
     private static Plugin plugin;
@@ -58,6 +60,7 @@ public class RacesPlugin extends JavaPlugin {
                 userRegistry = new MUserRegistry(mongoDatabase);
 
                 abilityManager = new AbilityManager();
+                bindingManager = new BindingManager();
                 raceManager = new RaceManager();
 
                 getLogger().info("Successfully connected to MongoDB.");
@@ -67,7 +70,6 @@ public class RacesPlugin extends JavaPlugin {
                 registerListeners();
                 registerRecipes();
 
-                //CorePlugin.getScoreboardManager().addScoreboard(new SurvivalScoreboard());
                 CorePlugin.getScoreboardManager().addScoreboard(new RaceScoreboard());
                 CorePlugin.getChatFormat().add(new RaceTag());
             } catch (Exception exception) {
@@ -86,7 +88,7 @@ public class RacesPlugin extends JavaPlugin {
         ITEM_KEY = new NamespacedKey(this, "items");
         RECIPE_KEY = new NamespacedKey(this, "recipes");
         BEEF_KEY = new NamespacedKey(this, "beef");
-        BINDER_KEY = new NamespacedKey(this, "binded_to");
+        BINDER_KEY = new NamespacedKey(this, "bound_to");
         BINDINGS_KEY = new NamespacedKey(this, "binding");
         CURRENT_BINDING_KEY = new NamespacedKey(this, "current_binding");
 
@@ -113,6 +115,10 @@ public class RacesPlugin extends JavaPlugin {
 
     public static AbilityManager getAbilityManager() {
         return abilityManager;
+    }
+
+    public static BindingManager getBindingManager() {
+        return bindingManager;
     }
 
     public static RaceManager getRaceManager() {
