@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="23bd632c-5524-46d1-97f9-9b8dc1eb0357" name="Default Changelist" comment="Minor Changes">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/CallOfTheVoidAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/ElytraAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/PhaseAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/VoidFogAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/VoidTouchedAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/BindCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/PlayerData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/voidwalker/ElytronRace.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/voidwalker/ShadeRace.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/NERaces-1.0.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/RacesPlugin.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/ability/Ability$AbilityType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/ability/Ability.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/ability/AbilityManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/ability/BlankAbility.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/binding/BindingManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/commands/RacesAdminCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/commands/RacesCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/event/RaceChangeEvent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/Race.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/RaceManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/RaceTag.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/RaceType$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/RaceType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/angel/ArchAngelRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/angel/CherubimRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/angel/SeraphimRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/aurora/AbyssalAuroraRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/aurora/GlacialAuroraRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/aurora/NewbornAuroraRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/demon/KingOfHellRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/demon/KnightOfHellRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/demon/PrinceOfHellRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/dwarf/DerroRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/dwarf/DuergarRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/dwarf/UrdunnirRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/elf/NoldorRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/elf/TeleriRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/elf/VanyarRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/human/HunterRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/human/PriestRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/human/WitcherRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/orc/GruntRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/orc/WarbossRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/orc/WarchiefRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/vampire/VampireFledglingRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/vampire/VampireLordRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/vampire/VampireNightstalkerRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/voidwalker/WraithRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/werewolf/AlphaRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/werewolf/BetaRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/races/werewolf/OmegaRace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/recipes/HellForgedDiamond.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/scoreboard/RaceScoreboard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/user/UserModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/user/registry/FUserRegistry.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/user/registry/MUserRegistry.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/net/nighthawkempires/races/user/registry/UserRegistry.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/AbilityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/AbilityManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/BlankAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/BlankAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/binding/BindingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/binding/BindingManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/BindListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/BindListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/VoidWalkerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/VoidwalkerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/voidwalker/AssassinRace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/voidwalker/SilencerRace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/voidwalker/WraithRace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/voidwalker/WraithRace.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/user/UserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/user/UserModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="ProjectId" id="1s0dO5cqGGWXhCnx58w3jIQS6vr" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="23bd632c-5524-46d1-97f9-9b8dc1eb0357" name="Default Changelist" comment="" />
+      <created>1620013406733</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1620013406733</updated>
+      <workItem from="1620013414276" duration="466000" />
+      <workItem from="1620014075764" duration="2256000" />
+      <workItem from="1623617311220" duration="2621000" />
+      <workItem from="1623629813094" duration="1692000" />
+      <workItem from="1626045245163" duration="4635000" />
+      <workItem from="1626554439467" duration="5613000" />
+      <workItem from="1627259659748" duration="1220000" />
+      <workItem from="1628881137942" duration="763000" />
+      <workItem from="1629583213244" duration="1208000" />
+      <workItem from="1630448836508" duration="86000" />
+      <workItem from="1630448950510" duration="32857000" />
+    </task>
+    <task id="LOCAL-00001" summary="Minor Changes">
+      <created>1628881181143</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1628881181143</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Minor Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor Changes" />
+  </component>
+</project>

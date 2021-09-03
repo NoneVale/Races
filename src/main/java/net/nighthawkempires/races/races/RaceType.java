@@ -18,7 +18,7 @@ public enum RaceType {
     HUMAN,
     ORC,
     VAMPIRE,
-    VOID_WALKER,
+    VOIDWALKER,
     WEREWOLF;
 
     private static List<RaceType> holyRaces = Lists.newArrayList(ANGEL, AURORA, DWARF, ELF, HUMAN);
@@ -40,7 +40,7 @@ public enum RaceType {
             case ELF: return GREEN;
             case ORC: return DARK_GREEN;
             case VAMPIRE: return DARK_RED;
-            case VOID_WALKER: return DARK_GRAY;
+            case VOIDWALKER: return DARK_GRAY;
             case WEREWOLF: return DARK_PURPLE;
             default: return GRAY;
         }
@@ -51,7 +51,7 @@ public enum RaceType {
             case ANGEL:
             case ELF:
             case VAMPIRE:
-            case VOID_WALKER:
+            case VOIDWALKER:
                 return 19.0;
             case AURORA:
             case DEMON:
@@ -72,7 +72,10 @@ public enum RaceType {
             case ELF: return new String[] {"Elf Description."};
             case ORC: return new String[] {"Orc Description."};
             case VAMPIRE: return new String[] {"Vampire Description."};
-            case VOID_WALKER: return new String[] {"Void Walker Description."};
+            case VOIDWALKER: return new String[] {"Voidwalkers are among the most mysterious of the sentient races."
+                    + "  They hail from the dangerous End dimension, where very few have stepped foot and where none have returned unchanged."
+                    + "  Voidwalkers appear to separate into three “stages” of development, with some always remaining in one stage while" +
+                    " others strive to progress even beyond the oldest documented stage."};
             case WEREWOLF: return new String[] {"Werewolf Description."};
             default: return new String[] {"Human Description."};
         }
@@ -99,7 +102,7 @@ public enum RaceType {
             case ELF: return new String[] {"Elf Infection."};
             case ORC: return new String[] {"Orc Infection."};
             case VAMPIRE: return new String[] {"Vampire Infection."};
-            case VOID_WALKER: return new String[] {"Void Walker Infection."};
+            case VOIDWALKER: return new String[] {"Void Walker Infection."};
             case WEREWOLF: return new String[] {"Werewolf Infection."};
             default: return new String[] {"Human Infection."};
         }

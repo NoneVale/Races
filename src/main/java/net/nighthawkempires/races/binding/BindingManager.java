@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -81,10 +82,14 @@ public class BindingManager {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta.getPersistentDataContainer().has(RacesPlugin.BINDINGS_KEY, PersistentDataType.STRING)) {
             itemMeta.getPersistentDataContainer().remove(RacesPlugin.BINDINGS_KEY);
-
-            itemStack.setItemMeta(itemMeta);
-            return itemStack;
         }
+        if (itemMeta.getPersistentDataContainer().has(RacesPlugin.CURRENT_BINDING_KEY, PersistentDataType.INTEGER)) {
+            itemMeta.getPersistentDataContainer().remove(RacesPlugin.CURRENT_BINDING_KEY);
+        }
+        if (itemMeta.getPersistentDataContainer().has(RacesPlugin.BINDER_KEY, PersistentDataType.STRING)) {
+            itemMeta.getPersistentDataContainer().remove(RacesPlugin.BINDER_KEY);
+        }
+        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
@@ -133,7 +138,7 @@ public class BindingManager {
             index = itemMeta.getPersistentDataContainer().get(RacesPlugin.CURRENT_BINDING_KEY, PersistentDataType.INTEGER);
         }
 
-        index++;
+        index = index + 1;
         if (index == abilities.size()) {
             index = 0;
         }

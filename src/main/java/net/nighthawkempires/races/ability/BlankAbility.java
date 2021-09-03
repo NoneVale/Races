@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 public class BlankAbility implements Ability {
 
     public Ability.AbilityType getAbilityType() {
-        return Ability.AbilityType.PASSIVE;
+        return AbilityType.ACTIVE;
     }
 
     public int getCooldown(int level) {
@@ -30,7 +30,7 @@ public class BlankAbility implements Ability {
     }
 
     public RaceType getRaceType() {
-        return RaceType.HUMAN;
+        return RaceType.VOIDWALKER;
     }
 
     public Race getRace() {

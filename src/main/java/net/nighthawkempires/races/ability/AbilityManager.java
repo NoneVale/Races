@@ -1,6 +1,7 @@
 package net.nighthawkempires.races.ability;
 
 import com.google.common.collect.Lists;
+import net.nighthawkempires.races.ability.voidwalker.*;
 
 import java.util.List;
 
@@ -12,6 +13,13 @@ public class AbilityManager {
         abilities = Lists.newArrayList();
 
         abilities.add(new BlankAbility());
+
+        // Voidwalker
+        abilities.add(new PhaseAbility());
+        abilities.add(new VoidTouchedAbility());
+        abilities.add(new VoidFogAbility());
+        abilities.add(new CallOfTheVoidAbility());
+        abilities.add(new ElytraAbility());
     }
 
     public List<Ability> getAbilities() {

@@ -1,7 +1,6 @@
 package net.nighthawkempires.races.races;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.nighthawkempires.races.races.angel.ArchAngelRace;
 import net.nighthawkempires.races.races.angel.CherubimRace;
@@ -27,8 +26,8 @@ import net.nighthawkempires.races.races.orc.WarchiefRace;
 import net.nighthawkempires.races.races.vampire.VampireFledglingRace;
 import net.nighthawkempires.races.races.vampire.VampireLordRace;
 import net.nighthawkempires.races.races.vampire.VampireNightstalkerRace;
-import net.nighthawkempires.races.races.voidwalker.AssassinRace;
-import net.nighthawkempires.races.races.voidwalker.SilencerRace;
+import net.nighthawkempires.races.races.voidwalker.ElytronRace;
+import net.nighthawkempires.races.races.voidwalker.ShadeRace;
 import net.nighthawkempires.races.races.voidwalker.WraithRace;
 import net.nighthawkempires.races.races.werewolf.AlphaRace;
 import net.nighthawkempires.races.races.werewolf.BetaRace;
@@ -38,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.reverse;
 import static net.nighthawkempires.races.races.RaceType.*;
 
 public class RaceManager {
@@ -56,7 +54,7 @@ public class RaceManager {
         raceMap.put(HUMAN, newArrayList(new HunterRace(), new PriestRace(), new WitcherRace()));
         raceMap.put(ORC, newArrayList(new GruntRace(), new WarchiefRace(), new WarbossRace()));
         raceMap.put(VAMPIRE, newArrayList(new VampireFledglingRace(), new VampireNightstalkerRace(), new VampireLordRace()));
-        raceMap.put(VOID_WALKER, newArrayList(new SilencerRace(), new AssassinRace(), new WraithRace()));
+        raceMap.put(VOIDWALKER, newArrayList(new ShadeRace(), new WraithRace(), new ElytronRace()));
         raceMap.put(WEREWOLF, newArrayList(new OmegaRace(), new BetaRace(), new AlphaRace()));
     }
 

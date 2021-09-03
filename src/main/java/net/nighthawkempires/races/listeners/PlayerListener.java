@@ -1,6 +1,8 @@
 package net.nighthawkempires.races.listeners;
 
 import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.races.Race;
+import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -15,6 +17,13 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         UserModel user = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        user.setRace(RacesPlugin.getRaceManager().getRace(RaceType.VOIDWALKER, 3));
+        user.addAbility(RacesPlugin.getAbilityManager().getAbility(81), 3);
+        user.addAbility(RacesPlugin.getAbilityManager().getAbility(82), 3);
+        user.addAbility(RacesPlugin.getAbilityManager().getAbility(84), 4);
+        user.addAbility(RacesPlugin.getAbilityManager().getAbility(85), 3);
+        user.addAbility(RacesPlugin.getAbilityManager().getAbility(87), 1);
 
         player.setHealthScaled(true);
         player.setHealthScale(user.getRace().getRaceType().getBaseHealth() + (double) user.getRace().getTier());

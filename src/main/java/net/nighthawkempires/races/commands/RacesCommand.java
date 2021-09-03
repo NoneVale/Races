@@ -96,7 +96,7 @@ public class RacesCommand implements CommandExecutor {
                                             + userModel.getRace().getRaceType().getRaceColor() + enumName(userModel.getRace().getRaceType().name())),
                                     translateAlternateColorCodes('&', "&8Perk Points&7: &6" + userModel.getPerkPoints()),
                                     translateAlternateColorCodes('&', "&8Race Type Description&7: "),
-                                    translateAlternateColorCodes('&', "&7" + userModel.getRace().getRaceType().getRaceDescriptionString()),
+                                    translateAlternateColorCodes('&', "&7" + RaceType.VOIDWALKER.getRaceDescriptionString()),
                                     translateAlternateColorCodes('&', "&8Race Description&7: "),
                                     translateAlternateColorCodes('&', "&7" + userModel.getRace().getDescriptionString()),
                                     getMessages().getMessage(Messages.CHAT_FOOTER),

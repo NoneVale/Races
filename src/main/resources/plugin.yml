@@ -7,6 +7,9 @@ api-version: 1.17
 depend: [Core]
 softdepend: [Regions]
 commands:
+  bind:
+    usage: </command>
+    description: Bind command for Nighthawk Empires' Races Plugin.
   races:
     aliases: [race]
     usage: </command>

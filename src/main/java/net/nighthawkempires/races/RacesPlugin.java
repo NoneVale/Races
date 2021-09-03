@@ -9,7 +9,13 @@ import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.core.server.ServerType;
 import net.nighthawkempires.races.ability.AbilityManager;
 import net.nighthawkempires.races.binding.BindingManager;
+import net.nighthawkempires.races.commands.BindCommand;
 import net.nighthawkempires.races.commands.RacesCommand;
+import net.nighthawkempires.races.data.PlayerData;
+import net.nighthawkempires.races.listeners.BindListener;
+import net.nighthawkempires.races.listeners.InfectionListener;
+import net.nighthawkempires.races.listeners.PlayerListener;
+import net.nighthawkempires.races.listeners.races.VoidwalkerListener;
 import net.nighthawkempires.races.races.RaceManager;
 import net.nighthawkempires.races.races.RaceTag;
 import net.nighthawkempires.races.recipes.HellForgedDiamond;
@@ -31,6 +37,8 @@ public class RacesPlugin extends JavaPlugin {
     private static AbilityManager abilityManager;
     private static BindingManager bindingManager;
     private static RaceManager raceManager;
+
+    private static PlayerData playerData;
 
     private static Plugin plugin;
 
@@ -63,6 +71,8 @@ public class RacesPlugin extends JavaPlugin {
                 bindingManager = new BindingManager();
                 raceManager = new RaceManager();
 
+                playerData = new PlayerData();
+
                 getLogger().info("Successfully connected to MongoDB.");
 
                 registerCommands();
@@ -81,6 +91,7 @@ public class RacesPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
+        this.getCommand("bind").setExecutor(new BindCommand());
         this.getCommand("races").setExecutor(new RacesCommand());
     }
 
@@ -97,6 +108,11 @@ public class RacesPlugin extends JavaPlugin {
 
     public void registerListeners() {
         PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new BindListener(), this);
+        pm.registerEvents(new InfectionListener(), this);
+        pm.registerEvents(new PlayerListener(), this);
+
+        pm.registerEvents(new VoidwalkerListener(), this);
         //pm.registerEvents(new PlayerListener(), this);
     }
 
@@ -123,5 +139,9 @@ public class RacesPlugin extends JavaPlugin {
 
     public static RaceManager getRaceManager() {
         return raceManager;
+    }
+
+    public static PlayerData getPlayerData() {
+        return playerData;
     }
 }
