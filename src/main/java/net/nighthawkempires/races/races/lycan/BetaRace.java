@@ -1,18 +1,18 @@
-package net.nighthawkempires.races.races.demon;
+package net.nighthawkempires.races.races.lycan;
 
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 
 import static org.bukkit.ChatColor.GRAY;
 
-public class PrinceOfHellRace implements Race {
+public class BetaRace implements Race {
 
     public String getName() {
-        return "Prince of Hell";
+        return "Beta";
     }
 
     public RaceType getRaceType() {
-        return RaceType.DEMON;
+        return RaceType.LYCAN;
     }
 
     public int getTier() {
@@ -21,7 +21,7 @@ public class PrinceOfHellRace implements Race {
 
     public String[] getDescription() {
         return new String[] {
-                GRAY + "Prince of Hell Description"
+                GRAY + "Beta Description"
         };
     }
 }

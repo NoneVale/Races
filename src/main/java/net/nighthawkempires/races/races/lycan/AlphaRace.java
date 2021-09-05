@@ -1,28 +1,27 @@
-package net.nighthawkempires.races.races.angel;
+package net.nighthawkempires.races.races.lycan;
 
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
-import org.bukkit.ChatColor;
 
-import static org.bukkit.ChatColor.*;
+import static org.bukkit.ChatColor.GRAY;
 
-public class SeraphimRace implements Race {
+public class AlphaRace implements Race {
 
     public String getName() {
-        return "Seraphim";
+        return "Alpha";
     }
 
     public RaceType getRaceType() {
-        return RaceType.ANGEL;
+        return RaceType.LYCAN;
     }
 
     public int getTier() {
-        return 1;
+        return 3;
     }
 
     public String[] getDescription() {
         return new String[] {
-                GRAY + "Seraphim Description"
+                GRAY + "Alpha Description"
         };
     }
 }
