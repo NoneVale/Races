@@ -102,6 +102,7 @@ public class RacesPlugin extends JavaPlugin {
         CURRENT_BINDING_KEY = new NamespacedKey(this, "current_binding");
 
         VOID_FORGED_PENDANT = new NamespacedKey(this, "void_forged_pendant");
+        VOID_FORGED_PENDANT_RECIPE = new NamespacedKey(this, "void_forged_pendant_recipe");
     }
 
     public void registerListeners() {

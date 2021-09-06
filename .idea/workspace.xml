@@ -4,20 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23bd632c-5524-46d1-97f9-9b8dc1eb0357" name="Default Changelist" comment="Name and Description Changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/AuroraRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/CelestialRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/DwarfRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/ElfRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/HumanRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/InfernalRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/LycanRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/OrcRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/VampireRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/VoidwalkerRecipes.java" afterDir="false" />
+    <list default="true" id="23bd632c-5524-46d1-97f9-9b8dc1eb0357" name="Default Changelist" comment="Create Recipe Classes + Voidwalker Recipe and Race Item">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/HellForgedDiamond.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/HellForgedDiamond.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/BindCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/BindCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InfectionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InfectionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +85,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630880009263</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Create Recipe Classes + Voidwalker Recipe and Race Item">
+      <created>1630944726577</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1630944726577</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +113,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Minor Changes" />
     <MESSAGE value="Name and Description Changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Name and Description Changes" />
+    <MESSAGE value="Create Recipe Classes + Voidwalker Recipe and Race Item" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create Recipe Classes + Voidwalker Recipe and Race Item" />
   </component>
 </project>

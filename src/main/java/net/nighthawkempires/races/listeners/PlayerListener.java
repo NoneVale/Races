@@ -1,7 +1,6 @@
 package net.nighthawkempires.races.listeners;
 
 import net.nighthawkempires.races.RacesPlugin;
-import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.attribute.Attribute;
