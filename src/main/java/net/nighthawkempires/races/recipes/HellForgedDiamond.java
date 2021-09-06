@@ -3,6 +3,7 @@ package net.nighthawkempires.races.recipes;
 import net.nighthawkempires.races.RacesPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,7 +17,7 @@ public class HellForgedDiamond {
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         itemMeta.setDisplayName("Hell Forged Diamond");
-        itemMeta.getPersistentDataContainer().set(RacesPlugin.ITEM_KEY,  PersistentDataType.INTEGER, 1);
+        itemMeta.getPersistentDataContainer().set(NamespacedKey.randomKey(),  PersistentDataType.INTEGER, 1);
 
         itemStack.setItemMeta(itemMeta);
 
@@ -24,10 +25,10 @@ public class HellForgedDiamond {
     }
 
     public BlastingRecipe recipeHellForgedDiamond() {
-        return new BlastingRecipe(RacesPlugin.RECIPE_KEY, itemHellForgedDiamond(), Material.DIAMOND, 0, 600);
+        return new BlastingRecipe(NamespacedKey.randomKey(), itemHellForgedDiamond(), Material.DIAMOND, 0, 600);
     }
 
     public BlastingRecipe recipeBeef() {
-        return new BlastingRecipe(RacesPlugin.BEEF_KEY, new ItemStack(Material.COOKED_BEEF, 1), Material.BEEF, 0 , 1);
+        return new BlastingRecipe(NamespacedKey.randomKey(), new ItemStack(Material.COOKED_BEEF, 1), Material.BEEF, 0 , 1);
     }
 }

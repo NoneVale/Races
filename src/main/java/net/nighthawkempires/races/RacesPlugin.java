@@ -19,6 +19,7 @@ import net.nighthawkempires.races.listeners.races.VoidwalkerListener;
 import net.nighthawkempires.races.races.RaceManager;
 import net.nighthawkempires.races.races.RaceTag;
 import net.nighthawkempires.races.recipes.HellForgedDiamond;
+import net.nighthawkempires.races.recipes.VoidwalkerRecipes;
 import net.nighthawkempires.races.scoreboard.RaceScoreboard;
 import net.nighthawkempires.races.user.registry.MUserRegistry;
 import net.nighthawkempires.races.user.registry.UserRegistry;
@@ -44,12 +45,12 @@ public class RacesPlugin extends JavaPlugin {
 
     private static MongoDatabase mongoDatabase;
 
-    public static NamespacedKey ITEM_KEY;
-    public static NamespacedKey RECIPE_KEY;
-    public static NamespacedKey BEEF_KEY;
     public static NamespacedKey BINDER_KEY;
     public static NamespacedKey BINDINGS_KEY;
     public static NamespacedKey CURRENT_BINDING_KEY;
+
+    public static NamespacedKey VOID_FORGED_PENDANT;
+    public static NamespacedKey VOID_FORGED_PENDANT_RECIPE;
 
     public void onEnable() {
         plugin = this;
@@ -96,14 +97,11 @@ public class RacesPlugin extends JavaPlugin {
     }
 
     private void registerKeys() {
-        ITEM_KEY = new NamespacedKey(this, "items");
-        RECIPE_KEY = new NamespacedKey(this, "recipes");
-        BEEF_KEY = new NamespacedKey(this, "beef");
         BINDER_KEY = new NamespacedKey(this, "bound_to");
         BINDINGS_KEY = new NamespacedKey(this, "binding");
         CURRENT_BINDING_KEY = new NamespacedKey(this, "current_binding");
 
-        //CREATURE_KEY = new NamespacedKey(this, "creature");
+        VOID_FORGED_PENDANT = new NamespacedKey(this, "void_forged_pendant");
     }
 
     public void registerListeners() {
@@ -113,12 +111,13 @@ public class RacesPlugin extends JavaPlugin {
         pm.registerEvents(new PlayerListener(), this);
 
         pm.registerEvents(new VoidwalkerListener(), this);
-        //pm.registerEvents(new PlayerListener(), this);
     }
 
     public void registerRecipes() {
         Bukkit.addRecipe(new HellForgedDiamond().recipeHellForgedDiamond());
         Bukkit.addRecipe(new HellForgedDiamond().recipeBeef());
+
+        Bukkit.addRecipe(new VoidwalkerRecipes().recipeVoidForgedPendant());
     }
 
     public static UserRegistry getUserRegistry() {
