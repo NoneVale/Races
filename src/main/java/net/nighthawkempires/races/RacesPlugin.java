@@ -11,9 +11,11 @@ import net.nighthawkempires.races.ability.AbilityManager;
 import net.nighthawkempires.races.binding.BindingManager;
 import net.nighthawkempires.races.commands.BindCommand;
 import net.nighthawkempires.races.commands.RacesCommand;
+import net.nighthawkempires.races.data.InventoryData;
 import net.nighthawkempires.races.data.PlayerData;
 import net.nighthawkempires.races.listeners.BindListener;
 import net.nighthawkempires.races.listeners.InfectionListener;
+import net.nighthawkempires.races.listeners.InventoryListener;
 import net.nighthawkempires.races.listeners.PlayerListener;
 import net.nighthawkempires.races.listeners.races.VoidwalkerListener;
 import net.nighthawkempires.races.races.RaceManager;
@@ -39,6 +41,7 @@ public class RacesPlugin extends JavaPlugin {
     private static BindingManager bindingManager;
     private static RaceManager raceManager;
 
+    private static InventoryData inventoryData;
     private static PlayerData playerData;
 
     private static Plugin plugin;
@@ -48,6 +51,8 @@ public class RacesPlugin extends JavaPlugin {
     public static NamespacedKey BINDER_KEY;
     public static NamespacedKey BINDINGS_KEY;
     public static NamespacedKey CURRENT_BINDING_KEY;
+
+    public static NamespacedKey PERK_INVENTORY_ABILITY;
 
     public static NamespacedKey VOID_FORGED_PENDANT;
     public static NamespacedKey VOID_FORGED_PENDANT_RECIPE;
@@ -72,6 +77,7 @@ public class RacesPlugin extends JavaPlugin {
                 bindingManager = new BindingManager();
                 raceManager = new RaceManager();
 
+                inventoryData = new InventoryData();
                 playerData = new PlayerData();
 
                 getLogger().info("Successfully connected to MongoDB.");
@@ -101,6 +107,8 @@ public class RacesPlugin extends JavaPlugin {
         BINDINGS_KEY = new NamespacedKey(this, "binding");
         CURRENT_BINDING_KEY = new NamespacedKey(this, "current_binding");
 
+        PERK_INVENTORY_ABILITY = new NamespacedKey(this, "perk_inventory_ability");
+
         VOID_FORGED_PENDANT = new NamespacedKey(this, "void_forged_pendant");
         VOID_FORGED_PENDANT_RECIPE = new NamespacedKey(this, "void_forged_pendant_recipe");
     }
@@ -109,6 +117,7 @@ public class RacesPlugin extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new BindListener(), this);
         pm.registerEvents(new InfectionListener(), this);
+        pm.registerEvents(new InventoryListener(), this);
         pm.registerEvents(new PlayerListener(), this);
 
         pm.registerEvents(new VoidwalkerListener(), this);
@@ -139,6 +148,10 @@ public class RacesPlugin extends JavaPlugin {
 
     public static RaceManager getRaceManager() {
         return raceManager;
+    }
+
+    public static InventoryData getInventoryData() {
+        return inventoryData;
     }
 
     public static PlayerData getPlayerData() {

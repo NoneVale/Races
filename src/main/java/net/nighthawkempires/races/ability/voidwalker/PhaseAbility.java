@@ -32,7 +32,7 @@ import java.util.List;
 public class PhaseAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.PASSIVE;
+        return AbilityType.ACTIVE;
     }
 
     public int getCooldown(int level) {
@@ -53,7 +53,7 @@ public class PhaseAbility implements Ability {
     }
 
     public Material getDisplayItem() {
-        return null;
+        return Material.GRAY_STAINED_GLASS;
     }
 
     public RaceType getRaceType() {

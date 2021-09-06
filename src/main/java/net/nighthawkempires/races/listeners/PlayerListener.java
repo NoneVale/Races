@@ -17,13 +17,6 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         UserModel user = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        user.setRace(RacesPlugin.getRaceManager().getRace(RaceType.VOIDWALKER, 3));
-        user.addAbility(RacesPlugin.getAbilityManager().getAbility(81), 3);
-        user.addAbility(RacesPlugin.getAbilityManager().getAbility(82), 3);
-        user.addAbility(RacesPlugin.getAbilityManager().getAbility(84), 4);
-        user.addAbility(RacesPlugin.getAbilityManager().getAbility(85), 3);
-        user.addAbility(RacesPlugin.getAbilityManager().getAbility(87), 1);
-
         player.setHealthScaled(true);
         player.setHealthScale(user.getRace().getRaceType().getBaseHealth() + (double) user.getRace().getTier());
 

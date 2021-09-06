@@ -35,7 +35,7 @@ public class VoidFogAbility implements Ability {
     }
 
     public Material getDisplayItem() {
-        return null;
+        return Material.DRAGON_BREATH;
     }
 
     public RaceType getRaceType() {

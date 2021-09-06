@@ -41,7 +41,7 @@ public class CallOfTheVoidAbility implements Ability {
     }
 
     public Material getDisplayItem() {
-        return null;
+        return Material.ENDERMAN_SPAWN_EGG;
     }
 
     public RaceType getRaceType() {

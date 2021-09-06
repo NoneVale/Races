@@ -3,6 +3,7 @@ package net.nighthawkempires.races.commands;
 import net.nighthawkempires.core.lang.Messages;
 import net.nighthawkempires.core.lang.ServerMessage;
 import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.inventory.PerksInventory;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.ChatColor;
@@ -24,7 +25,7 @@ public class RacesCommand implements CommandExecutor {
         });
     }
 
-    private String[] help = new String[] {
+    private final String[] help = new String[] {
             getMessages().getMessage(Messages.CHAT_HEADER),
             ChatColor.translateAlternateColorCodes('&', "&8Command&7: Races   &8-   [Optional], <Required>"),
             getMessages().getMessage(Messages.CHAT_FOOTER),
@@ -32,6 +33,7 @@ public class RacesCommand implements CommandExecutor {
             getMessages().getCommand("races", "gui", "Open the races GUI."),
             getMessages().getCommand("races", "list", "Show a list of all races."),
             getMessages().getCommand("races", "perks", "Open the perk menu."),
+            getMessages().getCommand("races", "abilities", "Open the perk menu."),
             getMessages().getCommand("races", "info [race]", "Show info about a race."),
             getMessages().getCommand("races", "help <race>", "Show help for a race."),
             getMessages().getCommand("races", "recipes <race>", "Show recipes for a race."),
@@ -86,6 +88,8 @@ public class RacesCommand implements CommandExecutor {
                             player.sendMessage(list);
                             return true;
                         case "perks":
+                            new PerksInventory().open(player);
+                            return true;
                         case "info":
                             String[] info = new String[] {
                                     getMessages().getMessage(Messages.CHAT_HEADER),
@@ -96,7 +100,7 @@ public class RacesCommand implements CommandExecutor {
                                             + userModel.getRace().getRaceType().getRaceColor() + enumName(userModel.getRace().getRaceType().name())),
                                     translateAlternateColorCodes('&', "&8Perk Points&7: &6" + userModel.getPerkPoints()),
                                     translateAlternateColorCodes('&', "&8Race Type Description&7: "),
-                                    translateAlternateColorCodes('&', "&7" + RaceType.VOIDWALKER.getRaceDescriptionString()),
+                                    translateAlternateColorCodes('&', "&7" + userModel.getRace().getRaceType().getRaceDescriptionString()),
                                     translateAlternateColorCodes('&', "&8Race Description&7: "),
                                     translateAlternateColorCodes('&', "&7" + userModel.getRace().getDescriptionString()),
                                     getMessages().getMessage(Messages.CHAT_FOOTER),

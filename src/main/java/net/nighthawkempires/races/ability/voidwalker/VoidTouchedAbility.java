@@ -47,7 +47,7 @@ public class VoidTouchedAbility implements Ability {
     }
 
     public Material getDisplayItem() {
-        return null;
+        return Material.END_STONE;
     }
 
     public RaceType getRaceType() {

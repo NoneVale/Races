@@ -3,8 +3,10 @@ package net.nighthawkempires.races.data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.Hash;
+import net.nighthawkempires.races.inventory.PerksInventory;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.List;

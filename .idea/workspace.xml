@@ -4,13 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23bd632c-5524-46d1-97f9-9b8dc1eb0357" name="Default Changelist" comment="Create Recipe Classes + Voidwalker Recipe and Race Item">
+    <list default="true" id="23bd632c-5524-46d1-97f9-9b8dc1eb0357" name="Default Changelist" comment="Rework and Finish Bind Command">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/InventoryData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/PerksInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InventoryListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/CallOfTheVoidAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/CallOfTheVoidAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/PhaseAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/PhaseAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/VoidFogAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/VoidFogAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/VoidTouchedAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/VoidTouchedAbility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/BindCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/BindCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InfectionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InfectionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/PlayerData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/PlayerData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/Race.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/Race.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +35,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1s0dO5cqGGWXhCnx58w3jIQS6vr" />
   <component name="ProjectLevelVcsManager">
@@ -92,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630944726577</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Rework and Finish Bind Command">
+      <created>1630951865558</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1630951865558</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +137,7 @@
     <MESSAGE value="Minor Changes" />
     <MESSAGE value="Name and Description Changes" />
     <MESSAGE value="Create Recipe Classes + Voidwalker Recipe and Race Item" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create Recipe Classes + Voidwalker Recipe and Race Item" />
+    <MESSAGE value="Rework and Finish Bind Command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rework and Finish Bind Command" />
   </component>
 </project>

@@ -20,7 +20,7 @@ import static org.bukkit.ChatColor.translateAlternateColorCodes;
 
 public class BindCommand implements CommandExecutor {
 
-    private String[] help = new String[] {
+    private final String[] help = new String[] {
             getMessages().getMessage(Messages.CHAT_HEADER),
             ChatColor.translateAlternateColorCodes('&', "&8Command&7: Races   &8-   [Optional], <Required>"),
             getMessages().getMessage(Messages.CHAT_FOOTER),
