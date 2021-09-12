@@ -2,7 +2,8 @@ package net.nighthawkempires.races.data;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.nighthawkempires.races.inventory.PerksInventory;
+import net.nighthawkempires.races.inventory.RaceListInventory;
+import net.nighthawkempires.races.races.RaceType;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
@@ -11,14 +12,20 @@ import java.util.UUID;
 
 public class InventoryData {
 
-    public List<Inventory> inventoryList;
     public List<Inventory> perksInventoryList;
+    public List<Inventory> raceGUIInventoryList;
+
+    public HashMap<Inventory, RaceListInventory.RaceListType> raceListTypeMap;
+    public HashMap<Inventory, RaceType> recipeListMap;
 
     public List<UUID> perkResetList;
 
     public InventoryData() {
-        this.inventoryList = Lists.newArrayList();
         this.perksInventoryList = Lists.newArrayList();
+        this.raceGUIInventoryList = Lists.newArrayList();
+
+        this.raceListTypeMap = Maps.newHashMap();
+        this.recipeListMap = Maps.newHashMap();
 
         this.perkResetList = Lists.newArrayList();
     }

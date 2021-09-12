@@ -1,4 +1,4 @@
 package net.nighthawkempires.races.listeners.races;
 
-public class WerewolfListener {
+public class LycanListener {
 }

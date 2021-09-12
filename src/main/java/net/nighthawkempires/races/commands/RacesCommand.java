@@ -4,6 +4,8 @@ import net.nighthawkempires.core.lang.Messages;
 import net.nighthawkempires.core.lang.ServerMessage;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.inventory.PerksInventory;
+import net.nighthawkempires.races.inventory.RaceGUIInventory;
+import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.ChatColor;
@@ -35,7 +37,7 @@ public class RacesCommand implements CommandExecutor {
             getMessages().getCommand("races", "perks", "Open the perk menu."),
             getMessages().getCommand("races", "abilities", "Open the perk menu."),
             getMessages().getCommand("races", "info [race]", "Show info about a race."),
-            getMessages().getCommand("races", "help <race>", "Show help for a race."),
+            getMessages().getCommand("races", "infection <race>", "Show infections for a race."),
             getMessages().getCommand("races", "recipes <race>", "Show recipes for a race."),
             getMessages().getMessage(Messages.CHAT_FOOTER)
     };
@@ -61,6 +63,8 @@ public class RacesCommand implements CommandExecutor {
                             player.sendMessage(help);
                             return true;
                         case "gui":
+                            new RaceGUIInventory().open(player);
+                            return true;
                         case "list":
                             StringBuilder raceBuilder = new StringBuilder();
                             for (int i = 0; i < RaceType.values().length; i++) {
@@ -115,6 +119,38 @@ public class RacesCommand implements CommandExecutor {
                 case 2:
                     switch (args[0]) {
                         case "info":
+                            String name = args[1];
+                            RaceType raceType = RaceType.valueOf(name.toUpperCase());
+                            if (raceType == null) {
+                                player.sendMessage(getMessages().getChatMessage(RED + "That race does not exist, make sure you spelled it correctly."));
+                                return true;
+                            }
+
+                            Race tier1 = RacesPlugin.getRaceManager().getRace(raceType, 1);
+                            Race tier2 = RacesPlugin.getRaceManager().getRace(raceType, 2);
+                            Race tier3 = RacesPlugin.getRaceManager().getRace(raceType, 3);
+
+                            String[] info = new String[] {
+                                    getMessages().getMessage(Messages.CHAT_HEADER),
+                                    translateAlternateColorCodes('&', "&8Race Info&7: "
+                                            + raceType.getRaceColor() + raceType.getName()),
+                                    getMessages().getMessage(Messages.CHAT_FOOTER),
+                                    translateAlternateColorCodes('&', "&8Race Type Description&7: "),
+                                    translateAlternateColorCodes('&', "&7" + raceType.getRaceDescriptionString()),
+                                    translateAlternateColorCodes('&', "&8Race Tier I&7: " + raceType.getRaceColor() + tier1.getName()),
+                                    translateAlternateColorCodes('&', "&8Race Tier I Description&7: "),
+                                    translateAlternateColorCodes('&', "&7" + tier1.getDescriptionString()),
+                                    translateAlternateColorCodes('&', "&8Race Tier II&7: " + raceType.getRaceColor() + tier2.getName()),
+                                    translateAlternateColorCodes('&', "&8Race Tier II Description&7: "),
+                                    translateAlternateColorCodes('&', "&7" + tier2.getDescriptionString()),
+                                    translateAlternateColorCodes('&', "&8Race Tier III&7: " + raceType.getRaceColor() + tier3.getName()),
+                                    translateAlternateColorCodes('&', "&8Race Tier III Description&7: "),
+                                    translateAlternateColorCodes('&', "&7" + tier3.getDescriptionString()),
+                                    getMessages().getMessage(Messages.CHAT_FOOTER),
+                            };
+
+                            player.sendMessage(info);
+                            return true;
                         case "help":
                         case "recipes":
                         default:

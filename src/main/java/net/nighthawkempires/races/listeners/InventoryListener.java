@@ -4,6 +4,10 @@ import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.inventory.PerksInventory;
+import net.nighthawkempires.races.inventory.RaceGUIInventory;
+import net.nighthawkempires.races.inventory.RaceListInventory;
+import net.nighthawkempires.races.inventory.RaceRecipeInventory;
+import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,9 +15,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Stack;
 
 import static net.nighthawkempires.races.RacesPlugin.*;
 
@@ -26,6 +34,7 @@ public class InventoryListener implements Listener {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (getInventoryData().perksInventoryList.contains(event.getView().getTopInventory())) {
+                event.setCancelled(true);
                 if (getInventoryData().perksInventoryList.contains(event.getClickedInventory())) {
 
                     if (event.getCurrentItem() != null) {
@@ -72,16 +81,10 @@ public class InventoryListener implements Listener {
                                     return;
                                 }*/
                             }
-                        } /*else if (clickedSlot == 45) {
+                        } else if (clickedSlot == 45) {
                             event.getWhoClicked().closeInventory();
-                            event.getWhoClicked().openInventory(getCategoryRegistry().getCategoryInventory());
-                        } else if (clickedSlot == 46) {
-                            event.getWhoClicked().closeInventory();
-                            event.getWhoClicked().openInventory(model.getPage(page - 1));
-                        } else if (clickedSlot == 52) {
-                            event.getWhoClicked().closeInventory();
-                            event.getWhoClicked().openInventory(model.getPage(page + 1));
-                        }*/ else if (clickedSlot == 53) {
+                            new RaceGUIInventory().open(player);
+                        } else if (clickedSlot == 53) {
                             if (getInventoryData().perkResetList.contains(player.getUniqueId())) {
                                 event.getWhoClicked().closeInventory();
                                 userModel.clearAbilities();
@@ -95,103 +98,91 @@ public class InventoryListener implements Listener {
                         }
                     }
                 }
+            } else if (getInventoryData().raceGUIInventoryList.contains(event.getView().getTopInventory())) {
                 event.setCancelled(true);
-            }/** else if (getInventoryData().categoryInventoryList.contains(event.getView().getTopInventory())) {
-                if (getInventoryData().categoryInventoryList.contains(event.getClickedInventory())) {
+                if (getInventoryData().raceGUIInventoryList.contains(event.getClickedInventory())) {
                     if (event.getCurrentItem() != null) {
                         int clickedSlot = event.getSlot();
 
-                        event.getWhoClicked().closeInventory();
-                        event.getWhoClicked().openInventory(getCategoryRegistry().getCategories().get(clickedSlot).getPage(1));
+                        if (clickedSlot == 10) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceListInventory().open(player, RaceListInventory.RaceListType.INFO);
+                        } else if (clickedSlot == 12) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceListInventory().open(player, RaceListInventory.RaceListType.INFECTION);
+                        } else if (clickedSlot == 14) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceListInventory().open(player, RaceListInventory.RaceListType.RECIPES);
+                        } else if (clickedSlot == 16) {
+                            event.getWhoClicked().closeInventory();
+                            new PerksInventory().open(player);
+                        }
                     }
                 }
+            } else if (getInventoryData().raceListTypeMap.containsKey(event.getView().getTopInventory())) {
                 event.setCancelled(true);
-            } else if (getInventoryData().checkoutDataMap.containsKey(event.getView().getTopInventory())) {
-                if (getInventoryData().checkoutDataMap.containsKey(event.getClickedInventory())) {
-                    CategoryItem categoryItem = getInventoryData().checkoutDataMap.get(event.getClickedInventory());
+                if (getInventoryData().raceListTypeMap.containsKey(event.getClickedInventory())) {
                     if (event.getCurrentItem() != null) {
                         int clickedSlot = event.getSlot();
-                        UserModel userModel = getUserRegistry().getUser(player.getUniqueId());
-                        ServerType serverType = getConfigg().getServerType();
 
-                        if ((clickedSlot >= 11 && clickedSlot <= 15)
-                                || (clickedSlot >= 29 && clickedSlot <= 33)) {
-                            int amount = 1;
-                            if (clickedSlot >= 11 && clickedSlot <= 15) {
-                                // BUY
-                                amount = event.getClickedInventory().getItem(clickedSlot + 9).getAmount();
-
-                                double price = amount * categoryItem.getBuyPrice();
-
-                                if (userModel.getServerBalance(serverType) < price) {
-                                    player.sendMessage(getMessages().getChatMessage(GRAY + "I'm sorry, but you do not have enough money in your account to purchase this."));
-                                    event.setCancelled(true);
-                                    return;
-                                }
-
-                                userModel.removeServerBalance(serverType, price);
-                                player.sendMessage(getMessages().getChatMessage(GRAY + "You bought " + GOLD + amount + AQUA + " "
-                                        + categoryItem.enumName(categoryItem.getItemType().name()) + GRAY + " for " + GREEN + "$"
-                                        + YELLOW + price + GRAY + "."));
-                                player.getInventory().addItem(categoryItem.toItemStack(amount));
-                                player.closeInventory();
-                                player.openInventory(categoryItem.openCheckoutPage(player));
-                            } else {
-                                amount = event.getClickedInventory().getItem(clickedSlot - 9).getAmount();
-
-                                double price = amount * categoryItem.getSellPrice();
-
-                                if (!player.getInventory().contains(categoryItem.toItemStack().getType(), amount)) {
-                                    player.sendMessage(getMessages().getChatMessage(GRAY + "I'm sorry, but you do not have " + GOLD + amount + " " + AQUA
-                                            + categoryItem.enumName(categoryItem.getItemType().name()) + GRAY + " in your inventory."));
-                                    event.setCancelled(true);
-                                    return;
-                                }
-
-                                removeAmount(player, categoryItem.toItemStack().getType(), amount);
-                                userModel.addServerBalance(serverType, price);
-                                player.sendMessage(getMessages().getChatMessage(GRAY + "You sold " + GOLD + amount + AQUA + " "
-                                        + categoryItem.enumName(categoryItem.getItemType().name()) + GRAY + " for " + GREEN + "$"
-                                        + YELLOW + price + GRAY + "."));
-                                player.closeInventory();
-                                player.openInventory(categoryItem.openCheckoutPage(player));                            }
-
-                        } else if (clickedSlot == 40) {
-                            int amount = categoryItem.getAmountOfItems(player, new ItemStack(categoryItem.getItemType()));
-
-                            double price = amount * categoryItem.getSellPrice();
-
-                            if (!player.getInventory().contains(categoryItem.toItemStack().getType(), amount)) {
-                                player.sendMessage(getMessages().getChatMessage(GRAY + "I'm sorry, but you do not have " + GOLD + amount + " " + AQUA
-                                        + categoryItem.enumName(categoryItem.getItemType().name()) + GRAY + " in your inventory."));
-                                event.setCancelled(true);
-                                return;
-                            }
-
-                            removeAmount(player, categoryItem.toItemStack().getType(), amount);
-                            userModel.addServerBalance(serverType, price);
-                            player.sendMessage(getMessages().getChatMessage(GRAY + "You sold " + GOLD + amount + AQUA + " "
-                                    + categoryItem.enumName(categoryItem.getItemType().name()) + GRAY + " for " + GREEN + "$"
-                                    + YELLOW + price + GRAY + "."));
-                            player.closeInventory();
-                            player.openInventory(categoryItem.openCheckoutPage(player));
-                        } else if (clickedSlot == 45) {
+                        if (clickedSlot == 2) {
                             event.getWhoClicked().closeInventory();
-                            event.getWhoClicked().openInventory(getCategoryRegistry().getCategoryInventory());
-                        } else if (clickedSlot == 53) {
+                            new RaceRecipeInventory().open(player, RaceType.CELESTIAL);
+                        } else if (clickedSlot == 4) {
                             event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.DWARF);
+                        } else if (clickedSlot == 6) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.ELF);
+                        } else if (clickedSlot == 10) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.HUMAN);
+                        } else if (clickedSlot == 12) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.INFERNAL);
+                        } else if (clickedSlot == 14) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.LYCAN);
+                        } else if (clickedSlot == 16) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.ORC);
+                        } else if (clickedSlot == 18) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceGUIInventory().open(player);
+                        } else if (clickedSlot == 20) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.TRITON);
+                        } else if (clickedSlot == 22) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.VAMPIRE);
+                        } else if (clickedSlot == 24) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeInventory().open(player, RaceType.VOIDWALKER);
                         }
                     }
                 }
                 event.setCancelled(true);
-            }**/
+            } else if (getInventoryData().recipeListMap.containsKey(event.getView().getTopInventory())) {
+                event.setCancelled(true);
+                if (getInventoryData().recipeListMap.containsKey(event.getClickedInventory())) {
+                    if (event.getCurrentItem() != null) {
+                        int clickedSlot = event.getSlot();
+
+                        if (clickedSlot == 18) {
+                            event.getWhoClicked().closeInventory();
+                            new RaceListInventory().open(player, RaceListInventory.RaceListType.RECIPES);
+                        }
+                    }
+                }
+                event.setCancelled(true);
+            }
         }
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
-        if (getInventoryData().perksInventoryList.contains(event.getInventory())) {
-            getInventoryData().perksInventoryList.remove(event.getInventory());
-        }
+        getInventoryData().perksInventoryList.remove(event.getInventory());
+        getInventoryData().raceGUIInventoryList.remove(event.getInventory());
+        getInventoryData().raceListTypeMap.remove(event.getInventory());
     }
 }

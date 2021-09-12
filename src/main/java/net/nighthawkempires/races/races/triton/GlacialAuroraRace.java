@@ -1,18 +1,18 @@
-package net.nighthawkempires.races.races.vampire;
+package net.nighthawkempires.races.races.triton;
 
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 
 import static org.bukkit.ChatColor.GRAY;
 
-public class VampireNightstalkerRace implements Race {
+public class GlacialAuroraRace implements Race {
 
     public String getName() {
-        return "Vampire Nightstalker";
+        return "Glacial Aurora";
     }
 
     public RaceType getRaceType() {
-        return RaceType.VAMPIRE;
+        return RaceType.TRITON;
     }
 
     public int getTier() {
@@ -21,7 +21,7 @@ public class VampireNightstalkerRace implements Race {
 
     public String[] getDescription() {
         return new String[] {
-                GRAY + "Vampire Nightstalker Description"
+                GRAY + "Glacial Aurora Description"
         };
     }
 }

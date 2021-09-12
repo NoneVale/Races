@@ -19,6 +19,8 @@ public class PlayerListener implements Listener {
 
         player.setHealthScaled(true);
         player.setHealthScale(user.getRace().getRaceType().getBaseHealth() + (double) user.getRace().getTier());
+        player.discoverRecipe(RacesPlugin.ELIXIR_OF_LIFE_RECIPE);
+        player.discoverRecipe(RacesPlugin.VOID_FORGED_PENDANT_RECIPE);
 
         AttributeInstance instance = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         double health = user.getRace().getRaceType().getBaseHealth() + (double) user.getRace().getTier();

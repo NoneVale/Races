@@ -1,27 +1,27 @@
-package net.nighthawkempires.races.races.aurora;
+package net.nighthawkempires.races.races.vampire;
 
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 
 import static org.bukkit.ChatColor.GRAY;
 
-public class AbyssalAuroraRace implements Race {
+public class FledglingRace implements Race {
 
     public String getName() {
-        return "Abyssal Aurora";
+        return "Fledgling";
     }
 
     public RaceType getRaceType() {
-        return RaceType.AURORA;
+        return RaceType.VAMPIRE;
     }
 
     public int getTier() {
-        return 3;
+        return 1;
     }
 
     public String[] getDescription() {
         return new String[] {
-                GRAY + "Abyssal Aurora Description"
+                GRAY + "Vampire Fledgling Description"
         };
     }
 }

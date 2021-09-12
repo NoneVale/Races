@@ -1,27 +1,27 @@
-package net.nighthawkempires.races.races.aurora;
+package net.nighthawkempires.races.races.triton;
 
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 
 import static org.bukkit.ChatColor.GRAY;
 
-public class GlacialAuroraRace implements Race {
+public class MerfolkRace implements Race {
 
     public String getName() {
-        return "Glacial Aurora";
+        return "Merfolk";
     }
 
     public RaceType getRaceType() {
-        return RaceType.AURORA;
+        return RaceType.TRITON;
     }
 
     public int getTier() {
-        return 2;
+        return 1;
     }
 
     public String[] getDescription() {
         return new String[] {
-                GRAY + "Glacial Aurora Description"
+                GRAY + "Newborn Aurora Description"
         };
     }
 }

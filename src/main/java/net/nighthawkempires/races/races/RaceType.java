@@ -11,17 +11,17 @@ import static org.bukkit.ChatColor.*;
 public enum RaceType {
 
     CELESTIAL,
-    AURORA,
     DWARF,
     ELF,
     HUMAN,
     INFERNAL,
     LYCAN,
     ORC,
+    TRITON,
     VAMPIRE,
     VOIDWALKER;
 
-    private static List<RaceType> holyRaces = Lists.newArrayList(CELESTIAL, AURORA, DWARF, ELF, HUMAN);
+    private static List<RaceType> holyRaces = Lists.newArrayList(CELESTIAL, DWARF, ELF, HUMAN, TRITON);
 
     public String getInitial() {
         return this.name().substring(0, 1).toUpperCase();
@@ -33,13 +33,13 @@ public enum RaceType {
 
     public ChatColor getRaceColor() {
         switch (this) {
-            case AURORA: return AQUA;
             case CELESTIAL: return YELLOW;
             case DWARF: return GOLD;
             case ELF: return GREEN;
             case INFERNAL: return RED;
             case LYCAN: return DARK_PURPLE;
             case ORC: return DARK_GREEN;
+            case TRITON: return AQUA;
             case VAMPIRE: return DARK_RED;
             case VOIDWALKER: return DARK_GRAY;
             default: return GRAY;
@@ -53,10 +53,10 @@ public enum RaceType {
             case VAMPIRE:
             case VOIDWALKER:
                 return 19.0;
-            case AURORA:
             case INFERNAL:
             case LYCAN:
             case ORC:
+            case TRITON:
                 return 21.0;
             case DWARF: return 23.0;
             default: return 25.0;
@@ -65,7 +65,6 @@ public enum RaceType {
 
     public String[] getRaceDescription() {
         switch (this) {
-            case AURORA: return new String[] {"Aurora Description."};
             case CELESTIAL: return new String[] {"Celestials are generally human-shaped, though some still retain horns or halos and all" +
                     " retain vestigial wings." +
                     "  They cannot fly, but they can glide, and the older Celestials are known to soar for miles without rest." +
@@ -85,6 +84,7 @@ public enum RaceType {
                     " shape of their bodies -- gives them powerful abilities, as well as certain weaknesses." +
                     "  Unlike werewolves, Lycans can freely shift between their wolfish and base forms."};
             case ORC: return new String[] {"Orc Description."};
+            case TRITON: return new String[] {"Aurora Description."};
             case VAMPIRE: return new String[] {"Vampire Description."};
             case VOIDWALKER: return new String[] {"Voidwalkers are among the most mysterious of the sentient races."
                     + "  They hail from the dangerous End dimension, where very few have stepped foot and where none have returned unchanged."
@@ -112,12 +112,12 @@ public enum RaceType {
     public String[] getRaceInfection() {
         switch (this) {
             case CELESTIAL: return new String[] {"CELESTIAL Infection.."};
-            case AURORA: return new String[] {"Aurora Infection."};
             case DWARF: return new String[] {"Dwarf Infection."};
             case ELF: return new String[] {"Elf Infection."};
             case INFERNAL: return new String[] {"INFERNAL Infection."};
             case LYCAN: return new String[] {"Werewolf Infection."};
             case ORC: return new String[] {"Orc Infection."};
+            case TRITON: return new String[] {"Aurora Infection."};
             case VAMPIRE: return new String[] {"Vampire Infection."};
             case VOIDWALKER: return new String[] {"Void Walker Infection."};
             default: return new String[] {"Human Infection."};

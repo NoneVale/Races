@@ -1,6 +1,8 @@
 package net.nighthawkempires.races.inventory;
 
 import com.google.common.collect.Lists;
+import net.nighthawkempires.core.util.ItemUtil;
+import net.nighthawkempires.core.util.StringUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.RaceType;
@@ -18,6 +20,7 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.List;
 
 import static org.bukkit.ChatColor.DARK_GRAY;
+import static org.bukkit.ChatColor.RED;
 
 public class PerksInventory {
 
@@ -60,7 +63,7 @@ public class PerksInventory {
                     itemMeta.setDisplayName(raceType.getRaceColor() + ability.getName());
 
                     lore.add("");
-                    lore.add(ChatColor.GRAY + "Type: " + ChatColor.AQUA + enumName(ability.getAbilityType().name()));
+                    lore.add(ChatColor.GRAY + "Type: " + ChatColor.AQUA + StringUtil.beautify(ability.getAbilityType().name()));
                     lore.add(ChatColor.GRAY + "Level: " + ChatColor.GOLD + level);
                     if (ability.getCooldown(level) != 0) lore.add(ChatColor.GRAY
                             + "Cooldown Time: " + ChatColor.AQUA + ability.getCooldown(level) + " seconds.");
@@ -76,7 +79,7 @@ public class PerksInventory {
                     lore.add(ChatColor.RED + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + "LOCKED");
                     lore.add("");
                     lore.add(ChatColor.GRAY + "Cost: " + ChatColor.GOLD + ability.getCost(level));
-                    lore.add(ChatColor.GRAY + "Type: " + ChatColor.AQUA + enumName(ability.getAbilityType().name()));
+                    lore.add(ChatColor.GRAY + "Type: " + ChatColor.AQUA + StringUtil.beautify(ability.getAbilityType().name()));
                     lore.add(ChatColor.GRAY + "Level: " + ChatColor.GOLD + level);
                     if (ability.getCooldown(level) != 0) lore.add(ChatColor.GRAY
                             + "Cooldown Time: " + ChatColor.AQUA + ability.getCooldown(level) + " seconds.");
@@ -98,9 +101,21 @@ public class PerksInventory {
             count++;
         }
 
-        ItemStack itemStack = new ItemStack(Material.BARRIER);
+        inventory.setItem(45, ItemUtil.createSkull(RED + "Previous Page", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19"));
+
+        ItemStack itemStack = ItemUtil.getPlayerHead(player.getUniqueId());
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Reset Perks");
+        itemMeta.setDisplayName(ChatColor.DARK_GREEN + "Your Info");
+        itemMeta.setLore(Lists.newArrayList(
+                ChatColor.GRAY + "Race Type: " + userModel.getRace().getRaceType().getRaceColor() + userModel.getRace().getRaceType().getName(),
+                ChatColor.GRAY + "Race: " + userModel.getRace().getRaceType().getRaceColor() + userModel.getRace().getName(),
+                ChatColor.GRAY + "Perk Points: " + ChatColor.GOLD + userModel.getPerkPoints()));
+        itemStack.setItemMeta(itemMeta);
+        inventory.setItem(52, itemStack);
+
+        itemStack = new ItemStack(Material.BARRIER);
+        itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.RED + "Reset Perks");
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(53, itemStack);
 
@@ -112,24 +127,5 @@ public class PerksInventory {
         Inventory inventory = getInventory(player);
         RacesPlugin.getInventoryData().perksInventoryList.add(inventory);
         player.openInventory(inventory);
-    }
-
-    private String enumName(String s) {
-        if (s.contains("_")) {
-            String[] split = s.split("_");
-
-            StringBuilder matName = new StringBuilder();
-            for (int i = 0; i < split.length; i++) {
-                matName.append(enumName(split[i]));
-
-                if (i < split.length - 1) {
-                    matName.append(" ");
-                }
-            }
-
-            return matName.toString();
-        }
-
-        return s.toUpperCase().substring(0, 1) + s.substring(1).toLowerCase();
     }
 }

@@ -13,25 +13,32 @@ import net.nighthawkempires.races.commands.BindCommand;
 import net.nighthawkempires.races.commands.RacesCommand;
 import net.nighthawkempires.races.data.InventoryData;
 import net.nighthawkempires.races.data.PlayerData;
+import net.nighthawkempires.races.enchantment.BlankPotionEnchantment;
 import net.nighthawkempires.races.listeners.BindListener;
 import net.nighthawkempires.races.listeners.InfectionListener;
 import net.nighthawkempires.races.listeners.InventoryListener;
 import net.nighthawkempires.races.listeners.PlayerListener;
+import net.nighthawkempires.races.listeners.races.HumanListener;
+import net.nighthawkempires.races.listeners.races.VampireListener;
 import net.nighthawkempires.races.listeners.races.VoidwalkerListener;
 import net.nighthawkempires.races.races.RaceManager;
 import net.nighthawkempires.races.races.RaceTag;
 import net.nighthawkempires.races.recipes.HellForgedDiamond;
+import net.nighthawkempires.races.recipes.HumanRecipes;
+import net.nighthawkempires.races.recipes.VampireRecipes;
 import net.nighthawkempires.races.recipes.VoidwalkerRecipes;
 import net.nighthawkempires.races.scoreboard.RaceScoreboard;
 import net.nighthawkempires.races.user.registry.MUserRegistry;
 import net.nighthawkempires.races.user.registry.UserRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static net.nighthawkempires.core.CorePlugin.getConfigg;
+import static net.nighthawkempires.core.CorePlugin.getEnchantmentManager;
 
 public class RacesPlugin extends JavaPlugin {
 
@@ -54,8 +61,14 @@ public class RacesPlugin extends JavaPlugin {
 
     public static NamespacedKey PERK_INVENTORY_ABILITY;
 
+    public static NamespacedKey ELIXIR_OF_LIFE;
+    public static NamespacedKey ELIXIR_OF_LIFE_RECIPE;
+    public static NamespacedKey ELIXIR_OF_LIFE_VAMPIRE;
+    public static NamespacedKey ELIXIR_OF_LIFE_VAMPIRE_RECIPE;
     public static NamespacedKey VOID_FORGED_PENDANT;
     public static NamespacedKey VOID_FORGED_PENDANT_RECIPE;
+
+    public static Enchantment BLANK_POTION_ENCHANTMENT;
 
     public void onEnable() {
         plugin = this;
@@ -83,6 +96,7 @@ public class RacesPlugin extends JavaPlugin {
                 getLogger().info("Successfully connected to MongoDB.");
 
                 registerCommands();
+                registerEnchantments();
                 registerKeys();
                 registerListeners();
                 registerRecipes();
@@ -102,6 +116,12 @@ public class RacesPlugin extends JavaPlugin {
         this.getCommand("races").setExecutor(new RacesCommand());
     }
 
+    private void registerEnchantments() {
+        getEnchantmentManager().registerEnchantment(new BlankPotionEnchantment());
+
+        BLANK_POTION_ENCHANTMENT = getEnchantmentManager().getEnchantment(plugin, "blank_potion");
+    }
+
     private void registerKeys() {
         BINDER_KEY = new NamespacedKey(this, "bound_to");
         BINDINGS_KEY = new NamespacedKey(this, "binding");
@@ -109,6 +129,10 @@ public class RacesPlugin extends JavaPlugin {
 
         PERK_INVENTORY_ABILITY = new NamespacedKey(this, "perk_inventory_ability");
 
+        ELIXIR_OF_LIFE = new NamespacedKey(this, "elixir_of_life");
+        ELIXIR_OF_LIFE_RECIPE = new NamespacedKey(this, "elixir_of_life_recipe");
+        ELIXIR_OF_LIFE_VAMPIRE = new NamespacedKey(this, "elixir_of_life_vampire");
+        ELIXIR_OF_LIFE_VAMPIRE_RECIPE = new NamespacedKey(this, "elixir_of_life_vampire_recipe");
         VOID_FORGED_PENDANT = new NamespacedKey(this, "void_forged_pendant");
         VOID_FORGED_PENDANT_RECIPE = new NamespacedKey(this, "void_forged_pendant_recipe");
     }
@@ -120,13 +144,17 @@ public class RacesPlugin extends JavaPlugin {
         pm.registerEvents(new InventoryListener(), this);
         pm.registerEvents(new PlayerListener(), this);
 
+        pm.registerEvents(new HumanListener(), this);
+        pm.registerEvents(new VampireListener(), this);
         pm.registerEvents(new VoidwalkerListener(), this);
     }
 
     public void registerRecipes() {
-        Bukkit.addRecipe(new HellForgedDiamond().recipeHellForgedDiamond());
-        Bukkit.addRecipe(new HellForgedDiamond().recipeBeef());
+        //Bukkit.addRecipe(new HellForgedDiamond().recipeHellForgedDiamond());
+        //Bukkit.addRecipe(new HellForgedDiamond().recipeBeef());
 
+        Bukkit.addRecipe(new HumanRecipes().recipeElixirOfLife());
+        //Bukkit.addRecipe(new VampireRecipes().recipeElixirOfLifeVampire());
         Bukkit.addRecipe(new VoidwalkerRecipes().recipeVoidForgedPendant());
     }
 
