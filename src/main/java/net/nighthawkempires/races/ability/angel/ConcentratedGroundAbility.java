@@ -1,0 +1,160 @@
+package net.nighthawkempires.races.ability.angel;
+
+import com.google.common.collect.Lists;
+import net.nighthawkempires.core.CorePlugin;
+import net.nighthawkempires.core.cooldown.Cooldown;
+import net.nighthawkempires.guilds.util.AllyUtil;
+import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.data.PlayerData;
+import net.nighthawkempires.races.races.Race;
+import net.nighthawkempires.races.races.RaceType;
+import net.nighthawkempires.races.user.UserModel;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.List;
+
+public class ConcentratedGroundAbility implements Ability {
+
+    private int particleTask = -1;
+    private int damageTask = -1;
+
+    public AbilityType getAbilityType() {
+        return AbilityType.BOUND;
+    }
+
+    public int getCooldown(int level) {
+        return switch (level) {
+            case 4,5 -> 90 + getDuration(level);
+            default -> 120 + getDuration(level);
+        };
+    }
+
+    public int getMaxLevel() {
+        return 5;
+    }
+
+    public int getCost(int level) {
+        return switch (level) {
+            case 4,5 -> 2;
+            default -> 1;
+        };
+    }
+
+    public Material getDisplayItem() {
+        return Material.RAW_GOLD_BLOCK;
+    }
+
+    public RaceType getRaceType() {
+        return RaceType.ANGEL;
+    }
+
+    public Race getRace() {
+        return RacesPlugin.getRaceManager().getRace(RaceType.ANGEL, 1);
+    }
+
+    public String getName() {
+        return "Concentrated Ground";
+    }
+
+    public String[] getDescription(int level) {
+        return new String[0];
+    }
+
+    public void run(Player player) {
+
+    }
+
+    public void run(Event e) {
+        PlayerData.AngelData angelData = RacesPlugin.getPlayerData().angel;
+        if (e instanceof PlayerInteractEvent event) {
+            Player player = event.getPlayer();
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+            if (userModel.hasAbility(this)) {
+                int level = userModel.getLevel(this);
+                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
+                        this.getClass().getSimpleName().toLowerCase())) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
+                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
+                            + " before you can use this ability again."));
+                    return;
+                }
+
+                int radius = switch (level) {
+                    case 3,4,5 -> 8;
+                    default -> 5;
+                };
+
+                double damage = switch (level) {
+                    case 5 -> 1.5;
+                    default -> .75;
+                };
+
+                Location location = player.getLocation();
+                List<Block> blocks = Lists.newArrayList();
+                for (int x = -radius; x <= radius; x++) {
+                    for (int y = -radius; y <= radius; y++) {
+                        for (int z = -radius; z <= radius; z++) {
+                            location.add(x, y, z);
+                            Block block = location.getBlock();
+                            if (block.getType().isAir() && block.getRelative(BlockFace.DOWN).getType().isSolid()) {
+                                blocks.add(block);
+                            }
+                            location.subtract(x, y, z);
+                        }
+                    }
+                }
+
+                if (!blocks.isEmpty()) {
+                    damageTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
+                        for (Player target : location.getWorld().getPlayers()) {
+                            if (AllyUtil.isAlly(player, target)) continue;
+
+                            Location playerLocation = target.getLocation();
+                            if (blocks.contains(playerLocation.getBlock())) {
+                                target.damage(damage, player);
+                            }
+                        }
+                    }, 0, 10);
+
+                    particleTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
+                        for (Block block : blocks) {
+                            location.getWorld().spawnParticle(Particle.WAX_ON, block.getLocation(), 10, 1, 1, 1);
+                            location.getWorld().spawnParticle(Particle.WAX_OFF, block.getLocation(), 10, 1, 1, 1);
+                        }
+                    }, 0, 30L);
+
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
+                        blocks.clear();
+                        Bukkit.getScheduler().cancelTask(particleTask);
+                        Bukkit.getScheduler().cancelTask(damageTask);
+                        particleTask = damageTask = -1;
+                    }, getDuration(level) * 20L);
+                }
+
+                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
+                        this.getClass().getSimpleName().toLowerCase(),
+                        (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+            }
+        }
+    }
+
+    public int getId() {
+        return 2;
+    }
+
+    public int getDuration(int level) {
+        return switch (level) {
+            case 2,3,4 -> 15;
+            case 5 -> 20;
+            default -> 10;
+        };
+    }
+}

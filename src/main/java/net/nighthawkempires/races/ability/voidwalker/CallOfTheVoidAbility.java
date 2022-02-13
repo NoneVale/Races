@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,7 @@ import java.util.UUID;
 public class CallOfTheVoidAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.ACTIVE;
+        return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {
@@ -65,13 +66,15 @@ public class CallOfTheVoidAbility implements Ability {
     }
 
     public void run(Event e) {
-        PlayerData.Voidwalker data = RacesPlugin.getPlayerData().voidwalker;
+        PlayerData.VoidwalkerData data = RacesPlugin.getPlayerData().voidwalker;
         if (e instanceof PlayerInteractEvent) {
             PlayerInteractEvent event = (PlayerInteractEvent) e;
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
+                if (RacesPlugin.getPlayerData().demon.syphoned.contains(player.getUniqueId())) return;
+
                 if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
                         this.getClass().getSimpleName().toLowerCase())) {
                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
@@ -246,11 +249,32 @@ public class CallOfTheVoidAbility implements Ability {
                     }
                 }
             }
+        } else if (e instanceof PlayerMoveEvent) {
+            PlayerMoveEvent event = (PlayerMoveEvent) e;
+            Player player = event.getPlayer();
+
+            if (data.endermanMap.containsKey(player.getUniqueId())) {
+                List<UUID> endermanMap = data.endermanMap.get(player.getUniqueId());
+
+                for (UUID uuid : endermanMap) {
+                    Entity entity = Bukkit.getEntity(uuid);
+
+                    if (entity != null) {
+                        if (entity instanceof Enderman) {
+                            Enderman enderman = (Enderman) entity;
+
+                            if (player.getLocation().distance(enderman.getLocation()) >= 10) {
+                                enderman.teleport(player);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     public int getId() {
-        return 85;
+        return 95;
     }
 
     public int getDuration(int level) {

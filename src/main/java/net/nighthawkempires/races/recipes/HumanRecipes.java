@@ -27,9 +27,9 @@ public class HumanRecipes {
 
     public ShapedRecipe recipeElixirOfLife() {
         return new ShapedRecipe(RacesPlugin.ELIXIR_OF_LIFE_RECIPE, itemElixirOfLife())
-                .shape("AOG", "BPB", "GMA")
+                .shape("AIG", "BPB", "GMA")
                 .setIngredient('A', Material.GOLDEN_APPLE)
-                .setIngredient('O', Material.AIR)
+                .setIngredient('I', Material.IRON_NUGGET)
                 .setIngredient('G', Material.GLOWSTONE_DUST)
                 .setIngredient('B', Material.GLOW_BERRIES)
                 .setIngredient('P', Material.POTION)

@@ -20,8 +20,10 @@ public class DerroRace implements Race {
     }
 
     public String[] getDescription() {
-        return new String[] {
-                GRAY + "DerroD Description"
+        return new String[] { "Derro are Dwarven youth or initiates. They are often faster and more spry than their elders," +
+                        " but are nowhere near as strong; while older Dwarves are known for their fine metalwork and defensive" +
+                        " resilience, Derro are often more skilled at offensive combat, something looked down on as the" +
+                        " harrows of youth by older Dwarves."
         };
     }
 }

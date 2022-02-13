@@ -20,8 +20,9 @@ public class DuergarRace implements Race {
     }
 
     public String[] getDescription() {
-        return new String[] {
-                GRAY + "Duergar Description"
+        return new String[] { "The oldest and most experienced of Dwarvenkind, Duergar are expert stonemasons and metalworkers," +
+                        " and the impact of their hammers and pickaxes mark out the tempo of entire Dwarven cities." +
+                        " They are finely attuned to the magic they graciously accept from the flesh of the earth."
         };
     }
 }

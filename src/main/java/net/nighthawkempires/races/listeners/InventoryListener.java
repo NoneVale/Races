@@ -15,13 +15,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.Stack;
 
 import static net.nighthawkempires.races.RacesPlugin.*;
 
@@ -127,34 +123,34 @@ public class InventoryListener implements Listener {
 
                         if (clickedSlot == 2) {
                             event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.CELESTIAL);
+                            new RaceRecipeInventory().open(player, RaceType.ANGEL);
                         } else if (clickedSlot == 4) {
                             event.getWhoClicked().closeInventory();
                             new RaceRecipeInventory().open(player, RaceType.DWARF);
                         } else if (clickedSlot == 6) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.ELF);
+                            //event.getWhoClicked().closeInventory();
+                            //new RaceRecipeInventory().open(player, RaceType.ELF);
                         } else if (clickedSlot == 10) {
                             event.getWhoClicked().closeInventory();
                             new RaceRecipeInventory().open(player, RaceType.HUMAN);
                         } else if (clickedSlot == 12) {
                             event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.INFERNAL);
+                            new RaceRecipeInventory().open(player, RaceType.DEMON);
                         } else if (clickedSlot == 14) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.LYCAN);
+                            //event.getWhoClicked().closeInventory();
+                            //new RaceRecipeInventory().open(player, RaceType.LYCAN);
                         } else if (clickedSlot == 16) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.ORC);
+                            //event.getWhoClicked().closeInventory();
+                            //new RaceRecipeInventory().open(player, RaceType.ORC);
                         } else if (clickedSlot == 18) {
                             event.getWhoClicked().closeInventory();
                             new RaceGUIInventory().open(player);
                         } else if (clickedSlot == 20) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.TRITON);
+                            //event.getWhoClicked().closeInventory();
+                            //new RaceRecipeInventory().open(player, RaceType.TRITON);
                         } else if (clickedSlot == 22) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.VAMPIRE);
+                            //event.getWhoClicked().closeInventory();
+                            //new RaceRecipeInventory().open(player, RaceType.VAMPIRE);
                         } else if (clickedSlot == 24) {
                             event.getWhoClicked().closeInventory();
                             new RaceRecipeInventory().open(player, RaceType.VOIDWALKER);

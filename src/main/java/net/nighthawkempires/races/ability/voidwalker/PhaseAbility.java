@@ -16,8 +16,8 @@ import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ import java.util.List;
 public class PhaseAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.ACTIVE;
+        return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {
@@ -81,6 +81,8 @@ public class PhaseAbility implements Ability {
             UserModel user = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (user.hasAbility(this)) {
+                if (RacesPlugin.getPlayerData().demon.syphoned.contains(player.getUniqueId())) return;
+
                 if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
                         this.getClass().getSimpleName().toLowerCase())) {
                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
@@ -121,7 +123,7 @@ public class PhaseAbility implements Ability {
 
                     for (Player otherPlayer : player.getWorld().getPlayers()) {
                         PlayerConnection conn = ((CraftPlayer) otherPlayer).getHandle().b;
-                        conn.sendPacket(packet);
+                        conn.a(packet);
                     }
                 }, 5, 5);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
@@ -139,7 +141,7 @@ public class PhaseAbility implements Ability {
 
                     for (Player otherPlayer : player.getWorld().getPlayers()) {
                         PlayerConnection conn = ((CraftPlayer) otherPlayer).getHandle().b;
-                        conn.sendPacket(packet);
+                        conn.a(packet);
                     }
                 }, duration * 20L);
 
@@ -164,7 +166,7 @@ public class PhaseAbility implements Ability {
     }
 
     public int getId() {
-        return 81;
+        return 91;
     }
 
     public int getDuration(int level) {

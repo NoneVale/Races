@@ -26,7 +26,7 @@ public class VoidwalkerRecipes {
     public ShapedRecipe recipeVoidForgedPendant() {
         return new ShapedRecipe(RacesPlugin.VOID_FORGED_PENDANT_RECIPE, itemVoidForgedPendant())
                 .shape("OCO", "PEP", "ORO")
-                .setIngredient('O', Material.AIR)
+                .setIngredient('O', Material.OBSIDIAN)
                 .setIngredient('C', Material.CHAIN)
                 .setIngredient('P', Material.POPPED_CHORUS_FRUIT)
                 .setIngredient('E', Material.END_CRYSTAL)

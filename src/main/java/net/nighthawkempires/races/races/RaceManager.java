@@ -2,36 +2,21 @@ package net.nighthawkempires.races.races;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.nighthawkempires.races.races.celestial.CherubimRace;
-import net.nighthawkempires.races.races.celestial.SeraphimRace;
-import net.nighthawkempires.races.races.triton.AbyssalAuroraRace;
-import net.nighthawkempires.races.races.triton.GlacialAuroraRace;
-import net.nighthawkempires.races.races.triton.MerfolkRace;
-import net.nighthawkempires.races.races.celestial.ThroneRace;
-import net.nighthawkempires.races.races.infernal.DevilRace;
-import net.nighthawkempires.races.races.infernal.LemureRace;
+import net.nighthawkempires.races.races.angel.CherubimRace;
+import net.nighthawkempires.races.races.angel.SeraphimRace;
+import net.nighthawkempires.races.races.human.RangerRace;
+import net.nighthawkempires.races.races.angel.ThroneRace;
+import net.nighthawkempires.races.races.demon.DevilRace;
+import net.nighthawkempires.races.races.demon.LemureRace;
 import net.nighthawkempires.races.races.dwarf.DerroRace;
 import net.nighthawkempires.races.races.dwarf.DuergarRace;
 import net.nighthawkempires.races.races.dwarf.UrdunnirRace;
-import net.nighthawkempires.races.races.elf.NoldorRace;
-import net.nighthawkempires.races.races.elf.TeleriRace;
-import net.nighthawkempires.races.races.elf.VanyarRace;
-import net.nighthawkempires.races.races.human.HunterRace;
-import net.nighthawkempires.races.races.human.PriestRace;
+import net.nighthawkempires.races.races.human.NomadRace;
 import net.nighthawkempires.races.races.human.WitcherRace;
-import net.nighthawkempires.races.races.infernal.TieflingRace;
-import net.nighthawkempires.races.races.orc.GruntRace;
-import net.nighthawkempires.races.races.orc.WarbossRace;
-import net.nighthawkempires.races.races.orc.WarchiefRace;
-import net.nighthawkempires.races.races.vampire.FledglingRace;
-import net.nighthawkempires.races.races.vampire.NightstalkerRace;
-import net.nighthawkempires.races.races.vampire.VampireLordRace;
-import net.nighthawkempires.races.races.voidwalker.ElytronRace;
+import net.nighthawkempires.races.races.demon.TieflingRace;
+import net.nighthawkempires.races.races.voidwalker.RevenantRace;
 import net.nighthawkempires.races.races.voidwalker.ShadeRace;
 import net.nighthawkempires.races.races.voidwalker.WraithRace;
-import net.nighthawkempires.races.races.lycan.AlphaRace;
-import net.nighthawkempires.races.races.lycan.BetaRace;
-import net.nighthawkempires.races.races.lycan.OmegaRace;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,21 +26,21 @@ import static net.nighthawkempires.races.races.RaceType.*;
 
 public class RaceManager {
 
-    private HashMap<RaceType, List<Race>> raceMap;
+    private final HashMap<RaceType, List<Race>> raceMap;
 
     public RaceManager() {
         this.raceMap = Maps.newHashMap();
 
-        raceMap.put(CELESTIAL, newArrayList(new ThroneRace(), new CherubimRace(), new SeraphimRace()));
+        raceMap.put(ANGEL, newArrayList(new ThroneRace(), new CherubimRace(), new SeraphimRace()));
+        raceMap.put(DEMON, newArrayList(new TieflingRace(), new LemureRace(), new DevilRace()));
         raceMap.put(DWARF, newArrayList(new DerroRace(), new UrdunnirRace(), new DuergarRace()));
-        raceMap.put(ELF, newArrayList(new VanyarRace(), new NoldorRace(), new TeleriRace()));
-        raceMap.put(HUMAN, newArrayList(new HunterRace(), new PriestRace(), new WitcherRace()));
-        raceMap.put(INFERNAL, newArrayList(new TieflingRace(), new LemureRace(), new DevilRace()));
-        raceMap.put(LYCAN, newArrayList(new OmegaRace(), new BetaRace(), new AlphaRace()));
-        raceMap.put(ORC, newArrayList(new GruntRace(), new WarchiefRace(), new WarbossRace()));
-        raceMap.put(TRITON, newArrayList(new MerfolkRace(), new GlacialAuroraRace(), new AbyssalAuroraRace()));
-        raceMap.put(VAMPIRE, newArrayList(new FledglingRace(), new NightstalkerRace(), new VampireLordRace()));
-        raceMap.put(VOIDWALKER, newArrayList(new ShadeRace(), new WraithRace(), new ElytronRace()));
+        // UPDATE 3 raceMap.put(ELF, newArrayList(new VanyarRace(), new NoldorRace(), new TeleriRace()));
+        raceMap.put(HUMAN, newArrayList(new NomadRace(), new RangerRace(), new WitcherRace()));
+        // UPDATE 2 raceMap.put(LYCAN, newArrayList(new OmegaRace(), new BetaRace(), new AlphaRace()));
+        // UPDATE 3 raceMap.put(ORC, newArrayList(new UnderdarkRace(), new HillGiantRace(), new MountainousRace()));
+        // UPDATE 4 raceMap.put(TRITON, newArrayList(new MerfolkRace(), new GlacialRace(), new AbyssalRace()));
+        // UPDATE 2 raceMap.put(VAMPIRE, newArrayList(new FledglingRace(), new NightstalkerRace(), new AncillaeRace()));
+        raceMap.put(VOIDWALKER, newArrayList(new ShadeRace(), new WraithRace(), new RevenantRace()));
     }
 
     public ImmutableMap<RaceType, List<Race>> getRaceMap() {

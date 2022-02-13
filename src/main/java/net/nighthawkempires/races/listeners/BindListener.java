@@ -28,10 +28,12 @@ public class BindListener implements Listener {
             if (bindingManager.getBindings(itemStack).size() >= 1
                     && bindingManager.getBinder(itemStack).toString().equals(player.getUniqueId().toString())) {
                 if (bindingManager.getCurrentAbility(itemStack).getRaceType() != user.getRace().getRaceType()) {
-                    ItemStack clearedBindings = bindingManager.clearBindings(itemStack);
-                    player.getInventory().setItemInMainHand(clearedBindings);
-                    player.saveData();
-                    return;
+                    if (bindingManager.getCurrentAbility(itemStack).getId() != 0) {
+                        ItemStack clearedBindings = bindingManager.clearBindings(itemStack);
+                        player.getInventory().setItemInMainHand(clearedBindings);
+                        player.saveData();
+                        return;
+                    }
                 }
 
                 ItemStack scrolledItemStack = bindingManager.scrollNextAbility(itemStack);
@@ -39,10 +41,12 @@ public class BindListener implements Listener {
                 player.saveData();
 
                 if (bindingManager.getCurrentAbility(itemStack).getRaceType() != user.getRace().getRaceType()) {
-                    ItemStack clearedBindings = bindingManager.clearBindings(itemStack);
-                    player.getInventory().setItemInMainHand(clearedBindings);
-                    player.saveData();
-                    return;
+                    if (bindingManager.getCurrentAbility(itemStack).getId() != 0) {
+                        ItemStack clearedBindings = bindingManager.clearBindings(itemStack);
+                        player.getInventory().setItemInMainHand(clearedBindings);
+                        player.saveData();
+                        return;
+                    }
                 }
 
                 if (bindingManager.getCurrentAbilityIndex(scrolledItemStack) == 0) {

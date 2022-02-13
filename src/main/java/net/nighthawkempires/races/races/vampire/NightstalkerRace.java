@@ -5,15 +5,15 @@ import net.nighthawkempires.races.races.RaceType;
 
 import static org.bukkit.ChatColor.GRAY;
 
-public class NightstalkerRace implements Race {
+public class NightstalkerRace {
 
     public String getName() {
         return "Nightstalker";
     }
 
-    public RaceType getRaceType() {
+    /*public RaceType getRaceType() {
         return RaceType.VAMPIRE;
-    }
+    }*/
 
     public int getTier() {
         return 2;

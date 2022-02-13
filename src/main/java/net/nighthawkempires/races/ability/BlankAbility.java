@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 public class BlankAbility implements Ability {
 
     public Ability.AbilityType getAbilityType() {
-        return AbilityType.ACTIVE;
+        return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {
@@ -30,7 +30,7 @@ public class BlankAbility implements Ability {
     }
 
     public RaceType getRaceType() {
-        return RaceType.VOIDWALKER;
+        return RaceType.HUMAN;
     }
 
     public Race getRace() {
@@ -47,13 +47,9 @@ public class BlankAbility implements Ability {
         };
     }
 
-    public void run(Player player) {
+    public void run(Player player) {}
 
-    }
-
-    public void run(Event event) {
-
-    }
+    public void run(Event event) {}
 
     public int getId() {
         return 0;
@@ -62,5 +58,4 @@ public class BlankAbility implements Ability {
     public int getDuration(int level) {
         return 0;
     }
-
 }

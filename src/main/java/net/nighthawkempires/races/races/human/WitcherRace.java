@@ -20,8 +20,8 @@ public class WitcherRace implements Race {
     }
 
     public String[] getDescription() {
-        return new String[] {
-                GRAY + "Witcher Description"
+        return new String[] { "Highly experienced with all facets of life, Witchers are the most powerful of humans thus far." +
+                        " They are finely attuned to the rhythms of the Overworld, and can perform miraculous feats by channeling its magic."
         };
     }
 }

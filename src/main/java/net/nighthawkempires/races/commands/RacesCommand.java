@@ -5,6 +5,7 @@ import net.nighthawkempires.core.lang.ServerMessage;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.inventory.PerksInventory;
 import net.nighthawkempires.races.inventory.RaceGUIInventory;
+import net.nighthawkempires.races.inventory.RaceRecipeInventory;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
@@ -120,7 +121,7 @@ public class RacesCommand implements CommandExecutor {
                     switch (args[0]) {
                         case "info":
                             String name = args[1];
-                            RaceType raceType = RaceType.valueOf(name.toUpperCase());
+                            RaceType raceType = RaceType.getRace(name.toUpperCase());
                             if (raceType == null) {
                                 player.sendMessage(getMessages().getChatMessage(RED + "That race does not exist, make sure you spelled it correctly."));
                                 return true;
@@ -137,6 +138,8 @@ public class RacesCommand implements CommandExecutor {
                                     getMessages().getMessage(Messages.CHAT_FOOTER),
                                     translateAlternateColorCodes('&', "&8Race Type Description&7: "),
                                     translateAlternateColorCodes('&', "&7" + raceType.getRaceDescriptionString()),
+                                    translateAlternateColorCodes('&', "&8Race Infection&7: "),
+                                    translateAlternateColorCodes('&', "&7" + raceType.getInfectionString()),
                                     translateAlternateColorCodes('&', "&8Race Tier I&7: " + raceType.getRaceColor() + tier1.getName()),
                                     translateAlternateColorCodes('&', "&8Race Tier I Description&7: "),
                                     translateAlternateColorCodes('&', "&7" + tier1.getDescriptionString()),
@@ -151,8 +154,34 @@ public class RacesCommand implements CommandExecutor {
 
                             player.sendMessage(info);
                             return true;
-                        case "help":
+                        case "infection":
+                            name = args[1];
+                            raceType = RaceType.getRace(name.toUpperCase());
+                            if (raceType == null) {
+                                player.sendMessage(getMessages().getChatMessage(RED + "That race does not exist, make sure you spelled it correctly."));
+                                return true;
+                            }
+
+                            info = new String[] {
+                                    getMessages().getMessage(Messages.CHAT_HEADER),
+                                    translateAlternateColorCodes('&', "&8Race Infection&7: "
+                                            + raceType.getRaceColor() + raceType.getName()),
+                                    getMessages().getMessage(Messages.CHAT_FOOTER),
+                                    translateAlternateColorCodes('&', "&8Infection&7: "),
+                                    translateAlternateColorCodes('&', "&7" + raceType.getInfectionString()),
+                                    getMessages().getMessage(Messages.CHAT_FOOTER),
+                            };
+                            player.sendMessage(info);
+                            return true;
                         case "recipes":
+                            name = args[1];
+                            raceType = RaceType.getRace(name.toUpperCase());
+                            if (raceType == null) {
+                                player.sendMessage(getMessages().getChatMessage(RED + "That race does not exist, make sure you spelled it correctly."));
+                                return true;
+                            }
+
+                            new RaceRecipeInventory().open(player, raceType);
                         default:
                             player.sendMessage(getMessages().getChatTag(Messages.INVALID_SYNTAX));
                             return true;

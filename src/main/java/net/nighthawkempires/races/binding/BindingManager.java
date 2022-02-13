@@ -18,6 +18,7 @@ public class BindingManager {
         List<Ability> abilities = Lists.newArrayList();
 
         ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null) return abilities;
         if (itemMeta.getPersistentDataContainer().has(RacesPlugin.BINDINGS_KEY, PersistentDataType.STRING)) {
             String data = itemMeta.getPersistentDataContainer().get(RacesPlugin.BINDINGS_KEY, PersistentDataType.STRING);
 

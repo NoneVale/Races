@@ -54,6 +54,11 @@ public class UserModel implements Model {
     }
 
     public void setRace(Race race) {
+        if (this.race == null) {
+            this.race = race;
+            RacesPlugin.getUserRegistry().register(this);
+        }
+
         if (race.getRaceType() != this.race.getRaceType()) {
             clearAbilities();
         }

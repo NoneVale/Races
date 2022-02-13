@@ -25,27 +25,27 @@ public class RaceGUIInventory {
 
         Inventory inventory = Bukkit.createInventory(null, 27, "Races Menu");
 
-        ItemStack itemStack = new ItemStack(Material.BOOK, 1);
+        ItemStack itemStack = new ItemStack(Material.KNOWLEDGE_BOOK, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.ITALIC + "Info");
+        itemMeta.setDisplayName(ChatColor.BLUE + "Info");
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(10, itemStack);
 
-        itemStack = new ItemStack(Material.BOOK, 1);
+        itemStack = new ItemStack(Material.KNOWLEDGE_BOOK, 1);
         itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.ITALIC + "Infection");
+        itemMeta.setDisplayName(ChatColor.RED + "Infection");
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(12, itemStack);
 
-        itemStack = new ItemStack(Material.BOOK, 1);
+        itemStack = new ItemStack(Material.KNOWLEDGE_BOOK, 1);
         itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.ITALIC + "Recipes");
+        itemMeta.setDisplayName(ChatColor.YELLOW + "Recipes");
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(14, itemStack);
 
-        itemStack = new ItemStack(Material.BOOK, 1);
+        itemStack = new ItemStack(Material.KNOWLEDGE_BOOK, 1);
         itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.ITALIC + "Perks");
+        itemMeta.setDisplayName(ChatColor.GREEN + "Perks");
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(16, itemStack);
 

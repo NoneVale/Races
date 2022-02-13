@@ -68,7 +68,7 @@ public class VoidTouchedAbility implements Ability {
     }
 
     public void run(Player player) {
-        PlayerData.Voidwalker data = RacesPlugin.getPlayerData().voidwalker;
+        PlayerData.VoidwalkerData data = RacesPlugin.getPlayerData().voidwalker;
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.hasAbility(this)) {
@@ -106,7 +106,7 @@ public class VoidTouchedAbility implements Ability {
     }
 
     public void run(Event e) {
-        PlayerData.Voidwalker data = RacesPlugin.getPlayerData().voidwalker;
+        PlayerData.VoidwalkerData data = RacesPlugin.getPlayerData().voidwalker;
         if (e instanceof PlayerJoinEvent) {
             PlayerJoinEvent event = (PlayerJoinEvent) e;
             Player player = event.getPlayer();
@@ -155,7 +155,7 @@ public class VoidTouchedAbility implements Ability {
     }
 
     public int getId() {
-        return 82;
+        return 92;
     }
 
     public int getDuration(int level) {

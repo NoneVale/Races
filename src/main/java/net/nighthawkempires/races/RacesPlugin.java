@@ -10,6 +10,8 @@ import net.nighthawkempires.core.server.ServerType;
 import net.nighthawkempires.races.ability.AbilityManager;
 import net.nighthawkempires.races.binding.BindingManager;
 import net.nighthawkempires.races.commands.BindCommand;
+import net.nighthawkempires.races.commands.PerksCommand;
+import net.nighthawkempires.races.commands.RacesAdminCommand;
 import net.nighthawkempires.races.commands.RacesCommand;
 import net.nighthawkempires.races.data.InventoryData;
 import net.nighthawkempires.races.data.PlayerData;
@@ -18,15 +20,10 @@ import net.nighthawkempires.races.listeners.BindListener;
 import net.nighthawkempires.races.listeners.InfectionListener;
 import net.nighthawkempires.races.listeners.InventoryListener;
 import net.nighthawkempires.races.listeners.PlayerListener;
-import net.nighthawkempires.races.listeners.races.HumanListener;
-import net.nighthawkempires.races.listeners.races.VampireListener;
-import net.nighthawkempires.races.listeners.races.VoidwalkerListener;
+import net.nighthawkempires.races.listeners.races.*;
 import net.nighthawkempires.races.races.RaceManager;
 import net.nighthawkempires.races.races.RaceTag;
-import net.nighthawkempires.races.recipes.HellForgedDiamond;
-import net.nighthawkempires.races.recipes.HumanRecipes;
-import net.nighthawkempires.races.recipes.VampireRecipes;
-import net.nighthawkempires.races.recipes.VoidwalkerRecipes;
+import net.nighthawkempires.races.recipes.*;
 import net.nighthawkempires.races.scoreboard.RaceScoreboard;
 import net.nighthawkempires.races.user.registry.MUserRegistry;
 import net.nighthawkempires.races.user.registry.UserRegistry;
@@ -61,10 +58,32 @@ public class RacesPlugin extends JavaPlugin {
 
     public static NamespacedKey PERK_INVENTORY_ABILITY;
 
+    // Celestial
+    public static NamespacedKey TEAR_OF_GOD;
+    public static NamespacedKey TEAR_OF_GOD_RECIPE;
+
+    // DWARF
+    public static NamespacedKey GOLDEN_HERITAGE;
+    public static NamespacedKey MINERS_TROPHY;
+    public static NamespacedKey MINERS_TROPHY_RECIPE;
+
+    // HUMAN
     public static NamespacedKey ELIXIR_OF_LIFE;
     public static NamespacedKey ELIXIR_OF_LIFE_RECIPE;
+
+    // INFERNAL
+    public static NamespacedKey INFERNAL_HEART;
+    public static NamespacedKey INFERNAL_HEART_RECIPE;
+
+    // Triton
+    public static NamespacedKey SEA_PEARL;
+    public static NamespacedKey SEA_PEARL_RECIPE;
+
+    // VAMPIRE
     public static NamespacedKey ELIXIR_OF_LIFE_VAMPIRE;
     public static NamespacedKey ELIXIR_OF_LIFE_VAMPIRE_RECIPE;
+
+    // Voidwalker
     public static NamespacedKey VOID_FORGED_PENDANT;
     public static NamespacedKey VOID_FORGED_PENDANT_RECIPE;
 
@@ -113,6 +132,8 @@ public class RacesPlugin extends JavaPlugin {
 
     private void registerCommands() {
         this.getCommand("bind").setExecutor(new BindCommand());
+        this.getCommand("perks").setExecutor(new PerksCommand());
+        this.getCommand("racesadmin").setExecutor(new RacesAdminCommand());
         this.getCommand("races").setExecutor(new RacesCommand());
     }
 
@@ -129,10 +150,25 @@ public class RacesPlugin extends JavaPlugin {
 
         PERK_INVENTORY_ABILITY = new NamespacedKey(this, "perk_inventory_ability");
 
+        TEAR_OF_GOD = new NamespacedKey(this, "tear_of_god");
+        TEAR_OF_GOD_RECIPE = new NamespacedKey(this, "tear_of_god_recipe");
+
+        GOLDEN_HERITAGE = new NamespacedKey(this, "golden_heritage");
+        MINERS_TROPHY = new NamespacedKey(this, "miners_trophy");
+        MINERS_TROPHY_RECIPE = new NamespacedKey(this, "miners_trophy_recipe");
+
         ELIXIR_OF_LIFE = new NamespacedKey(this, "elixir_of_life");
         ELIXIR_OF_LIFE_RECIPE = new NamespacedKey(this, "elixir_of_life_recipe");
-        ELIXIR_OF_LIFE_VAMPIRE = new NamespacedKey(this, "elixir_of_life_vampire");
-        ELIXIR_OF_LIFE_VAMPIRE_RECIPE = new NamespacedKey(this, "elixir_of_life_vampire_recipe");
+
+        INFERNAL_HEART = new NamespacedKey(this, "infernal_heart");
+        INFERNAL_HEART_RECIPE = new NamespacedKey(this, "infernal_heart_recipe");
+
+        SEA_PEARL = new NamespacedKey(this, "sea_pearl");
+        SEA_PEARL_RECIPE = new NamespacedKey(this, "sea_pearl_recipe");
+
+        //ELIXIR_OF_LIFE_VAMPIRE = new NamespacedKey(this, "elixir_of_life_vampire");
+        //ELIXIR_OF_LIFE_VAMPIRE_RECIPE = new NamespacedKey(this, "elixir_of_life_vampire_recipe");
+
         VOID_FORGED_PENDANT = new NamespacedKey(this, "void_forged_pendant");
         VOID_FORGED_PENDANT_RECIPE = new NamespacedKey(this, "void_forged_pendant_recipe");
     }
@@ -144,8 +180,11 @@ public class RacesPlugin extends JavaPlugin {
         pm.registerEvents(new InventoryListener(), this);
         pm.registerEvents(new PlayerListener(), this);
 
+        pm.registerEvents(new AngelListener(), this);
+        pm.registerEvents(new DwarfListener(), this);
         pm.registerEvents(new HumanListener(), this);
-        pm.registerEvents(new VampireListener(), this);
+        pm.registerEvents(new InfectionListener(), this);
+        //pm.registerEvents(new VampireListener(), this);
         pm.registerEvents(new VoidwalkerListener(), this);
     }
 
@@ -153,7 +192,10 @@ public class RacesPlugin extends JavaPlugin {
         //Bukkit.addRecipe(new HellForgedDiamond().recipeHellForgedDiamond());
         //Bukkit.addRecipe(new HellForgedDiamond().recipeBeef());
 
+        Bukkit.addRecipe(new CelestialRecipes().recipeTearOfGod());
         Bukkit.addRecipe(new HumanRecipes().recipeElixirOfLife());
+        Bukkit.addRecipe(new DwarfRecipes().recipeMinersTrophy());
+        Bukkit.addRecipe(new InfernalRecipes().recipeInfernalHeart());
         //Bukkit.addRecipe(new VampireRecipes().recipeElixirOfLifeVampire());
         Bukkit.addRecipe(new VoidwalkerRecipes().recipeVoidForgedPendant());
     }

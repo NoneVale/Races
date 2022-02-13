@@ -4,24 +4,61 @@ import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.binding.BindingManager;
 import net.nighthawkempires.races.data.PlayerData;
+import net.nighthawkempires.races.event.RaceChangeEvent;
+import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
-import org.bukkit.event.entity.EntityToggleGlideEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 public class VoidwalkerListener implements Listener {
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity().getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (player.getWorld().getEnvironment() == World.Environment.THE_END) {
+            int x = player.getLocation().getBlockX();
+            int z = player.getLocation().getBlockZ();
+
+            if ((x >= 1000 || x <= -1000) && (z >= 1000 || z <= -1000)) {
+                if (userModel.getRace().getRaceType() == RaceType.HUMAN) {
+                    ItemStack itemStack = player.getInventory().getItemInMainHand();
+
+                    if (itemStack.getType() == Material.ENDER_EYE && itemStack.hasItemMeta()) {
+                        ItemMeta itemMeta = itemStack.getItemMeta();
+
+                        if (itemMeta.getPersistentDataContainer().has(RacesPlugin.VOID_FORGED_PENDANT, PersistentDataType.STRING)) {
+                            Race race = RacesPlugin.getRaceManager().getRace(RaceType.VOIDWALKER, 1);
+
+                            userModel.setRace(race);
+                            player.getInventory().setItemInMainHand(null);
+                            player.playSound(player, Sound.ENTITY_ENDER_DRAGON_GROWL, 1f, 0.5f);
+                            player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1f, 0.5f);
+
+                            Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
@@ -46,8 +83,8 @@ public class VoidwalkerListener implements Listener {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-                RacesPlugin.getAbilityManager().getAbility(81).run(event);
-                RacesPlugin.getAbilityManager().getAbility(85).run(event);
+                RacesPlugin.getAbilityManager().getAbility(91).run(event);
+                RacesPlugin.getAbilityManager().getAbility(95).run(event);
             }
         }
     }
@@ -58,10 +95,10 @@ public class VoidwalkerListener implements Listener {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-            RacesPlugin.getAbilityManager().getAbility(87).run(event);
+            RacesPlugin.getAbilityManager().getAbility(97).run(event);
 
             Block block = player.getLocation().getBlock();
-            PlayerData.Voidwalker data = RacesPlugin.getPlayerData().voidwalker;
+            PlayerData.VoidwalkerData data = RacesPlugin.getPlayerData().voidwalker;
             if (block.isLiquid() && (block.getType() == Material.WATER || block.getType() == Material.WATER_CAULDRON)) {
 
                 if (!data.waterMap.containsKey(player.getUniqueId())) {
@@ -86,7 +123,7 @@ public class VoidwalkerListener implements Listener {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-                RacesPlugin.getAbilityManager().getAbility(87).run(event);
+                RacesPlugin.getAbilityManager().getAbility(97).run(event);
             }
         }
     }
@@ -97,7 +134,7 @@ public class VoidwalkerListener implements Listener {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-            RacesPlugin.getAbilityManager().getAbility(87).run(event);
+            RacesPlugin.getAbilityManager().getAbility(97).run(event);
         }
     }
 
@@ -108,7 +145,7 @@ public class VoidwalkerListener implements Listener {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-            RacesPlugin.getAbilityManager().getAbility(87).run(event);
+            RacesPlugin.getAbilityManager().getAbility(97).run(event);
         }
     }
 
@@ -146,7 +183,7 @@ public class VoidwalkerListener implements Listener {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-            RacesPlugin.getAbilityManager().getAbility(82).run(event);
+            RacesPlugin.getAbilityManager().getAbility(92).run(event);
         }
     }
 
@@ -156,7 +193,7 @@ public class VoidwalkerListener implements Listener {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-            RacesPlugin.getAbilityManager().getAbility(82).run(event);
+            RacesPlugin.getAbilityManager().getAbility(92).run(event);
         }
     }
 
@@ -167,24 +204,24 @@ public class VoidwalkerListener implements Listener {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-                RacesPlugin.getAbilityManager().getAbility(85).run(event);
+                RacesPlugin.getAbilityManager().getAbility(95).run(event);
             }
         } else if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
-                RacesPlugin.getAbilityManager().getAbility(85).run(event);
+                RacesPlugin.getAbilityManager().getAbility(95).run(event);
             }
         } else if (event.getEntity() instanceof Enderman) {
-            RacesPlugin.getAbilityManager().getAbility(85).run(event);
+            RacesPlugin.getAbilityManager().getAbility(95).run(event);
         }
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof Enderman) {
-            RacesPlugin.getAbilityManager().getAbility(85).run(event);
+            RacesPlugin.getAbilityManager().getAbility(95).run(event);
         }
     }
 }

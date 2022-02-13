@@ -10,6 +10,14 @@ commands:
   bind:
     usage: </command>
     description: Bind command for Nighthawk Empires' Races Plugin.
+  perks:
+    aliases: [perk]
+    usage: </command>
+    description: Perks command for Nighthawk Empires' Races Plugin.
+  racesadmin:
+    aliases: [raceadmin]
+    usage: </command>
+    description: Races Admin command for Nighthawk Empires' Races Plugin.
   races:
     aliases: [race]
     usage: </command>

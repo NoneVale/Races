@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 public class VoidFogAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.ACTIVE;
+        return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {
@@ -99,7 +99,7 @@ public class VoidFogAbility implements Ability {
     }
 
     public int getId() {
-        return 84;
+        return 94;
     }
 
     public int getDuration(int level) {

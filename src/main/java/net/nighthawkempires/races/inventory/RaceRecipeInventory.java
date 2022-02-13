@@ -3,6 +3,9 @@ package net.nighthawkempires.races.inventory;
 import net.nighthawkempires.core.util.ItemUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.races.RaceType;
+import net.nighthawkempires.races.recipes.HumanRecipes;
+import net.nighthawkempires.races.recipes.LycanRecipes;
+import net.nighthawkempires.races.recipes.VampireRecipes;
 import net.nighthawkempires.races.recipes.VoidwalkerRecipes;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
@@ -20,8 +23,17 @@ public class RaceRecipeInventory {
         Inventory inventory = Bukkit.createInventory(null, 27, name);
 
         switch (raceType) {
+            case HUMAN:
+                inventory.setItem(13, HumanRecipes.itemElixirOfLife());
+                break;
+            /*case LYCAN:
+                inventory.setItem(13, LycanRecipes.itemElixirOfLifeLycan());
+                break;
+            case VAMPIRE:
+                inventory.setItem(13, VampireRecipes.itemElixirOfLifeVampire());
+                break;*/
             case VOIDWALKER:
-                inventory.setItem(11, VoidwalkerRecipes.itemVoidForgedPendant());
+                inventory.setItem(13, VoidwalkerRecipes.itemVoidForgedPendant());
                 break;
         }
 

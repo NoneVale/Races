@@ -1,9 +1,6 @@
 package net.nighthawkempires.races.inventory;
 
-import com.google.common.collect.Lists;
-import net.nighthawkempires.core.util.ItemUtil;
 import net.nighthawkempires.races.RacesPlugin;
-import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
@@ -13,10 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.List;
-
-import static org.bukkit.ChatColor.RED;
 
 public class RaceListInventory {
 
@@ -40,7 +33,7 @@ public class RaceListInventory {
 
         ItemStack itemStack = new ItemStack(Material.FEATHER, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(RaceType.CELESTIAL.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.CELESTIAL.getName());
+        itemMeta.setDisplayName(RaceType.ANGEL.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.ANGEL.getName());
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(2, itemStack);
 
@@ -50,11 +43,11 @@ public class RaceListInventory {
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(4, itemStack);
 
-        itemStack = new ItemStack(Material.GLOW_BERRIES, 1);
+        /*itemStack = new ItemStack(Material.GLOW_BERRIES, 1);
         itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(RaceType.ELF.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.ELF.getName());
         itemStack.setItemMeta(itemMeta);
-        inventory.setItem(6, itemStack);
+        inventory.setItem(6, itemStack);*/
 
         itemStack = new ItemStack(Material.APPLE, 1);
         itemMeta = itemStack.getItemMeta();
@@ -64,11 +57,11 @@ public class RaceListInventory {
 
         itemStack = new ItemStack(Material.BLAZE_POWDER, 1);
         itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(RaceType.INFERNAL.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.INFERNAL.getName());
+        itemMeta.setDisplayName(RaceType.DEMON.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.DEMON.getName());
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(12, itemStack);
 
-        itemStack = new ItemStack(Material.BONE, 1);
+        /*itemStack = new ItemStack(Material.BONE, 1);
         itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(RaceType.LYCAN.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.LYCAN.getName());
         itemStack.setItemMeta(itemMeta);
@@ -92,7 +85,7 @@ public class RaceListInventory {
         itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(RaceType.VAMPIRE.getRaceColor() + "" + ChatColor.BOLD + "" + ChatColor.ITALIC + RaceType.VAMPIRE.getName());
         itemStack.setItemMeta(itemMeta);
-        inventory.setItem(22, itemStack);
+        inventory.setItem(22, itemStack); */
 
         itemStack = new ItemStack(Material.POPPED_CHORUS_FRUIT, 1);
         itemMeta = itemStack.getItemMeta();

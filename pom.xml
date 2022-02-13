@@ -27,6 +27,19 @@
             <artifactId>regions</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.nighthawkempires</groupId>
+            <artifactId>guilds</artifactId>
+            <version>1.0.8-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.18.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -64,8 +77,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
         </plugins>

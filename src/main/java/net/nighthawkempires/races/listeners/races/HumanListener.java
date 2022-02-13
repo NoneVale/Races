@@ -6,11 +6,11 @@ import net.nighthawkempires.races.event.RaceChangeEvent;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.recipes.HumanRecipes;
-import net.nighthawkempires.races.recipes.VampireRecipes;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +36,9 @@ public class HumanListener implements Listener {
         } else {
             Race race = RacesPlugin.getRaceManager().getRace(RaceType.HUMAN, 1);
             Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
+
+            player.playSound(player, Sound.ENTITY_PLAYER_BURP, 1f, 0.5f);
+            player.getLocation().getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1f, 0.5f);
         }
     }
 
