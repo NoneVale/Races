@@ -1,7 +1,9 @@
 package net.nighthawkempires.races.ability.dwarf;
 
+import com.google.common.collect.Lists;
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.core.cooldown.Cooldown;
+import net.nighthawkempires.core.util.RandomUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
@@ -11,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import java.util.List;
 
 import static org.bukkit.ChatColor.RED;
 
@@ -72,18 +76,22 @@ public class AxeMasteryAbility implements Ability {
                         return;
                     }
 
+                    List<Material> axes = Lists.newArrayList(Material.IRON_AXE, Material.DIAMOND_AXE, Material.GOLDEN_AXE,
+                            Material.STONE_AXE, Material.NETHERITE_AXE, Material.WOODEN_AXE);
+
                     int level = userModel.getLevel(this);
 
-                    int chance = switch (level) {
-                        case 2, 3 -> 10;
-                        default -> 5;
-                    };
+                    if (axes.contains(player.getEquipment().getItemInMainHand().getType())) {
+                        int chance = switch (level) {
+                            case 2, 3 -> 10;
+                            default -> 5;
+                        };
 
-                    int random = Double.valueOf(Math.random() * 100).intValue();
-                    if (random <= chance) {
-                        event.setDamage(((level == 1 ? .10 : .15) * event.getDamage()) + event.getDamage());
+                        if (RandomUtil.chance(chance)) {
+                            event.setDamage(((level == 1 ? .10 : .15) * event.getDamage()) + event.getDamage());
 
-                        addCooldown(this, player, level);
+                            addCooldown(this, player, level);
+                        }
                     }
                 }
             }

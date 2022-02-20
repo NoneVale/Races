@@ -1,6 +1,9 @@
 package net.nighthawkempires.races.listeners.races;
 
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.event.RaceChangeEvent;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
@@ -12,8 +15,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -48,6 +54,102 @@ public class DwarfListener implements Listener {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player) {
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+            if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+                RacesPlugin.getAbilityManager().getAbility(22).run(event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onChange(PlayerArmorChangeEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+            RacesPlugin.getAbilityManager().getAbility(25).run(event);
+        }
+    }
+
+    @EventHandler
+    public void onDamage(PlayerItemDamageEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+            RacesPlugin.getAbilityManager().getAbility(25).run(event);
+        }
+    }
+
+    @EventHandler
+    public void onBreak(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+            RacesPlugin.getAbilityManager().getAbility(29).run(event);
+        }
+
+        RacesPlugin.getAbilityManager().getAbility(28).run(event);
+    }
+
+    @EventHandler
+    public void onDeath(EntityDeathEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(24).run(event);
+    }
+
+    @EventHandler
+    public void onPotionEffect(EntityPotionEffectEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+            if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+                RacesPlugin.getAbilityManager().getAbility(26).run(event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPotionSplash(PotionSplashEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(26).run(event);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+            RacesPlugin.getAbilityManager().getAbility(22).run(event);
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+            RacesPlugin.getAbilityManager().getAbility(22).run(event);
+        }
+    }
+
+    @EventHandler
+    public void onUnlockAbility(AbilityUnlockEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (event.getAbility().getRaceType() == RaceType.ANGEL) {
+            if (event.getAbility().getAbilityType() == Ability.AbilityType.PASSIVE) {
+                event.getAbility().run(event);
             }
         }
     }
