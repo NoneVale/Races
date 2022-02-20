@@ -15,6 +15,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static org.bukkit.ChatColor.RED;
+
 public class SyphonAbility implements Ability {
     public AbilityType getAbilityType() {
         return null;
@@ -39,7 +41,7 @@ public class SyphonAbility implements Ability {
     }
 
     public Material getDisplayItem() {
-        return Material.RABBIT_HIDE;
+        return Material.SOUL_LANTERN;
     }
 
     public RaceType getRaceType() {
@@ -70,7 +72,15 @@ public class SyphonAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                if (infernalData.syphoned.contains(player.getUniqueId())) return;
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
+                    return;
+                }
 
                 int level = userModel.getLevel(this);
 
@@ -80,6 +90,8 @@ public class SyphonAbility implements Ability {
                     infernalData.arcaneResistance.remove(player.getUniqueId());
                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Syphon has worn off due to not being used."));
                 }, 600L);
+
+                addCooldown(this, player, level);
             }
         } else if (e instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
@@ -125,7 +137,7 @@ public class SyphonAbility implements Ability {
     }
 
     public int getId() {
-        return 48;
+        return 18;
     }
 
     public int getDuration(int level) {

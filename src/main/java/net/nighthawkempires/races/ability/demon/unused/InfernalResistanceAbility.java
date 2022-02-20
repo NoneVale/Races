@@ -1,4 +1,4 @@
-package net.nighthawkempires.races.ability.demon;
+package net.nighthawkempires.races.ability.demon.unused;
 
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.races.RacesPlugin;

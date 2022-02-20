@@ -15,8 +15,6 @@ import org.bukkit.potion.PotionEffectType;
 
 public class AngelicFaithAbility implements Ability {
 
-    private int taskId = -1;
-
     public AbilityType getAbilityType() {
         return AbilityType.PASSIVE;
     }
@@ -58,8 +56,8 @@ public class AngelicFaithAbility implements Ability {
 
     public void run(Player player) {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-        taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
-            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(taskId);
+        int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
+            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
 
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
@@ -93,21 +91,15 @@ public class AngelicFaithAbility implements Ability {
                     }
                 }
             } else {
-                Bukkit.getScheduler().cancelTask(taskId);
+                Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
             }
         }, 20, 20);
-    }
 
-    public int taskId() {
-        return this.taskId;
-    }
-
-    public void clearTaskId() {
-        this.taskId = -1;
+        RacesPlugin.getPlayerData().setTaskId(player, this, taskId);
     }
 
     public void run(Event e) {
-        passive(e);
+        passive(e, this);
     }
 
     public int getId() {

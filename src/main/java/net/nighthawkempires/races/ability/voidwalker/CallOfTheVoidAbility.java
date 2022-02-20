@@ -9,6 +9,7 @@ import net.nighthawkempires.races.data.PlayerData;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
+import org.apache.logging.log4j.core.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 import java.util.UUID;
@@ -73,40 +75,49 @@ public class CallOfTheVoidAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                if (RacesPlugin.getPlayerData().demon.syphoned.contains(player.getUniqueId())) return;
+                if (checkCooldown(this, player)) return;
 
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
 
                 int level = userModel.getLevel(this);
+                int count = switch (level) {
+                    case 2 -> 2;
+                    case 4 -> 2;
+                    default -> 1;
+                };
 
                 List<UUID> enderman = Lists.newArrayList();
-                for (int i = 0; i < level; i++) {
+                for (int i = 0; i < count; i++) {
                     enderman.add(player.getWorld().spawnEntity(player.getLocation().add(0, 1, 0), EntityType.ENDERMAN).getUniqueId());
                 }
 
-                data.endermanMap.put(player.getUniqueId(), enderman);
+                data.endermen.put(player.getUniqueId(), enderman);
+
+                if (count > 1) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "The Abyss sends guardians to your aid."));
+                } else {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "The Abyss sends a guardian to your aid."));
+                }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                    if (data.endermanMap.containsKey(player.getUniqueId())) {
-                        for (UUID uuid : data.endermanMap.get(player.getUniqueId())) {
+                    if (data.endermen.containsKey(player.getUniqueId())) {
+                        for (UUID uuid : data.endermen.get(player.getUniqueId())) {
                             Entity entity = Bukkit.getEntity(uuid);
 
                             if (entity != null) entity.remove();
                         }
 
-                        data.endermanMap.remove(player.getUniqueId());
+                        data.endermen.remove(player.getUniqueId());
                     }
                 }, getDuration(level) * 20L);
 
-                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase(),
-                        (System.currentTimeMillis() + (getCooldown(userModel.getLevel(this)) * 1000L))));
+                addCooldown(this, player, level);
             }
         } else if (e instanceof EntityTargetLivingEntityEvent) {
             EntityTargetLivingEntityEvent event = (EntityTargetLivingEntityEvent) e;
@@ -116,8 +127,8 @@ public class CallOfTheVoidAbility implements Ability {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this)) {
-                    if (data.endermanMap.containsKey(player.getUniqueId())) {
-                        List<UUID> enderman = data.endermanMap.get(player.getUniqueId());
+                    if (data.endermen.containsKey(player.getUniqueId())) {
+                        List<UUID> enderman = data.endermen.get(player.getUniqueId());
 
                         for (UUID uuid : enderman) {
                             if (event.getEntity().getUniqueId().equals(uuid)) {
@@ -138,8 +149,8 @@ public class CallOfTheVoidAbility implements Ability {
                     if (event.getEntity() instanceof LivingEntity) {
                         LivingEntity livingEntity = (LivingEntity) event.getEntity();
 
-                        if (data.endermanMap.containsKey(player.getUniqueId())) {
-                            List<UUID> endermanList = data.endermanMap.get(player.getUniqueId());
+                        if (data.endermen.containsKey(player.getUniqueId())) {
+                            List<UUID> endermanList = data.endermen.get(player.getUniqueId());
 
                             for (UUID uuid : endermanList) {
                                 Entity entity = Bukkit.getEntity(uuid);
@@ -165,8 +176,8 @@ public class CallOfTheVoidAbility implements Ability {
                     if (event.getDamager() instanceof LivingEntity) {
                         LivingEntity livingEntity = (LivingEntity) event.getDamager();
 
-                        if (data.endermanMap.containsKey(player.getUniqueId())) {
-                            List<UUID> endermanList = data.endermanMap.get(player.getUniqueId());
+                        if (data.endermen.containsKey(player.getUniqueId())) {
+                            List<UUID> endermanList = data.endermen.get(player.getUniqueId());
 
                             for (UUID uuid : endermanList) {
                                 Entity entity = Bukkit.getEntity(uuid);
@@ -187,8 +198,8 @@ public class CallOfTheVoidAbility implements Ability {
                         if (projectile.getShooter() instanceof LivingEntity) {
                             LivingEntity livingEntity = (LivingEntity) projectile.getShooter();
 
-                            if (data.endermanMap.containsKey(player.getUniqueId())) {
-                                List<UUID> endermanList = data.endermanMap.get(player.getUniqueId());
+                            if (data.endermen.containsKey(player.getUniqueId())) {
+                                List<UUID> endermanList = data.endermen.get(player.getUniqueId());
 
                                 for (UUID uuid : endermanList) {
                                     Entity entity = Bukkit.getEntity(uuid);
@@ -213,8 +224,8 @@ public class CallOfTheVoidAbility implements Ability {
                 if (event.getDamager() instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) event.getDamager();
 
-                    for (UUID uuid : data.endermanMap.keySet()) {
-                        List<UUID> endermanList = data.endermanMap.get(uuid);
+                    for (UUID uuid : data.endermen.keySet()) {
+                        List<UUID> endermanList = data.endermen.get(uuid);
 
                         if (endermanList.contains(enderman.getUniqueId())) {
 
@@ -239,12 +250,12 @@ public class CallOfTheVoidAbility implements Ability {
             if (event.getEntity() instanceof Enderman) {
                 Enderman enderman = (Enderman) event.getEntity();
 
-                for (UUID uuid : data.endermanMap.keySet()) {
-                    List<UUID> endermanList = data.endermanMap.get(uuid);
+                for (UUID uuid : data.endermen.keySet()) {
+                    List<UUID> endermanList = data.endermen.get(uuid);
 
                     if (endermanList.contains(enderman.getUniqueId())) {
                         endermanList.remove(enderman.getUniqueId());
-                        data.endermanMap.put(uuid, endermanList);
+                        data.endermen.put(uuid, endermanList);
                         break;
                     }
                 }
@@ -253,8 +264,8 @@ public class CallOfTheVoidAbility implements Ability {
             PlayerMoveEvent event = (PlayerMoveEvent) e;
             Player player = event.getPlayer();
 
-            if (data.endermanMap.containsKey(player.getUniqueId())) {
-                List<UUID> endermanMap = data.endermanMap.get(player.getUniqueId());
+            if (data.endermen.containsKey(player.getUniqueId())) {
+                List<UUID> endermanMap = data.endermen.get(player.getUniqueId());
 
                 for (UUID uuid : endermanMap) {
                     Entity entity = Bukkit.getEntity(uuid);
@@ -274,7 +285,7 @@ public class CallOfTheVoidAbility implements Ability {
     }
 
     public int getId() {
-        return 95;
+        return 44;
     }
 
     public int getDuration(int level) {

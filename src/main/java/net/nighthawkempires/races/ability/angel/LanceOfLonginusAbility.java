@@ -22,6 +22,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import static org.bukkit.ChatColor.RED;
+
 public class LanceOfLonginusAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -77,14 +79,17 @@ public class LanceOfLonginusAbility implements Ability {
             GuildModel guild = GuildsPlugin.getUserRegistry().getUser(player.getUniqueId()).getGuild();
 
             if (userModel.hasAbility(this)) {
-                int level = userModel.getLevel(this);
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
+
+                int level = userModel.getLevel(this);
 
                 int length = switch (level) {
                     case 3, 4 -> 20;
@@ -134,9 +139,9 @@ public class LanceOfLonginusAbility implements Ability {
                     default -> {}
                 }
 
-                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase(),
-                        (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have activated Lance of Longinus."));
+
+                addCooldown(this, player, level);
             }
         }
     }

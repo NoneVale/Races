@@ -18,6 +18,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import static org.bukkit.ChatColor.RED;
+
 public class WhirlwindAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -66,19 +68,23 @@ public class WhirlwindAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                int level = userModel.getLevel(this);
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
 
+                int level = userModel.getLevel(this);
 
                 boolean launch = level > 3;
                 boolean lightning = level > 4;
                 double strength = level > 1 ? .2 : .1;
+
+                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You summoned a whirlwind at your location."));
 
                 Location location = player.getLocation();
                 for (int i = 0; i < 20 * getDuration(level); i++) {
@@ -96,11 +102,10 @@ public class WhirlwindAbility implements Ability {
                                 }
                             }
 
-                            location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 30, 50, 50, 50, 1F);
-                            location.getWorld().getEntitiesByClasses(new Class[] { LivingEntity.class, Item.class, Projectile.class }).stream().filter((entity) -> {
-                                return entity.getLocation().distance(location) <= 15D;
-                            }).forEach((entity) -> {
-                                if ((!(entity instanceof Player) || AllyUtil.isAlly((Player) entity, player))) {
+                            location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 30, 1, 10, 1, 1F, null, true);
+                            location.getWorld().getEntitiesByClasses(new Class[] { LivingEntity.class, Item.class, Projectile.class }).stream().filter(
+                                    (entity) -> entity.getLocation().distance(location) <= 15D).forEach((entity) -> {
+                                if ((!(entity instanceof Player) || !AllyUtil.isAlly((Player) entity, player))) {
                                     double angle = Math.toRadians(14D);
                                     double radius = Math.abs(entity.getLocation().distance(location));
                                     double x = player.getLocation().getX() - location.getX();
@@ -125,9 +130,7 @@ public class WhirlwindAbility implements Ability {
                     }
                 }
 
-                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase(),
-                        (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                addCooldown(this, player, level);
             }
         }
     }

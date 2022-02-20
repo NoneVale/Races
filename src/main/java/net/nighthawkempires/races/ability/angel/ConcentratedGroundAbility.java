@@ -19,6 +19,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
+import static org.bukkit.ChatColor.RED;
+
 public class ConcentratedGroundAbility implements Ability {
 
     private int particleTask = -1;
@@ -77,14 +79,17 @@ public class ConcentratedGroundAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                int level = userModel.getLevel(this);
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
+
+                int level = userModel.getLevel(this);
 
                 int radius = switch (level) {
                     case 3,4,5 -> 8;
@@ -139,9 +144,9 @@ public class ConcentratedGroundAbility implements Ability {
                     }, getDuration(level) * 20L);
                 }
 
-                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase(),
-                        (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have activated Concentrated Ground."));
+
+                addCooldown(this, player, level);
             }
         }
     }

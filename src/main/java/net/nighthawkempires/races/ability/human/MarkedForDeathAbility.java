@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import static org.bukkit.ChatColor.RED;
+
 public class MarkedForDeathAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -84,6 +86,14 @@ public class MarkedForDeathAbility implements Ability {
                         Player target = (Player) event.getEntity();
 
                         if (userModel.hasAbility(this)) {
+                            if (checkCooldown(this, player, false)) return;
+
+                            if (!canUseRaceAbility(player)) {
+                                return;
+                            } else if (isSyphoned(player)) {
+                                return;
+                            }
+
                             int level = userModel.getLevel(this);
 
                             if (humanData.markedForDeath.containsKey(player.getUniqueId())
@@ -102,11 +112,6 @@ public class MarkedForDeathAbility implements Ability {
                                 event.setDamage((event.getDamage() * increase) + event.getDamage());
                             }
 
-                            if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                                    this.getClass().getSimpleName().toLowerCase())) {
-                                return;
-                            }
-
                             int chance;
                             switch (level) {
                                 case 2:
@@ -120,7 +125,7 @@ public class MarkedForDeathAbility implements Ability {
                                     break;
                             }
 
-                            int random = new Double(Math.random() * 100).intValue();
+                            int random = Double.valueOf(Math.random() * 100).intValue();
                             if (random <= chance) {
                                 humanData.markedForDeath.put(player.getUniqueId(), target.getUniqueId());
                                 //TODO: Set Target Glow
@@ -136,9 +141,7 @@ public class MarkedForDeathAbility implements Ability {
                                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GREEN + target.getName() + ChatColor.GRAY + " is no longer marked for death."));
                                 },  getDuration(level) * 20L);
 
-                                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                                        this.getClass().getSimpleName().toLowerCase(),
-                                        (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                                addCooldown(this, player, level);
                             }
                         }
                     }

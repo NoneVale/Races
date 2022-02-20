@@ -120,7 +120,7 @@ public class MyPreciousAbility implements Ability {
     }
 
     public int getId() {
-        return 19;
+        return 29;
     }
 
     public int getDuration(int level) {

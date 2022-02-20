@@ -1,25 +1,36 @@
 package net.nighthawkempires.races.ability.dwarf;
 
 import com.google.common.collect.Lists;
+import net.nighthawkempires.core.CorePlugin;
+import net.nighthawkempires.guilds.util.AllyUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.data.PlayerData;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.UUID;
+
+import static org.bukkit.ChatColor.RED;
 
 public class StonewallAbility implements Ability {
-
-    private List<Block> blocks;
 
     public AbilityType getAbilityType() {
         return AbilityType.BOUND;
@@ -65,13 +76,24 @@ public class StonewallAbility implements Ability {
     }
 
     public void run(Event e) {
+        PlayerData.DwarfData dwarfData = RacesPlugin.getPlayerData().dwarf;
         if (e instanceof PlayerInteractEvent event) {
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
+                    return;
+                }
+
                 int level = userModel.getLevel(this);
-                blocks = Lists.newArrayList();
+                List<Block> blocks = Lists.newArrayList();
 
                 Location location = player.getLocation();
 
@@ -90,23 +112,60 @@ public class StonewallAbility implements Ability {
                     }
                 }
 
+                if (level > 1) {
+                    player.getWorld().getEntitiesByClasses(new Class[] {LivingEntity.class, Projectile.class, Item.class }).stream().filter(
+                            (target) -> target.getLocation().distance(player.getLocation()) <= 5).forEach((target) -> {
+                        if (target instanceof LivingEntity entity) {
+                            double x = entity.getLocation().getX() - player.getLocation().getX();
+                            double z = entity.getLocation().getZ() - player.getLocation().getZ();
+
+                            Vector vector = new Vector(x, 0.14, z);
+
+                            entity.setVelocity(vector.normalize().multiply(1.5));
+                        }
+                    });
+                }
+
+                dwarfData.stonewall.put(player.getUniqueId(), blocks);
+                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Stonewall has been activated."));
+
                 Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
                     for (Block block : blocks) {
                         block.setType(Material.AIR);
                     }
-                    blocks.clear();
+                    dwarfData.stonewall.remove(player.getUniqueId());
                 }, getDuration(level) * 20L);
+
+                addCooldown(this, player, level);
             }
         } else if (e instanceof BlockBreakEvent event) {
-            if (blocks.isEmpty()) return;
-
+            if (dwarfData.stonewall.isEmpty()) return;
             Player player = event.getPlayer();
 
+            for (List<Block> blocks : dwarfData.stonewall.values()) {
+                if (blocks.isEmpty()) return;
+
+                if (blocks.contains(event.getBlock())) {
+                    for (UUID uuid : dwarfData.stonewall.keySet()) {
+                        if (dwarfData.stonewall.get(uuid) == blocks) {
+                            Player caster = Bukkit.getPlayer(uuid);
+                            UserModel userModel = RacesPlugin.getUserRegistry().getUser(caster.getUniqueId());
+                            if (userModel.hasAbility(this) && userModel.getLevel(this) > 2) {
+                                if (player.getUniqueId() != caster.getUniqueId()) {
+                                    if (!AllyUtil.isAlly(caster, player)) {
+                                        player.getWorld().createExplosion(event.getBlock().getLocation(), 3, false, false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     public int getId() {
-        return 18;
+        return 28;
     }
 
     public int getDuration(int level) {

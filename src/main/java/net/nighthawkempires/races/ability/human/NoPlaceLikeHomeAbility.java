@@ -19,8 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 
 public class NoPlaceLikeHomeAbility implements Ability {
 
-    private int taskId = -1;
-
     public AbilityType getAbilityType() {
         return AbilityType.PASSIVE;
     }
@@ -67,8 +65,8 @@ public class NoPlaceLikeHomeAbility implements Ability {
 
     public void run(Player player) {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-        taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
-            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(taskId);
+        int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
+            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
 
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
@@ -96,37 +94,15 @@ public class NoPlaceLikeHomeAbility implements Ability {
                     }
                 }
             } else {
-                Bukkit.getScheduler().cancelTask(taskId);
+                Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
             }
         }, 20, 20);
+
+        RacesPlugin.getPlayerData().setTaskId(player, this, taskId);
     }
 
     public void run(Event e) {
-        PlayerData.AngelData celestialData = RacesPlugin.getPlayerData().angel;
-        if (e instanceof PlayerJoinEvent) {
-            PlayerJoinEvent event = (PlayerJoinEvent) e;
-            Player player = event.getPlayer();
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.hasAbility(this)) {
-                run(player);
-            }
-        } else if (e instanceof PlayerQuitEvent) {
-            PlayerQuitEvent event = (PlayerQuitEvent) e;
-            Player player = event.getPlayer();
-
-            if (taskId != 0) {
-                Bukkit.getScheduler().cancelTask(taskId);
-                taskId = 0;
-            }
-        } else if (e instanceof AbilityUnlockEvent) {
-            AbilityUnlockEvent event = (AbilityUnlockEvent) e;
-            Player player = event.getPlayer();
-
-            if (event.getAbility() == this) {
-                run(player);
-            }
-        }
+        passive(e, this);
     }
 
     public int getId() {

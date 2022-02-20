@@ -17,6 +17,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import static org.bukkit.ChatColor.RED;
+
 public class AardAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -72,14 +74,17 @@ public class AardAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                int level = userModel.getLevel(this);
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
+
+                int level = userModel.getLevel(this);
 
                 int radius = level < 2 ? 5 : 10;
                 int height = level < 2 ? 2 : 5;
@@ -87,12 +92,11 @@ public class AardAbility implements Ability {
                     if (entity instanceof LivingEntity) {
                         if (entity instanceof Player) {
                             Player target = (Player) entity;
-                            // Check if target player is immune to magic, if so return
 
                             if (level == 3) {
-                                int random = new Double(Math.random() * 100).intValue();
+                                int random = Double.valueOf(Math.random() * 100).intValue();
                                 if (random <= .35) {
-                                    int randomSlot = new Double(Math.random() * 8).intValue() - 1;
+                                    int randomSlot = Double.valueOf(Math.random() * 8).intValue() - 1;
                                     player.getInventory().setHeldItemSlot(randomSlot);
                                 }
                             }
@@ -100,9 +104,9 @@ public class AardAbility implements Ability {
 
                         Vector center = player.getLocation().toVector();
                         center.subtract(entity.getLocation().toVector());
-                        entity.setVelocity(center.normalize().multiply(2.5).setY(0.8));
+                        entity.setVelocity(center.normalize().multiply(1.5).setY(.14));
                         if (level == 4) {
-                            int random = new Double(Math.random() * 100).intValue();
+                            int random = Double.valueOf(Math.random() * 100).intValue();
                             if (random <= .15) {
                                 ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
                                 ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
@@ -111,6 +115,8 @@ public class AardAbility implements Ability {
                         }
                     }
                 }
+
+                addCooldown(this, player, level);
             }
         }
     }

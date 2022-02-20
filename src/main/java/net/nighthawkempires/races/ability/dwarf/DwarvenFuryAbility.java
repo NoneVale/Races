@@ -89,7 +89,7 @@ public class DwarvenFuryAbility implements Ability {
     }
 
     public int getId() {
-        return 14;
+        return 24;
     }
 
     public int getDuration(int level) {

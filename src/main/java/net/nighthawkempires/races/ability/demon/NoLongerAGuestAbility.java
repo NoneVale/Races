@@ -24,8 +24,6 @@ import java.util.List;
 
 public class NoLongerAGuestAbility implements Ability {
 
-    private int taskId = -1;
-
     public AbilityType getAbilityType() {
         return AbilityType.PASSIVE;
     }
@@ -64,8 +62,8 @@ public class NoLongerAGuestAbility implements Ability {
 
     public void run(Player player) {
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-        taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
-            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(taskId);
+        int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
+            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
 
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
@@ -88,13 +86,15 @@ public class NoLongerAGuestAbility implements Ability {
                     }
                 }
             } else {
-                Bukkit.getScheduler().cancelTask(taskId);
+                Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
             }
         }, 20, 20);
+
+        RacesPlugin.getPlayerData().setTaskId(player, this, taskId);
     }
 
     public void run(Event e) {
-        passive(e);
+        passive(e, this);
         if (e instanceof EntityDamageEvent event) {
             if (event.getEntity() instanceof Player player && event.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
@@ -110,8 +110,10 @@ public class NoLongerAGuestAbility implements Ability {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this) && userModel.getLevel(this) > 1) {
-                    if (hellMobs.contains(event.getEntityType())) {
-                        event.setCancelled(true);
+                    if (!RacesPlugin.getMobData().isPet(event.getEntity())) {
+                        if (hellMobs.contains(event.getEntityType())) {
+                            event.setCancelled(true);
+                        }
                     }
                 }
             }
@@ -136,16 +138,8 @@ public class NoLongerAGuestAbility implements Ability {
         }
     }
 
-    public int taskId() {
-        return this.taskId;
-    }
-
-    public void clearTaskId() {
-        this.taskId = -1;
-    }
-
     public int getId() {
-        return 0;
+        return 15;
     }
 
     public int getDuration(int level) {

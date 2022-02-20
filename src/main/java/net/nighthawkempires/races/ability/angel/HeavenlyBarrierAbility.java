@@ -16,6 +16,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static org.bukkit.ChatColor.RED;
+
 public class HeavenlyBarrierAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -65,14 +67,17 @@ public class HeavenlyBarrierAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                int level = userModel.getLevel(this);
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
+
+                int level = userModel.getLevel(this);
 
                 angelData.heavenlyBarrier.add(player.getUniqueId());
                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Heavenly Barrier has been enabled."));
@@ -80,6 +85,8 @@ public class HeavenlyBarrierAbility implements Ability {
                     angelData.heavenlyBarrier.remove(player.getUniqueId());
                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Heavenly Barrier has worn off."));
                 }, getDuration(level) * 20L);
+
+                addCooldown(this, player, level);
             }
         } else if (e instanceof EntityDamageByEntityEvent event) {
             if (event.getDamager() instanceof Player player) {

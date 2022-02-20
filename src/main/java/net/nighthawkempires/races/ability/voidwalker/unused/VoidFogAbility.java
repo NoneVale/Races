@@ -1,4 +1,4 @@
-package net.nighthawkempires.races.ability.voidwalker;
+package net.nighthawkempires.races.ability.voidwalker.unused;
 
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.core.cooldown.Cooldown;

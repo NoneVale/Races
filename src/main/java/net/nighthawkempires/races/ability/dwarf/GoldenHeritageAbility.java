@@ -23,7 +23,7 @@ import org.bukkit.persistence.PersistentDataType;
 public class GoldenHeritageAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.PASSIVE;
+        return AbilityType.ACTIVE;
     }
 
     public int getCooldown(int level) {
@@ -217,7 +217,7 @@ public class GoldenHeritageAbility implements Ability {
     }
 
     public int getId() {
-        return 15;
+        return 25;
     }
 
     public int getDuration(int level) {

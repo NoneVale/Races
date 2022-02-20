@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import static org.bukkit.ChatColor.RED;
+
 public class AxeMasteryAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -60,11 +62,17 @@ public class AxeMasteryAbility implements Ability {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this)) {
-                    int level = userModel.getLevel(this);
-                    if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                            this.getClass().getSimpleName().toLowerCase())) {
+                    if (checkCooldown(this, player)) return;
+
+                    if (!canUseRaceAbility(player)) {
+                        player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                        return;
+                    } else if (isSyphoned(player)) {
+                        player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                         return;
                     }
+
+                    int level = userModel.getLevel(this);
 
                     int chance = switch (level) {
                         case 2, 3 -> 10;
@@ -75,9 +83,7 @@ public class AxeMasteryAbility implements Ability {
                     if (random <= chance) {
                         event.setDamage(((level == 1 ? .10 : .15) * event.getDamage()) + event.getDamage());
 
-                        CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                                this.getClass().getSimpleName().toLowerCase(),
-                                (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                        addCooldown(this, player, level);
                     }
                 }
             }
@@ -85,7 +91,7 @@ public class AxeMasteryAbility implements Ability {
     }
 
     public int getId() {
-        return 12;
+        return 22;
     }
 
     public int getDuration(int level) {

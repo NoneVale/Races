@@ -6,7 +6,6 @@ import net.nighthawkempires.races.ability.dwarf.*;
 import net.nighthawkempires.races.ability.human.*;
 import net.nighthawkempires.races.ability.demon.*;
 import net.nighthawkempires.races.ability.voidwalker.*;
-import org.bukkit.entity.Fireball;
 
 import java.util.List;
 
@@ -34,12 +33,12 @@ public class AbilityManager {
         abilities.add(new HellishBeingAbility());
         abilities.add(new FireCloakAbility());
         abilities.add(new FireballAbility());
-        //
+        abilities.add(new HellishGuardiansAbility());
         abilities.add(new NoLongerAGuestAbility());
-        //
-        //
+        abilities.add(new PossessionAbility());
+        abilities.add(new HellRiftAbility());
         abilities.add(new SyphonAbility());
-        //
+        abilities.add(new CorruptionAbility());
 
         // Dwarf
         abilities.add(new RockNStoneAbility());
@@ -66,10 +65,14 @@ public class AbilityManager {
         // Vampire
 
         // Voidwalker
-        abilities.add(new PhaseAbility());
+        abilities.add(new ShadowAbility());
         abilities.add(new VoidTouchedAbility());
+        abilities.add(new KnowledgeOfThePearlsAbility());
         abilities.add(new CallOfTheVoidAbility());
-
+        abilities.add(new AbyssalDisplacementAbility());
+        abilities.add(new EnderRightsAbility());
+        abilities.add(new EnderShieldAbility());
+        abilities.add(new ReturnOfTheVoidAbility());
     }
 
     public List<Ability> getAbilities() {

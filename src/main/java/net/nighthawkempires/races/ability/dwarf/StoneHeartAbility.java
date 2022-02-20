@@ -19,7 +19,7 @@ import org.bukkit.util.Vector;
 public class StoneHeartAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.PASSIVE;
+        return AbilityType.ACTIVE;
     }
 
     public int getCooldown(int level) {
@@ -116,7 +116,7 @@ public class StoneHeartAbility implements Ability {
     }
 
     public int getId() {
-        return 16;
+        return 26;
     }
 
     public int getDuration(int level) {

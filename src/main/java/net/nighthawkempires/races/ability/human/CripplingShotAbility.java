@@ -19,6 +19,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import static org.bukkit.ChatColor.RED;
+
 public class CripplingShotAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -101,9 +103,7 @@ public class CripplingShotAbility implements Ability {
                                         break;
                                 }
 
-                                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                                        this.getClass().getSimpleName().toLowerCase(),
-                                        (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                                addCooldown(this, player, level);
                             }
                         }
                     }
@@ -115,13 +115,17 @@ public class CripplingShotAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (checkCooldown(this, player)) return;
+
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
+
+                int level = userModel.getLevel(this);
 
                 if (humanData.blackForgedArrow.contains(player.getUniqueId())) {
                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Black Forged Arrow and Crippling Shot can not be" +
@@ -130,7 +134,7 @@ public class CripplingShotAbility implements Ability {
                 }
 
                 humanData.cripplingShot.add(player.getUniqueId());
-                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Crippling enabled for the next arrow shot."));
+                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Crippling Shot enabled for the next arrow shot."));
             }
         }
     }

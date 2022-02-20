@@ -1,12 +1,6 @@
-package net.nighthawkempires.races.ability.voidwalker;
+package net.nighthawkempires.races.ability.voidwalker.unused;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.network.protocol.game.PacketPlayOutEntityEquipment;
-import net.minecraft.server.network.PlayerConnection;
-import net.minecraft.world.entity.EnumItemSlot;
-import net.minecraft.world.item.ItemStack;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
@@ -16,8 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityToggleGlideEvent;

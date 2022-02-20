@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffect;
 public class MasterAlchemistAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.PASSIVE;
+        return AbilityType.ACTIVE;
     }
 
     public int getCooldown(int level) {
@@ -74,14 +74,14 @@ public class MasterAlchemistAbility implements Ability {
                         if (!PotionUtil.isNegativeEffect(event.getModifiedType())) {
                             switch (level) {
                                 case 2:
-                                    duration = new Double((duration * .35) + duration).intValue();
+                                    duration = Double.valueOf((duration * .35) + duration).intValue();
                                     break;
                                 case 3:
-                                    duration = new Double((duration * .50) + duration).intValue();
+                                    duration = Double.valueOf((duration * .50) + duration).intValue();
                                     amplifer++;
                                     break;
                                 default:
-                                    duration = new Double((duration * .20) + duration).intValue();
+                                    duration = Double.valueOf((duration * .20) + duration).intValue();
                                     break;
                             }
                         }

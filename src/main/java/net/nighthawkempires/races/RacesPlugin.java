@@ -14,6 +14,7 @@ import net.nighthawkempires.races.commands.PerksCommand;
 import net.nighthawkempires.races.commands.RacesAdminCommand;
 import net.nighthawkempires.races.commands.RacesCommand;
 import net.nighthawkempires.races.data.InventoryData;
+import net.nighthawkempires.races.data.MobData;
 import net.nighthawkempires.races.data.PlayerData;
 import net.nighthawkempires.races.enchantment.BlankPotionEnchantment;
 import net.nighthawkempires.races.listeners.BindListener;
@@ -46,6 +47,7 @@ public class RacesPlugin extends JavaPlugin {
     private static RaceManager raceManager;
 
     private static InventoryData inventoryData;
+    private static MobData mobData;
     private static PlayerData playerData;
 
     private static Plugin plugin;
@@ -110,6 +112,7 @@ public class RacesPlugin extends JavaPlugin {
                 raceManager = new RaceManager();
 
                 inventoryData = new InventoryData();
+                mobData = new MobData();
                 playerData = new PlayerData();
 
                 getLogger().info("Successfully connected to MongoDB.");
@@ -222,6 +225,10 @@ public class RacesPlugin extends JavaPlugin {
 
     public static InventoryData getInventoryData() {
         return inventoryData;
+    }
+
+    public static MobData getMobData() {
+        return mobData;
     }
 
     public static PlayerData getPlayerData() {

@@ -29,27 +29,25 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-public class PhaseAbility implements Ability {
+public class ShadowAbility implements Ability {
 
     public AbilityType getAbilityType() {
         return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {
-        return 180 + getDuration(level);
+        return 60 + getDuration(level);
     }
 
     public int getMaxLevel() {
-        return 3;
+        return 4;
     }
 
     public int getCost(int level) {
-        int cost = 0;
-        switch (level) {
-            case 3: cost = 2; break;
-            default: cost = 1; break;
-        }
-        return cost;
+        return switch (level) {
+            case 3, 5 -> 2;
+            default -> 1;
+        };
     }
 
     public Material getDisplayItem() {
@@ -65,7 +63,7 @@ public class PhaseAbility implements Ability {
     }
 
     public String getName() {
-        return "Phase";
+        return "Shadow";
     }
 
     public String[] getDescription(int level) {
@@ -78,20 +76,21 @@ public class PhaseAbility implements Ability {
         if (e instanceof PlayerInteractEvent) {
             PlayerInteractEvent event = (PlayerInteractEvent) e;
             Player player = event.getPlayer();
-            UserModel user = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-            if (user.hasAbility(this)) {
-                if (RacesPlugin.getPlayerData().demon.syphoned.contains(player.getUniqueId())) return;
+            if (userModel.hasAbility(this)) {
+                if (checkCooldown(this, player)) return;
 
-                if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase())) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "There is another "
-                            + CorePlugin.getCooldowns().getActive(player.getUniqueId(), this.getClass().getSimpleName().toLowerCase()).timeLeft()
-                            + " before you can use this ability again."));
+                if (!canUseRaceAbility(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You can not use Race Abilities here."));
+                    return;
+                } else if (isSyphoned(player)) {
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "Your powers are being syphoned by a demon."));
                     return;
                 }
 
-                int level = user.getLevel(this);
+                int level = userModel.getLevel(this);
+
                 int duration = getDuration(level);
 
                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have activated ability "
@@ -99,7 +98,7 @@ public class PhaseAbility implements Ability {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration * 20, 1, false, true, true));
                 RacesPlugin.getPlayerData().voidwalker.activePhaseAbility.add(player.getUniqueId());
 
-                if (user.getLevel(this) == getMaxLevel()) {
+                if (userModel.getLevel(this) == getMaxLevel()) {
                     if (RacesPlugin.getPlayerData().voidwalker.activePhaseAbility.contains(player.getUniqueId())) {
                         for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
                             if (entity instanceof Mob) {
@@ -118,6 +117,8 @@ public class PhaseAbility implements Ability {
                     equipment.add(new Pair<>(EnumItemSlot.e, new ItemStack(null)));
                     equipment.add(new Pair<>(EnumItemSlot.d, new ItemStack(null)));
                     equipment.add(new Pair<>(EnumItemSlot.c, new ItemStack(null)));
+                    equipment.add(new Pair<>(EnumItemSlot.b, new ItemStack(null)));
+                    equipment.add(new Pair<>(EnumItemSlot.a, new ItemStack(null)));
 
                     PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment(player.getEntityId(), equipment);
 
@@ -136,6 +137,8 @@ public class PhaseAbility implements Ability {
                     equipment.add(new Pair<>(EnumItemSlot.e, CraftItemStack.asNMSCopy(player.getEquipment().getChestplate())));
                     equipment.add(new Pair<>(EnumItemSlot.d, CraftItemStack.asNMSCopy(player.getEquipment().getLeggings())));
                     equipment.add(new Pair<>(EnumItemSlot.c, CraftItemStack.asNMSCopy(player.getEquipment().getBoots())));
+                    equipment.add(new Pair<>(EnumItemSlot.b, CraftItemStack.asNMSCopy(player.getEquipment().getItemInOffHand())));
+                    equipment.add(new Pair<>(EnumItemSlot.a, CraftItemStack.asNMSCopy(player.getEquipment().getItemInMainHand())));
 
                     PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment(player.getEntityId(), equipment);
 
@@ -145,9 +148,7 @@ public class PhaseAbility implements Ability {
                     }
                 }, duration * 20L);
 
-                CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                        this.getClass().getSimpleName().toLowerCase(),
-                        (System.currentTimeMillis() + (getCooldown(user.getLevel(this)) * 1000L))));
+                addCooldown(this, player, level);
             }
         } else if (e instanceof EntityTargetLivingEntityEvent) {
             EntityTargetLivingEntityEvent event = (EntityTargetLivingEntityEvent) e;
@@ -166,16 +167,14 @@ public class PhaseAbility implements Ability {
     }
 
     public int getId() {
-        return 91;
+        return 42;
     }
 
     public int getDuration(int level) {
-        int duration = 0;
-        switch (level) {
-            case 2: duration = 15; break;
-            case 3: duration = 25; break;
-            default: duration = 8; break;
-        }
+        int duration = switch (level) {
+            case 4 -> 10;
+            default -> 5;
+        };
         return duration;
     }
 }

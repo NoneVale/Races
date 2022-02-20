@@ -19,6 +19,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.List;
 
+import static org.bukkit.ChatColor.RED;
+
 public class PiercingEdgeAbility implements Ability {
 
     public AbilityType getAbilityType() {
@@ -80,11 +82,15 @@ public class PiercingEdgeAbility implements Ability {
                     LivingEntity target = (LivingEntity) event.getEntity();
 
                     if (userModel.hasAbility(this)) {
-                        int level = userModel.getLevel(this);
-                        if (CorePlugin.getCooldowns().hasActiveCooldown(player.getUniqueId(),
-                                this.getClass().getSimpleName().toLowerCase())) {
+                        if (checkCooldown(this, player, false)) return;
+
+                        if (!canUseRaceAbility(player)) {
+                            return;
+                        } else if (isSyphoned(player)) {
                             return;
                         }
+
+                        int level = userModel.getLevel(this);
 
                         List<Material> sharpTools = Lists.newArrayList(Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD,
                                 Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.NETHERITE_SWORD, Material.WOODEN_AXE, Material.STONE_AXE,
@@ -107,7 +113,7 @@ public class PiercingEdgeAbility implements Ability {
                                 break;
                         }
 
-                        int random = new Double(Math.random() * 100).intValue();
+                        int random = Double.valueOf(Math.random() * 100).intValue();
                         if (random <= chance) {
                             target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You're now bleeding."));
                             if (target instanceof Player) {
@@ -122,9 +128,7 @@ public class PiercingEdgeAbility implements Ability {
                                 Bukkit.getScheduler().cancelTask(taskId);
                             },  getDuration(level) * 20L);
 
-                            CorePlugin.getCooldowns().addCooldown(new Cooldown(player.getUniqueId(),
-                                    this.getClass().getSimpleName().toLowerCase(),
-                                    (System.currentTimeMillis() + (getCooldown(level) * 1000L))));
+                            addCooldown(this, player, level);
                         }
                     }
                 }
