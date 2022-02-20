@@ -72,6 +72,7 @@ public class AngelListener implements Listener {
 
         if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
             RacesPlugin.getAbilityManager().getAbility(1).run(event);
+
         }
     }
 
