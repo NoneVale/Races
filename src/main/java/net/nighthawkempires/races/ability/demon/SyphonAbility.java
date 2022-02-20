@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -95,8 +96,43 @@ public class SyphonAbility implements Ability {
             }
         } else if (e instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
-            if (event.getDamager() instanceof Player) {
-                Player player = (Player) event.getDamager();
+            if (event.getDamager() instanceof Player player) {
+                UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+                if (userModel.hasAbility(this)) {
+                    int level = userModel.getLevel(this);
+                    if (event.getEntity() instanceof Player) {
+                        Player target = (Player) event.getEntity();
+                        if (infernalData.syphoned.contains(player.getUniqueId())) return;
+
+                        if (infernalData.syphon.contains(player.getUniqueId())) {
+                            infernalData.syphon.remove(player.getUniqueId());
+                            infernalData.syphoned.add(target.getUniqueId());
+
+                            target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are being syphoned."));
+                            player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You are syphoning " + ChatColor.GREEN
+                                    + target.getName() + "'s" + ChatColor.GRAY + " powers."));
+
+                            if (level == getMaxLevel()) {
+                                if (target.getHealth() <= 4.0) {
+                                    player.setHealth(player.getHealth() + (target.getHealth() - 2.0));
+                                    target.setHealth(2.0);
+                                } else {
+                                    target.setHealth(target.getHealth() - 4.0);
+                                    player.setHealth(player.getHealth() + 4.0);
+                                }
+                            }
+
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
+                                infernalData.syphoned.remove(target.getUniqueId());
+                                target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are no longer being syphoned."));
+                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GREEN + target.getName() + "'s" + ChatColor.GRAY
+                                        + " powers are no longer being syphoned."));
+                            }, getDuration(level) * 20L);
+                        }
+                    }
+                }
+            } else if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player player) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this)) {

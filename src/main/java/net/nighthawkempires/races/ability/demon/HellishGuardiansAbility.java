@@ -148,19 +148,7 @@ public class HellishGuardiansAbility implements Ability {
                     }
                 }
             }
-        } else if (e instanceof EntityTargetLivingEntityEvent event) {
-            if (event.getTarget() instanceof Player player) {
-                UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-                if (userModel.hasAbility(this) && demonData.guardians.containsKey(player.getUniqueId())) {
-                    List<UUID> guardians = demonData.guardians.get(player.getUniqueId());
-
-                    if (guardians.contains(event.getEntity().getUniqueId())) {
-                        event.setCancelled(true);
-                    }
-                }
-            }
-        } else if (e instanceof EntityDamageByEntityEvent event) {
             if (event.getDamager() instanceof Player player) {
                 if (demonData.guardians.keySet().contains(player.getUniqueId())) {
                     List<UUID> guardians = demonData.guardians.get(player.getUniqueId());
@@ -226,6 +214,18 @@ public class HellishGuardiansAbility implements Ability {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        } else if (e instanceof EntityTargetLivingEntityEvent event) {
+            if (event.getTarget() instanceof Player player) {
+                UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+                if (userModel.hasAbility(this) && demonData.guardians.containsKey(player.getUniqueId())) {
+                    List<UUID> guardians = demonData.guardians.get(player.getUniqueId());
+
+                    if (guardians.contains(event.getEntity().getUniqueId())) {
+                        event.setCancelled(true);
                     }
                 }
             }

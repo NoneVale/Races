@@ -84,6 +84,7 @@ public class FireballAbility implements Ability {
                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have activated Fireball."));
 
                 Fireball fireball = player.launchProjectile(Fireball.class);
+                fireball.setShooter(player);
 
                 boolean incendiary = level > 1;
                 float yield = level > 2 ? fireball.getYield() * 2 : fireball.getYield();
