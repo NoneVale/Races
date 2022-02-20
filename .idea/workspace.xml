@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e6f64dc-0d4f-413a-ad06-f66d6b23fac7" name="Changes" comment="Tie in Dwarf Abilities">
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/PiercingEdgeAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/PiercingEdgeAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/ShieldBashAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/ShieldBashAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/HumanListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/HumanListener.java" afterDir="false" />
+    <list default="true" id="7e6f64dc-0d4f-413a-ad06-f66d6b23fac7" name="Changes" comment="Tie in Human Abilities">
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/AbyssalDisplacementAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/AbyssalDisplacementAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/EnderRightsAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/EnderRightsAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/VoidwalkerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/VoidwalkerListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +100,7 @@
       <workItem from="1644757552551" duration="24230000" />
       <workItem from="1645316151507" duration="2745000" />
       <workItem from="1645319192157" duration="5340000" />
+      <workItem from="1645324619775" duration="714000" />
     </task>
     <task id="LOCAL-00001" summary="Minor Changes">
       <created>1628881181143</created>
@@ -171,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645324243103</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Tie in Human Abilities">
+      <created>1645324678465</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1645324678465</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +207,7 @@
     <MESSAGE value="Tie in Angel Abilities" />
     <MESSAGE value="Tie in Demon Abilities" />
     <MESSAGE value="Tie in Dwarf Abilities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tie in Dwarf Abilities" />
+    <MESSAGE value="Tie in Human Abilities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tie in Human Abilities" />
   </component>
 </project>

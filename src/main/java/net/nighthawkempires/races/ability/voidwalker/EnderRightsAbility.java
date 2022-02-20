@@ -6,6 +6,7 @@ import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -13,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -57,10 +60,26 @@ public class EnderRightsAbility implements Ability {
     }
 
     public void run(Player player) {
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+        int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
+            if (!Bukkit.getOnlinePlayers().contains(player)) Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
 
+            if (userModel.hasAbility(this)) {
+                int level = userModel.getLevel(this);
+
+                if (level > 2) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
+                }
+            } else {
+                Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
+            }
+        }, 20, 20);
+
+        RacesPlugin.getPlayerData().setTaskId(player, this, taskId);
     }
 
     public void run(Event e) {
+        passive(e, this);
         if (e instanceof EntityTargetLivingEntityEvent event) {
             if (event.getTarget() instanceof Player player) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());

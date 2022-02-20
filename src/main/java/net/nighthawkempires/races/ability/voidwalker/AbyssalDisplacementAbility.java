@@ -37,7 +37,7 @@ import static org.bukkit.ChatColor.RED;
 public class AbyssalDisplacementAbility implements Ability {
 
     public AbilityType getAbilityType() {
-        return AbilityType.ACTIVE;
+        return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {
@@ -104,6 +104,8 @@ public class AbyssalDisplacementAbility implements Ability {
                         voidwalkerData.displacement.remove(player.getUniqueId());
                     }
                 }, getDuration(level) * 20L);
+
+                addCooldown(this, player, level);
             }
         } else if (e instanceof EntityDamageByEntityEvent event) {
             if (event.getEntity() instanceof Player player) {
