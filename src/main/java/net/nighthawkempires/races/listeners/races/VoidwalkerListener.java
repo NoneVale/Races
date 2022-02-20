@@ -65,12 +65,14 @@ public class VoidwalkerListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        BindingManager bindingManager = RacesPlugin.getBindingManager();
-        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            if (player.getEquipment().getItemInMainHand() != null
-                    && player.getEquipment().getItemInMainHand().getItemMeta() != null) {
-                if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
-                    bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
+        if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
+            BindingManager bindingManager = RacesPlugin.getBindingManager();
+            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if (player.getEquipment().getItemInMainHand() != null
+                        && player.getEquipment().getItemInMainHand().getItemMeta() != null) {
+                    if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
+                        bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
+                    }
                 }
             }
         }

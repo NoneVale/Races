@@ -54,7 +54,7 @@ public interface Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (userModel.hasAbility(this)) {
-                run(player);
+                a.run(player);
             }
         } else if (e instanceof PlayerQuitEvent) {
             PlayerQuitEvent event = (PlayerQuitEvent) e;
@@ -70,7 +70,7 @@ public interface Ability {
             Player player = event.getPlayer();
 
             if (event.getAbility() == this) {
-                run(player);
+                a.run(player);
             }
         }
     }

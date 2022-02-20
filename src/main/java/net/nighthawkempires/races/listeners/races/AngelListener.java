@@ -1,6 +1,9 @@
 package net.nighthawkempires.races.listeners.races;
 
 import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.binding.BindingManager;
+import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.event.RaceChangeEvent;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
@@ -12,9 +15,13 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -56,12 +63,71 @@ public class AngelListener implements Listener {
     }
 
     @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+            BindingManager bindingManager = RacesPlugin.getBindingManager();
+            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if (player.getEquipment().getItemInMainHand() != null
+                        && player.getEquipment().getItemInMainHand().getItemMeta() != null) {
+                    if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
+                        bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player) {
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+            if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+                RacesPlugin.getAbilityManager().getAbility(6).run(event);
+                RacesPlugin.getAbilityManager().getAbility(9).run(event);
+            }
+        } else if (event.getEntity() instanceof Player player) {
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+            if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+                RacesPlugin.getAbilityManager().getAbility(6).run(event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+            if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+                RacesPlugin.getAbilityManager().getAbility(4).run(event);
+                RacesPlugin.getAbilityManager().getAbility(6).run(event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+            RacesPlugin.getAbilityManager().getAbility(4).run(event);
+        }
+    }
+
+    @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
         if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
             RacesPlugin.getAbilityManager().getAbility(1).run(event);
+            RacesPlugin.getAbilityManager().getAbility(4).run(event);
         }
     }
 
@@ -72,7 +138,19 @@ public class AngelListener implements Listener {
 
         if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
             RacesPlugin.getAbilityManager().getAbility(1).run(event);
+            RacesPlugin.getAbilityManager().getAbility(4).run(event);
+        }
+    }
 
+    @EventHandler
+    public void onUnlockAbility(AbilityUnlockEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (event.getAbility().getRaceType() == RaceType.ANGEL) {
+            if (event.getAbility().getAbilityType() == Ability.AbilityType.PASSIVE) {
+                event.getAbility().run(event);
+            }
         }
     }
 

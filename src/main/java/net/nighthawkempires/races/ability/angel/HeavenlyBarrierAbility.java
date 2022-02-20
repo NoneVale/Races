@@ -95,6 +95,12 @@ public class HeavenlyBarrierAbility implements Ability {
                 if (userModel.hasAbility(this) && angelData.heavenlyBarrier.contains(player.getUniqueId())) {
                     event.setCancelled(true);
                 }
+            } else if (event.getEntity() instanceof Player player) {
+                UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+                if (userModel.hasAbility(this) && angelData.heavenlyBarrier.contains(player.getUniqueId())) {
+                    event.setCancelled(true);
+                }
             }
         } else if (e instanceof EntityDamageEvent event) {
             if (event.getEntity() instanceof Player player) {
