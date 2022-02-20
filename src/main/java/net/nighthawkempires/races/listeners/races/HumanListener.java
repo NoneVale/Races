@@ -2,6 +2,9 @@ package net.nighthawkempires.races.listeners.races;
 
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.races.RacesPlugin;
+import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.binding.BindingManager;
+import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.event.RaceChangeEvent;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
@@ -14,8 +17,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
@@ -57,6 +64,79 @@ public class HumanListener implements Listener {
                         event.getInventory().setResult(HumanRecipes.itemElixirOfLife());
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.HUMAN) {
+            BindingManager bindingManager = RacesPlugin.getBindingManager();
+            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if (player.getEquipment().getItemInMainHand() != null
+                        && player.getEquipment().getItemInMainHand().getItemMeta() != null) {
+                    if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
+                        bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEntityEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(31).run(event);
+    }
+
+    @EventHandler
+    public void onHit(ProjectileHitEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(35).run(event);
+        RacesPlugin.getAbilityManager().getAbility(36).run(event);
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(33).run(event);
+        RacesPlugin.getAbilityManager().getAbility(34).run(event);
+        RacesPlugin.getAbilityManager().getAbility(39).run(event);
+    }
+
+    @EventHandler
+    public void onPotionEffect(EntityPotionEffectEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(37).run(event);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+            RacesPlugin.getAbilityManager().getAbility(32).run(event);
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+            RacesPlugin.getAbilityManager().getAbility(32).run(event);
+        }
+    }
+
+    @EventHandler
+    public void onUnlockAbility(AbilityUnlockEvent event) {
+        Player player = event.getPlayer();
+        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+        if (event.getAbility().getRaceType() == RaceType.ANGEL) {
+            if (event.getAbility().getAbilityType() == Ability.AbilityType.PASSIVE) {
+                event.getAbility().run(event);
             }
         }
     }

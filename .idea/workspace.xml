@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e6f64dc-0d4f-413a-ad06-f66d6b23fac7" name="Changes" comment="Tie in Demon Abilities">
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/AxeMasteryAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/AxeMasteryAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/DwarfListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/DwarfListener.java" afterDir="false" />
+    <list default="true" id="7e6f64dc-0d4f-413a-ad06-f66d6b23fac7" name="Changes" comment="Tie in Dwarf Abilities">
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/PiercingEdgeAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/PiercingEdgeAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/ShieldBashAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/ShieldBashAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/HumanListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/HumanListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +99,7 @@
       <workItem from="1644705202621" duration="4796000" />
       <workItem from="1644757552551" duration="24230000" />
       <workItem from="1645316151507" duration="2745000" />
-      <workItem from="1645319192157" duration="4995000" />
+      <workItem from="1645319192157" duration="5340000" />
     </task>
     <task id="LOCAL-00001" summary="Minor Changes">
       <created>1628881181143</created>
@@ -163,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645323497132</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Tie in Dwarf Abilities">
+      <created>1645324243103</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1645324243103</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,6 +198,7 @@
     <MESSAGE value="Test Push" />
     <MESSAGE value="Tie in Angel Abilities" />
     <MESSAGE value="Tie in Demon Abilities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tie in Demon Abilities" />
+    <MESSAGE value="Tie in Dwarf Abilities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tie in Dwarf Abilities" />
   </component>
 </project>

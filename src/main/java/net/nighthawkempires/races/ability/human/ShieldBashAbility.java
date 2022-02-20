@@ -68,8 +68,7 @@ public class ShieldBashAbility implements Ability {
     }
 
     public void run(Event e) {
-        if (e instanceof PlayerInteractEntityEvent) {
-            PlayerInteractEntityEvent event = (PlayerInteractEntityEvent) e;
+        if (e instanceof PlayerInteractEntityEvent event) {
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 

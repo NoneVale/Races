@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.core.cooldown.Cooldown;
 import net.nighthawkempires.core.util.ItemUtil;
+import net.nighthawkempires.core.util.RandomUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
@@ -72,15 +73,11 @@ public class PiercingEdgeAbility implements Ability {
     }
 
     public void run(Event e) {
-        if (e instanceof EntityDamageByEntityEvent) {
-            EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
-            if (event.getDamager() instanceof Player) {
-                Player player = (Player) event.getDamager();
+        if (e instanceof EntityDamageByEntityEvent event) {
+            if (event.getDamager() instanceof Player player) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-                if (event.getEntity() instanceof LivingEntity) {
-                    LivingEntity target = (LivingEntity) event.getEntity();
-
+                if (event.getEntity() instanceof LivingEntity target) {
                     if (userModel.hasAbility(this)) {
                         if (checkCooldown(this, player, false)) return;
 
@@ -98,23 +95,13 @@ public class PiercingEdgeAbility implements Ability {
 
                         if (!sharpTools.contains(player.getInventory().getItemInMainHand().getType())) return;
 
-                        int chance;
-                        switch (level) {
-                            case 2:
-                            case 3:
-                                chance = 15;
-                                break;
-                            case 4:
-                            case 5:
-                                chance = 20;
-                                break;
-                            default:
-                                chance = 10;
-                                break;
-                        }
+                        int chance = switch (level) {
+                            case 2, 3 -> 15;
+                            case 4, 5 -> 20;
+                            default -> 10;
+                        };
 
-                        int random = Double.valueOf(Math.random() * 100).intValue();
-                        if (random <= chance) {
+                        if (RandomUtil.chance(chance)) {
                             target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You're now bleeding."));
                             if (target instanceof Player) {
                                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have cut " + ChatColor.GREEN
