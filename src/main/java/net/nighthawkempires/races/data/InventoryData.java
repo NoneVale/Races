@@ -14,18 +14,22 @@ public class InventoryData {
 
     public List<Inventory> perksInventoryList;
     public List<Inventory> raceGUIInventoryList;
+    public List<Inventory> recipeList;
 
     public HashMap<Inventory, RaceListInventory.RaceListType> raceListTypeMap;
     public HashMap<Inventory, RaceType> recipeListMap;
+    public HashMap<Inventory, RaceType> recipeMap;
 
     public List<UUID> perkResetList;
 
     public InventoryData() {
         this.perksInventoryList = Lists.newArrayList();
         this.raceGUIInventoryList = Lists.newArrayList();
+        this.recipeList = Lists.newArrayList();
 
         this.raceListTypeMap = Maps.newHashMap();
         this.recipeListMap = Maps.newHashMap();
+        this.recipeMap = Maps.newHashMap();
 
         this.perkResetList = Lists.newArrayList();
     }

@@ -59,7 +59,12 @@ public class ShelteringWingsAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increases duration to 15s and regeneration", "effect"};
+            case 3 -> new String[] {"Heals allies in 5 block radius"};
+            case 4 -> new String[] {"Healing radius increased to 8 blocks"};
+            default -> new String[] {"Angels are able to heal themselves", "using the magic from their wings.", "", "Receive Regeneration I and Absorption I", "Duration: 10s"};
+        };
     }
 
     public void run(Player player) {
@@ -97,8 +102,6 @@ public class ShelteringWingsAbility implements Ability {
 
                     for (Entity entity : player.getNearbyEntities(radius, radius, radius)) {
                         if (entity instanceof Player target) {
-                            GuildModel targetGuild = GuildsPlugin.getUserRegistry().getUser(target.getUniqueId()).getGuild();
-
                             if (AllyUtil.isAlly(player, target)) {
                                 target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, getDuration(level) * 20, 0));
                                 target.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, getDuration(level) * 20, 0));

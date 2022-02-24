@@ -113,7 +113,7 @@ public class QuenAbility implements Ability {
 
                                 Vector center = player.getLocation().toVector();
                                 center.subtract(entity.getLocation().toVector());
-                                entity.setVelocity(center.normalize().multiply(2.5).setY(0.8));
+                                entity.setVelocity(center.normalize().multiply(-1.7).setY(0.14));
                             }
                         }
                     }

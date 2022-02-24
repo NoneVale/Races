@@ -42,7 +42,7 @@ public class FireCloakAbility implements Ability {
     }
 
     public Material getDisplayItem() {
-        return Material.FIRE;
+        return Material.ORANGE_CANDLE;
     }
 
     public RaceType getRaceType() {

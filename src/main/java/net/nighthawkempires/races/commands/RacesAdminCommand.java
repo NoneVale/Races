@@ -164,7 +164,8 @@ public class RacesAdminCommand implements CommandExecutor {
                                 player.sendMessage(getMessages().getChatMessage(GRAY + "You have set " + GREEN + offlinePlayer.getName() + "'s" + GRAY
                                         + " race to " + raceType.getRaceColor() + race.getName() + GRAY + "."));
                                 if (offlinePlayer.isOnline()) {
-                                    Bukkit.getPluginManager().callEvent(new RaceChangeEvent(offlinePlayer.getPlayer(), race));
+                                    Player targetPlayer = offlinePlayer.getPlayer();
+                                    Bukkit.getPluginManager().callEvent(new RaceChangeEvent(targetPlayer, race));
                                 } else {
                                     target.clearAbilities();
                                     target.setPerkPoints(0);
@@ -186,7 +187,8 @@ public class RacesAdminCommand implements CommandExecutor {
                                 player.sendMessage(getMessages().getChatMessage(GRAY + "You have set " + GREEN + offlinePlayer.getName() + "'s" + GRAY
                                         + " race to " + raceType.getRaceColor() + race.getName() + GRAY + "."));
                                 if (offlinePlayer.isOnline()) {
-                                    Bukkit.getPluginManager().callEvent(new RaceChangeEvent(offlinePlayer.getPlayer(), race));
+                                    Player targetPlayer = offlinePlayer.getPlayer();
+                                    Bukkit.getPluginManager().callEvent(new RaceChangeEvent(targetPlayer, race));
                                 } else {
                                     target.clearAbilities();
                                     target.setPerkPoints(0);

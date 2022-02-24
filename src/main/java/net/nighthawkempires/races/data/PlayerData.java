@@ -126,6 +126,7 @@ public class PlayerData {
         public HumanData() {
             blackForgedArrow = Lists.newArrayList();
             cripplingShot = Lists.newArrayList();
+            quen = Lists.newArrayList();
 
             markedForDeath = Maps.newHashMap();
         }

@@ -8,7 +8,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class CelestialRecipes {
+public class AngelRecipes {
 
     public static ItemStack itemTearOfGod() {
         ItemStack itemStack = new ItemStack(Material.GHAST_TEAR);
@@ -20,6 +20,11 @@ public class CelestialRecipes {
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;
+    }
+
+    public static boolean isTearOfGod(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getPersistentDataContainer().has(RacesPlugin.TEAR_OF_GOD, PersistentDataType.STRING);
     }
 
     public ShapedRecipe recipeTearOfGod() {

@@ -95,20 +95,17 @@ public class StonewallAbility implements Ability {
                 int level = userModel.getLevel(this);
                 List<Block> blocks = Lists.newArrayList();
 
-                Location location = player.getLocation();
-
-                for (double i = 0; i <= Math.PI; i += Math.PI / 10) {
-                    double radius = Math.sin(i);
-                    double y = Math.cos(i);
-                    for (double a = 0; a < Math.PI * 2; a+= Math.PI / 10) {
-                        double x = Math.cos(a) * radius;
-                        double z = Math.sin(a) * radius;
-                        location.add(x, y, z);
-                        if (location.getBlock().getType() == Material.AIR) {
-                            blocks.add(location.getBlock());
-                            location.getBlock().setType(Material.STONE);
+                Location center = player.getLocation();
+                for (int x = -5; x <= 5; x++) {
+                    for (int y = -5; y <= 5; y++) {
+                        for (int z = -5; z <= 5; z++) {
+                            Location location = new Location(center.getWorld(), center.getX() + x, center.getY() + y, center.getZ() + z);
+                            double distance = location.distance(center);
+                            if (distance > 4 && distance <= 5 && location.getBlock().getType() == Material.AIR) {
+                                blocks.add(location.getBlock());
+                                location.getBlock().setType(Material.STONE);
+                            }
                         }
-                        location.subtract(x, y, z);
                     }
                 }
 

@@ -19,8 +19,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import static org.bukkit.ChatColor.RED;
 
 public class SyphonAbility implements Ability {
+
     public AbilityType getAbilityType() {
-        return null;
+        return AbilityType.BOUND;
     }
 
     public int getCooldown(int level) {

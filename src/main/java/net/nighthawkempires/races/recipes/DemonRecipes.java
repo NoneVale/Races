@@ -8,7 +8,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class InfernalRecipes {
+public class DemonRecipes {
 
     public static ItemStack itemInfernalHeart() {
         ItemStack itemStack = new ItemStack(Material.NETHER_STAR);
@@ -20,6 +20,11 @@ public class InfernalRecipes {
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;
+    }
+
+    public static boolean isInfernalHeart(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getPersistentDataContainer().has(RacesPlugin.INFERNAL_HEART, PersistentDataType.STRING);
     }
 
     public ShapedRecipe recipeInfernalHeart() {

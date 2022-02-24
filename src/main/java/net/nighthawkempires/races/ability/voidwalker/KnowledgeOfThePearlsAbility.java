@@ -88,9 +88,9 @@ public class KnowledgeOfThePearlsAbility implements Ability {
 
                     if (userModel.hasAbility(this)) {
                         event.setCancelled(true);
+                        Location location = enderPearl.getLocation();
+                        enderPearl.remove();
                         int level = userModel.getLevel(this);
-
-                        Location location = event.getEntity().getLocation();
 
                         boolean keep = level > 3;
                         boolean fallDamage = level > 1;
@@ -130,9 +130,9 @@ public class KnowledgeOfThePearlsAbility implements Ability {
                                 location.getWorld().getEntitiesByClasses(new Class[] { LivingEntity.class, Item.class, Projectile.class }).stream().filter((entity) -> {
                                     return entity.getLocation().distance(location) <= 8D;
                                 }).forEach((entity) -> {
-                                    if ((!(entity instanceof Player) || AllyUtil.isAlly((Player) entity, player))) {
-                                        double x = player.getLocation().getX() - location.getX();
-                                        double z = player.getLocation().getZ() - location.getZ();
+                                    if ((!(entity instanceof Player) || !AllyUtil.isAlly((Player) entity, player))) {
+                                        double x = entity.getLocation().getX() - location.getX();
+                                        double z = entity.getLocation().getZ() - location.getZ();
 
                                         Vector vector = new Vector(x, 0.14, z);
                                         vector.normalize();
@@ -140,6 +140,7 @@ public class KnowledgeOfThePearlsAbility implements Ability {
                                         entity.setVelocity(entity.getVelocity().add(vector).multiply(-1.7));
                                     }
                                 });
+                                addCooldown(this, player, level);
                             }
                             case MINION -> {
                                 List<LivingEntity> entities = Lists.newArrayList();
@@ -180,9 +181,11 @@ public class KnowledgeOfThePearlsAbility implements Ability {
 
                                     entities.clear();
                                 }, 1200L);
+                                addCooldown(this, player, level);
                             }
                             case EXPLODE -> {
                                 location.getWorld().createExplosion(location, 3, false, false);
+                                addCooldown(this, player, level);
                             }
                         }
 

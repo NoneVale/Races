@@ -156,11 +156,11 @@ public enum RaceType {
     public ItemStack getRaceItem() {
         switch (this) {
             case ANGEL:
-                return CelestialRecipes.itemTearOfGod();
+                return AngelRecipes.itemTearOfGod();
             case DWARF:
                 return DwarfRecipes.itemMinersTrophy();
             case DEMON:
-                return InfernalRecipes.itemInfernalHeart();
+                return DemonRecipes.itemInfernalHeart();
             case VOIDWALKER:
                 return VoidwalkerRecipes.itemVoidForgedPendant();
             default:

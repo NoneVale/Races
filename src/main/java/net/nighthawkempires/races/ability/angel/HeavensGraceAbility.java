@@ -52,7 +52,12 @@ public class HeavensGraceAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Gain Jump Boost above y level 128."};
+            case 3 -> new String[] {"Gain Slow Falling when falling more", "than 5 blocks."};
+            case 4 -> new String[] {"Jump Boost effect increased."};
+            default -> new String[] {"Angels are gifted blessings from the", "heavens that aid them in the", "overworld.", "", "No longer take fall damage in", "the overworld."};
+        };
     }
 
     public void run(Player player) {

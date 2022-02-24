@@ -1,11 +1,10 @@
 package net.nighthawkempires.races.commands;
 
 import net.nighthawkempires.core.lang.Messages;
-import net.nighthawkempires.core.lang.ServerMessage;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.inventory.PerksInventory;
 import net.nighthawkempires.races.inventory.RaceGUIInventory;
-import net.nighthawkempires.races.inventory.RaceRecipeInventory;
+import net.nighthawkempires.races.inventory.RaceRecipeListInventory;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
@@ -181,7 +180,7 @@ public class RacesCommand implements CommandExecutor {
                                 return true;
                             }
 
-                            new RaceRecipeInventory().open(player, raceType);
+                            new RaceRecipeListInventory().open(player, raceType);
                         default:
                             player.sendMessage(getMessages().getChatTag(Messages.INVALID_SYNTAX));
                             return true;

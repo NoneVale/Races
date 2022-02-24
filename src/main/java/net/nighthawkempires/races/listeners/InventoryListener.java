@@ -3,13 +3,16 @@ package net.nighthawkempires.races.listeners;
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
-import net.nighthawkempires.races.inventory.PerksInventory;
-import net.nighthawkempires.races.inventory.RaceGUIInventory;
-import net.nighthawkempires.races.inventory.RaceListInventory;
-import net.nighthawkempires.races.inventory.RaceRecipeInventory;
+import net.nighthawkempires.races.event.AbilityUnlockEvent;
+import net.nighthawkempires.races.event.RaceChangeEvent;
+import net.nighthawkempires.races.inventory.*;
+import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
+import net.nighthawkempires.races.recipes.*;
 import net.nighthawkempires.races.user.UserModel;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,6 +62,7 @@ public class InventoryListener implements Listener {
 
                                 event.getWhoClicked().closeInventory();
                                 userModel.addAbility(ability, level);
+                                Bukkit.getPluginManager().callEvent(new AbilityUnlockEvent(player, ability));
                                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have purchased "
                                         + ability.getRaceType().getRaceColor() + ability.getName() + ChatColor.GRAY + " Level "
                                         + ChatColor.GOLD + level + ChatColor.GRAY + "."));
@@ -80,6 +84,31 @@ public class InventoryListener implements Listener {
                         } else if (clickedSlot == 45) {
                             event.getWhoClicked().closeInventory();
                             new RaceGUIInventory().open(player);
+                        } else if (clickedSlot == 49) {
+                            ItemStack itemStack = event.getCurrentItem();
+                            if (itemStack != null && itemStack.getType() != Material.AIR && itemStack.getAmount() > 0) {
+                                int nextTier = userModel.getRace().getTier() + 1;
+                                int cost = userModel.getRace().getTier() * 5;
+
+                                event.getWhoClicked().closeInventory();
+                                Race race = RacesPlugin.getRaceManager().getRace(userModel.getRace().getRaceType(), nextTier);
+                                Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
+                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have ranked up to "
+                                        + userModel.getRace().getRaceType().getRaceColor() + race.getName() + ChatColor.GRAY + "."));
+                                new PerksInventory().open(player);
+
+                                /*if (userModel.getPerkPoints() >= cost) {
+                                    event.getWhoClicked().closeInventory();
+                                    userModel.removePerkPoints(10);
+                                    Race race = RacesPlugin.getRaceManager().getRace(userModel.getRace().getRaceType(), nextTier);
+                                    Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
+                                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have ranked up to "
+                                            + userModel.getRace().getRaceType().getRaceColor() + race.getName() + ChatColor.GRAY + "."));
+                                    new PerksInventory().open(player);
+                                } else {
+                                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You do not have enough perk points to rank up."));
+                                }*/
+                            }
                         } else if (clickedSlot == 53) {
                             if (getInventoryData().perkResetList.contains(player.getUniqueId())) {
                                 event.getWhoClicked().closeInventory();
@@ -121,39 +150,60 @@ public class InventoryListener implements Listener {
                     if (event.getCurrentItem() != null) {
                         int clickedSlot = event.getSlot();
 
-                        if (clickedSlot == 2) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.ANGEL);
-                        } else if (clickedSlot == 4) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.DWARF);
-                        } else if (clickedSlot == 6) {
-                            //event.getWhoClicked().closeInventory();
-                            //new RaceRecipeInventory().open(player, RaceType.ELF);
-                        } else if (clickedSlot == 10) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.HUMAN);
-                        } else if (clickedSlot == 12) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.DEMON);
-                        } else if (clickedSlot == 14) {
-                            //event.getWhoClicked().closeInventory();
-                            //new RaceRecipeInventory().open(player, RaceType.LYCAN);
-                        } else if (clickedSlot == 16) {
-                            //event.getWhoClicked().closeInventory();
-                            //new RaceRecipeInventory().open(player, RaceType.ORC);
-                        } else if (clickedSlot == 18) {
+                        RaceListInventory.RaceListType listType = getInventoryData().raceListTypeMap.get(event.getClickedInventory());
+                        switch (listType) {
+                            case INFECTION -> {
+                                if (clickedSlot == 9 || clickedSlot == 11 || clickedSlot == 13 || clickedSlot == 15 || clickedSlot == 17) event.getWhoClicked().closeInventory();
+                                switch (clickedSlot) {
+                                    case 9 -> Bukkit.dispatchCommand(player, "race infection angel");
+                                    case 11 -> Bukkit.dispatchCommand(player, "race infection demon");
+                                    case 13 -> Bukkit.dispatchCommand(player, "race infection dwarf");
+                                    case 15 -> Bukkit.dispatchCommand(player, "race infection human");
+                                    case 17 -> Bukkit.dispatchCommand(player, "race infection voidwalker");
+                                    default -> {}
+                                }
+                            }
+                            case INFO -> {
+                                if (clickedSlot == 9 || clickedSlot == 11 || clickedSlot == 13 || clickedSlot == 15 || clickedSlot == 17) event.getWhoClicked().closeInventory();
+                                switch (clickedSlot) {
+                                    case 9 -> Bukkit.dispatchCommand(player, "race info angel");
+                                    case 11 -> Bukkit.dispatchCommand(player, "race info demon");
+                                    case 13 -> Bukkit.dispatchCommand(player, "race info dwarf");
+                                    case 15 -> Bukkit.dispatchCommand(player, "race info human");
+                                    case 17 -> Bukkit.dispatchCommand(player, "race info voidwalker");
+                                    default -> {}
+                                }
+                            }
+                            case RECIPES -> {
+                                switch (clickedSlot) {
+                                    case 9 -> {
+                                        event.getWhoClicked().closeInventory();
+                                        new RaceRecipeListInventory().open(player, RaceType.ANGEL);
+                                    }
+                                    case 11 -> {
+                                        event.getWhoClicked().closeInventory();
+                                        new RaceRecipeListInventory().open(player, RaceType.DEMON);
+                                    }
+                                    case 13 -> {
+                                        event.getWhoClicked().closeInventory();
+                                        new RaceRecipeListInventory().open(player, RaceType.DWARF);
+                                    }
+                                    case 15 -> {
+                                        event.getWhoClicked().closeInventory();
+                                        new RaceRecipeListInventory().open(player, RaceType.HUMAN);
+                                    }
+                                    case 17 -> {
+                                        event.getWhoClicked().closeInventory();
+                                        new RaceRecipeListInventory().open(player, RaceType.VOIDWALKER);
+                                    }
+                                    default -> {}
+                                }
+                            }
+                        }
+
+                        if (clickedSlot == 18) {
                             event.getWhoClicked().closeInventory();
                             new RaceGUIInventory().open(player);
-                        } else if (clickedSlot == 20) {
-                            //event.getWhoClicked().closeInventory();
-                            //new RaceRecipeInventory().open(player, RaceType.TRITON);
-                        } else if (clickedSlot == 22) {
-                            //event.getWhoClicked().closeInventory();
-                            //new RaceRecipeInventory().open(player, RaceType.VAMPIRE);
-                        } else if (clickedSlot == 24) {
-                            event.getWhoClicked().closeInventory();
-                            new RaceRecipeInventory().open(player, RaceType.VOIDWALKER);
                         }
                     }
                 }
@@ -164,9 +214,40 @@ public class InventoryListener implements Listener {
                     if (event.getCurrentItem() != null) {
                         int clickedSlot = event.getSlot();
 
+                        if (AngelRecipes.isTearOfGod(event.getCurrentItem())) {
+                            event.getWhoClicked().closeInventory();
+                            new RecipeInventory().open(player, event.getCurrentItem(), RaceType.ANGEL);
+                        } else if (DemonRecipes.isInfernalHeart(event.getCurrentItem())) {
+                            event.getWhoClicked().closeInventory();
+                            new RecipeInventory().open(player, event.getCurrentItem(), RaceType.DEMON);
+                        } else if (DwarfRecipes.isMinersTrophy(event.getCurrentItem())) {
+                            event.getWhoClicked().closeInventory();
+                            new RecipeInventory().open(player, event.getCurrentItem(), RaceType.DWARF);
+                        } else if (HumanRecipes.isElixirOfLife(event.getCurrentItem())) {
+                            event.getWhoClicked().closeInventory();
+                            new RecipeInventory().open(player, event.getCurrentItem(), RaceType.HUMAN);
+                        } else if (VoidwalkerRecipes.isVoidForgedPendant(event.getCurrentItem())) {
+                            event.getWhoClicked().closeInventory();
+                            new RecipeInventory().open(player, event.getCurrentItem(), RaceType.VOIDWALKER);
+                        }
+
                         if (clickedSlot == 18) {
                             event.getWhoClicked().closeInventory();
                             new RaceListInventory().open(player, RaceListInventory.RaceListType.RECIPES);
+                        }
+                    }
+                }
+                event.setCancelled(true);
+            } else if (getInventoryData().recipeMap.containsKey(event.getView().getTopInventory())) {
+                event.setCancelled(true);
+                if (getInventoryData().recipeMap.containsKey(event.getClickedInventory())) {
+                    if (event.getCurrentItem() != null) {
+                        int clickedSlot = event.getSlot();
+
+                        if (clickedSlot == 36) {
+                            RaceType raceType = getInventoryData().recipeMap.get(event.getClickedInventory());
+                            event.getWhoClicked().closeInventory();
+                            new RaceRecipeListInventory().open(player, raceType);
                         }
                     }
                 }

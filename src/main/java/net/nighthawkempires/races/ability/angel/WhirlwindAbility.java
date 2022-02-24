@@ -51,11 +51,17 @@ public class WhirlwindAbility implements Ability {
     }
 
     public String getName() {
-        return "Vortex";
+        return "Whirlwind";
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"The tornado is twice as strong."};
+            case 3 -> new String[] {"Increase duration to 20s."};
+            case 4 -> new String[] {"Entities close to the center will", "be launched upwards."};
+            case 5 -> new String[] {"The tornado now summon lightning strikes."};
+            default -> new String[] {"Angels can control the wind around", " them to summon a tornado that",  "moves enemies.", "", "Duration: 10s"};
+        };
     }
 
     public void run(Player player) {

@@ -11,16 +11,15 @@ import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.logging.Level;
 
 import static org.bukkit.ChatColor.RED;
 
@@ -65,7 +64,12 @@ public class LanceOfLonginusAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increases damage to 5, and applies", "Weakness I for 5s to target."};
+            case 3 -> new String[] {"Increase damage to 7, applies", "Slowness I for 5s to target,", "and increases distance to 20 blocks."};
+            case 4 -> new String[] {"Reduces cooldown to " + getCooldown(level) + "s."};
+            default -> new String[] {"Angels summon a condensed beam of", "light that pierces through enemies.", "", "Deals 3 damage, 15 block distance"};
+        };
     }
 
     public void run(Player player) {
@@ -115,14 +119,17 @@ public class LanceOfLonginusAbility implements Ability {
                     return;
                 }
 
-                Location location = player.getLocation();
-                Vector vector = player.getLocation().getDirection();
+                Location start = player.getEyeLocation();
+                start.setY(player.getEyeLocation().getY() - .15);
+                Location end = target.getEyeLocation();
+                Vector vector = end.toVector().subtract(start.toVector());
 
-                for (double i = 0; i < location.distance(target.getLocation()); i += 0.25) {
+                double distance = vector.length();
+                for (double i = .01; i < distance; i += 0.25) {
                     vector.multiply(i);
-                    location.add(vector);
-                    location.getWorld().spawnParticle(Particle.FLAME, location, 3);
-                    location.subtract(vector);
+                    start.add(vector);
+                    start.getWorld().spawnParticle(Particle.WAX_ON, start, 3);
+                    start.subtract(vector);
                     vector.normalize();
                 }
 

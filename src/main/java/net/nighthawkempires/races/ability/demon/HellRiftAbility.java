@@ -103,7 +103,7 @@ public class HellRiftAbility implements Ability {
                             location.getWorld().getEntitiesByClasses(new Class[] { LivingEntity.class, Item.class, Projectile.class }).stream().filter((entity) -> {
                                 return entity.getLocation().distance(location) <= 8D;
                             }).forEach((entity) -> {
-                                if ((!(entity instanceof Player) || AllyUtil.isAlly((Player) entity, player))) {
+                                if ((!(entity instanceof Player) || !AllyUtil.isAlly((Player) entity, player))) {
                                     double x = player.getLocation().getX() - location.getX();
                                     double y = player.getLocation().getY() - location.getY();
                                     double z = player.getLocation().getZ() - location.getZ();

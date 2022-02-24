@@ -25,7 +25,7 @@ public class MyPreciousAbility implements Ability {
     }
 
     public int getMaxLevel() {
-        return 0;
+        return 3;
     }
 
     public int getCost(int level) {

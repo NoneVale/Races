@@ -26,6 +26,9 @@ import net.nighthawkempires.races.races.RaceManager;
 import net.nighthawkempires.races.races.RaceTag;
 import net.nighthawkempires.races.recipes.*;
 import net.nighthawkempires.races.scoreboard.RaceScoreboard;
+import net.nighthawkempires.races.tabcompleters.BindTabCompleter;
+import net.nighthawkempires.races.tabcompleters.RaceAdminTabCompleter;
+import net.nighthawkempires.races.tabcompleters.RaceTabCompleter;
 import net.nighthawkempires.races.user.registry.MUserRegistry;
 import net.nighthawkempires.races.user.registry.UserRegistry;
 import org.bukkit.Bukkit;
@@ -122,6 +125,7 @@ public class RacesPlugin extends JavaPlugin {
                 registerKeys();
                 registerListeners();
                 registerRecipes();
+                registerTabCompleters();
 
                 CorePlugin.getScoreboardManager().addScoreboard(new RaceScoreboard());
                 CorePlugin.getChatFormat().add(new RaceTag());
@@ -184,9 +188,9 @@ public class RacesPlugin extends JavaPlugin {
         pm.registerEvents(new PlayerListener(), this);
 
         pm.registerEvents(new AngelListener(), this);
+        pm.registerEvents(new DemonListener(), this);
         pm.registerEvents(new DwarfListener(), this);
         pm.registerEvents(new HumanListener(), this);
-        pm.registerEvents(new InfectionListener(), this);
         //pm.registerEvents(new VampireListener(), this);
         pm.registerEvents(new VoidwalkerListener(), this);
     }
@@ -195,12 +199,18 @@ public class RacesPlugin extends JavaPlugin {
         //Bukkit.addRecipe(new HellForgedDiamond().recipeHellForgedDiamond());
         //Bukkit.addRecipe(new HellForgedDiamond().recipeBeef());
 
-        Bukkit.addRecipe(new CelestialRecipes().recipeTearOfGod());
+        Bukkit.addRecipe(new AngelRecipes().recipeTearOfGod());
         Bukkit.addRecipe(new HumanRecipes().recipeElixirOfLife());
         Bukkit.addRecipe(new DwarfRecipes().recipeMinersTrophy());
-        Bukkit.addRecipe(new InfernalRecipes().recipeInfernalHeart());
+        Bukkit.addRecipe(new DemonRecipes().recipeInfernalHeart());
         //Bukkit.addRecipe(new VampireRecipes().recipeElixirOfLifeVampire());
         Bukkit.addRecipe(new VoidwalkerRecipes().recipeVoidForgedPendant());
+    }
+
+    public void registerTabCompleters() {
+        this.getCommand("bind").setTabCompleter(new BindTabCompleter());
+        this.getCommand("racesadmin").setTabCompleter(new RaceAdminTabCompleter());
+        this.getCommand("races").setTabCompleter(new RaceTabCompleter());
     }
 
     public static UserRegistry getUserRegistry() {

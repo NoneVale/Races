@@ -124,10 +124,10 @@ public class ShatteringForceAbility implements Ability {
                                     Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
                                         Block spike = block.getRelative(BlockFace.UP, finalJ);
                                         if (spike.getType().isAir()) {
-                                            spike.setType(Material.POINTED_DRIPSTONE);
+                                            spike.setType(Material.DEEPSLATE);
 
                                             Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                                                if (spike.getType() == Material.POINTED_DRIPSTONE) {
+                                                if (spike.getType() == Material.DEEPSLATE) {
                                                     block.setType(Material.AIR);
                                                 }
                                             }, 120 - (finalJ * 20));

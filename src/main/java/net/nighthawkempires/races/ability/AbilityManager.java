@@ -71,6 +71,7 @@ public class AbilityManager {
         abilities.add(new CallOfTheVoidAbility());
         abilities.add(new AbyssalDisplacementAbility());
         abilities.add(new EnderRightsAbility());
+        abilities.add(new VoidBlastAbility());
         abilities.add(new EnderShieldAbility());
         abilities.add(new ReturnOfTheVoidAbility());
     }

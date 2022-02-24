@@ -1,6 +1,10 @@
 package net.nighthawkempires.races.inventory;
 
 import com.google.common.collect.Lists;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.nighthawkempires.core.util.ItemUtil;
 import net.nighthawkempires.core.util.StringUtil;
 import net.nighthawkempires.races.RacesPlugin;
@@ -30,18 +34,16 @@ public class PerksInventory {
         List<Ability> abilities = Lists.newArrayList();
 
         switch (userModel.getRace().getTier()) {
-            case 1:
-                abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 1).getAbilities());
-                break;
-            case 2:
+            case 1 -> abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 1).getAbilities());
+            case 2 -> {
                 abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 1).getAbilities());
                 abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 2).getAbilities());
-                break;
-            case 3:
+            }
+            case 3 -> {
                 abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 1).getAbilities());
                 abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 2).getAbilities());
                 abilities.addAll(RacesPlugin.getRaceManager().getRace(raceType, 3).getAbilities());
-                break;
+            }
         }
 
 
@@ -66,7 +68,7 @@ public class PerksInventory {
                     lore.add(ChatColor.GRAY + "Type: " + ChatColor.AQUA + StringUtil.beautify(ability.getAbilityType().name()));
                     lore.add(ChatColor.GRAY + "Level: " + ChatColor.GOLD + level);
                     if (ability.getCooldown(level) != 0) lore.add(ChatColor.GRAY
-                            + "Cooldown Time: " + ChatColor.AQUA + ability.getCooldown(level) + " seconds.");
+                            + "Cooldown: " + ChatColor.AQUA + ability.getCooldown(level) + " seconds.");
                     lore.add("");
                     for (String s : ability.getDescription(level)) {
                         lore.add(ChatColor.GRAY + s);
@@ -102,6 +104,19 @@ public class PerksInventory {
         }
 
         inventory.setItem(45, ItemUtil.createSkull(RED + "Previous Page", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19"));
+
+        if (userModel.getRace().getTier() < 3) {
+            ItemStack itemStack = ItemUtil.createSkull("", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFkNmM4MWY4OTlhNzg1ZWNmMjZiZTFkYzQ4ZWFlMmJjZmU3NzdhODYyMzkwZjU3ODVlOTViZDgzYmQxNGQifX19");
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.GREEN + "Rank Up");
+            itemMeta.setLore(Lists.newArrayList(
+                    ChatColor.GRAY + "Race: " + userModel.getRace().getRaceType().getRaceColor() + userModel.getRace().getName(),
+                    ChatColor.GRAY + "Tier: " + ChatColor.GOLD + (userModel.getRace().getTier() + 1),
+                    ChatColor.GRAY + "Cost: " + ChatColor.GOLD + (userModel.getRace().getTier() * 5)
+            ));
+            itemStack.setItemMeta(itemMeta);
+            inventory.setItem(49, itemStack);
+        }
 
         ItemStack itemStack = ItemUtil.getPlayerHead(player.getUniqueId());
         ItemMeta itemMeta = itemStack.getItemMeta();

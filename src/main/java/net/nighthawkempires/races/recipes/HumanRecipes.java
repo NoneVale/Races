@@ -6,6 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -23,6 +24,11 @@ public class HumanRecipes {
         itemStack.setItemMeta(potionMeta);
 
         return itemStack;
+    }
+
+    public static boolean isElixirOfLife(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getPersistentDataContainer().has(RacesPlugin.ELIXIR_OF_LIFE, PersistentDataType.STRING);
     }
 
     public ShapedRecipe recipeElixirOfLife() {

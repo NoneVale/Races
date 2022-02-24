@@ -51,7 +51,12 @@ public class AngelicFaithAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Gain Strength I in light areas."};
+            case 3 -> new String[]{"Gain Regeneration I in light areas."};
+            case 4 -> new String[]{"Gain Speed II in light areas."};
+            default ->  new String[] {"Angels obtain passive boosts while in", "the Overworld during the day and", "in light", "", "Gain Speed I in light areas."};
+        };
     }
 
     public void run(Player player) {

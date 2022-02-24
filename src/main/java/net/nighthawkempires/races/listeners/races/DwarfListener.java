@@ -81,45 +81,23 @@ public class DwarfListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DWARF) {
-                RacesPlugin.getAbilityManager().getAbility(22).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(22).run(event);
     }
 
     @EventHandler
     public void onChange(PlayerArmorChangeEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
-            RacesPlugin.getAbilityManager().getAbility(25).run(event);
-        }
+        RacesPlugin.getAbilityManager().getAbility(25).run(event);
     }
 
     @EventHandler
     public void onDamage(PlayerItemDamageEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
-            RacesPlugin.getAbilityManager().getAbility(25).run(event);
-        }
+        RacesPlugin.getAbilityManager().getAbility(25).run(event);
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
-            RacesPlugin.getAbilityManager().getAbility(29).run(event);
-        }
-
         RacesPlugin.getAbilityManager().getAbility(28).run(event);
+        RacesPlugin.getAbilityManager().getAbility(29).run(event);
     }
 
     @EventHandler
@@ -129,13 +107,7 @@ public class DwarfListener implements Listener {
 
     @EventHandler
     public void onPotionEffect(EntityPotionEffectEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DWARF) {
-                RacesPlugin.getAbilityManager().getAbility(26).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(26).run(event);
     }
 
     @EventHandler

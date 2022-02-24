@@ -82,42 +82,19 @@ public class AngelListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
-                RacesPlugin.getAbilityManager().getAbility(6).run(event);
-                RacesPlugin.getAbilityManager().getAbility(9).run(event);
-            }
-        } else if (event.getEntity() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
-                RacesPlugin.getAbilityManager().getAbility(6).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(6).run(event);
+        RacesPlugin.getAbilityManager().getAbility(9).run(event);
     }
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
-                RacesPlugin.getAbilityManager().getAbility(4).run(event);
-                RacesPlugin.getAbilityManager().getAbility(6).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(4).run(event);
+        RacesPlugin.getAbilityManager().getAbility(6).run(event);
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
-            RacesPlugin.getAbilityManager().getAbility(4).run(event);
-        }
+        RacesPlugin.getAbilityManager().getAbility(4).run(event);
     }
 
     @EventHandler

@@ -9,10 +9,9 @@ import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
@@ -57,7 +56,12 @@ public class AerialDashAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Knockback nearby entities."};
+            case 3 -> new String[] {"Launches you 50% faster"};
+            case 4 -> new String[] {"Reduce cooldown to " + getCooldown(level) + "s."};
+            default -> new String[] {"Angels can launch themselves in the", "air using their wings."};
+        };
     }
 
     public void run(Player player) {
@@ -86,15 +90,17 @@ public class AerialDashAbility implements Ability {
                 boolean knockback = level > 1;
                 boolean explode = level > 3;
 
+                Location explosion = player.getLocation();
+
                 if (knockback) {
                     for (Entity entity : player.getWorld().getEntitiesByClass(LivingEntity.class)) {
-                        if (entity instanceof LivingEntity livingEntity) {
-                            if (livingEntity.getLocation().distance(player.getLocation()) <= 7) {
-                                double x = livingEntity.getLocation().getX() - player.getLocation().getX();
-                                double z = livingEntity.getLocation().getZ() - player.getLocation().getZ();
+                        if (entity instanceof LivingEntity || entity instanceof Item || entity instanceof Projectile ) {
+                            if (entity.getLocation().distance(player.getLocation()) <= 7) {
+                                double x = entity.getLocation().getX() - player.getLocation().getX();
+                                double z = entity.getLocation().getZ() - player.getLocation().getZ();
                                 Vector vector = new Vector(x, 0.3, z);
                                 vector.normalize();
-                                livingEntity.setVelocity(livingEntity.getVelocity().add(vector.multiply(-1)));
+                                entity.setVelocity(entity.getVelocity().add(vector.multiply(-1.6)));
                             }
                         }
                     }
@@ -102,8 +108,8 @@ public class AerialDashAbility implements Ability {
 
                 if (explode) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                        player.getWorld().createExplosion(player.getLocation(), 4F, false, false, player);
-                    }, 15);
+                        player.getWorld().createExplosion(explosion, 4F, false, false, player);
+                    }, 10);
                 }
 
                 player.setVelocity(new Vector(player.getVelocity().getX(), speed, player.getVelocity().getZ()));

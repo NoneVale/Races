@@ -48,16 +48,14 @@ public interface Ability {
     void run(Event e);
 
     default void passive(Event e, Ability a) {
-        if (e instanceof PlayerJoinEvent) {
-            PlayerJoinEvent event = (PlayerJoinEvent) e;
+        if (e instanceof PlayerJoinEvent event) {
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-            if (userModel.hasAbility(this)) {
+            if (userModel.hasAbility(a)) {
                 a.run(player);
             }
-        } else if (e instanceof PlayerQuitEvent) {
-            PlayerQuitEvent event = (PlayerQuitEvent) e;
+        } else if (e instanceof PlayerQuitEvent event) {
             Player player = event.getPlayer();
 
             int taskId = RacesPlugin.getPlayerData().getTaskId(player, a);
@@ -65,12 +63,19 @@ public interface Ability {
                 Bukkit.getScheduler().cancelTask(taskId);
                 RacesPlugin.getPlayerData().setTaskId(player, a, -1);
             }
-        } else if (e instanceof AbilityUnlockEvent) {
-            AbilityUnlockEvent event = (AbilityUnlockEvent) e;
+        } else if (e instanceof AbilityUnlockEvent event) {
             Player player = event.getPlayer();
 
-            if (event.getAbility() == this) {
-                a.run(player);
+            if (event.getAbility() == a) {
+                if (a.getAbilityType() == AbilityType.PASSIVE) {
+                    int taskId = RacesPlugin.getPlayerData().getTaskId(player, a);
+                    if (taskId != -1) {
+                        Bukkit.getScheduler().cancelTask(taskId);
+                        RacesPlugin.getPlayerData().setTaskId(player, a, -1);
+                    }
+
+                    a.run(player);
+                }
             }
         }
     }

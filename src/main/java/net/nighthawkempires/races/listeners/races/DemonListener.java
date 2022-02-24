@@ -81,78 +81,34 @@ public class DemonListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-                RacesPlugin.getAbilityManager().getAbility(14).run(event);
-                RacesPlugin.getAbilityManager().getAbility(16).run(event);
-                RacesPlugin.getAbilityManager().getAbility(18).run(event);
-                RacesPlugin.getAbilityManager().getAbility(19).run(event);
-            }
-        } else if (event.getEntity() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-                RacesPlugin.getAbilityManager().getAbility(12).run(event);
-                RacesPlugin.getAbilityManager().getAbility(14).run(event);
-                RacesPlugin.getAbilityManager().getAbility(16).run(event);
-            }
-        } else if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-                RacesPlugin.getAbilityManager().getAbility(14).run(event);
-                RacesPlugin.getAbilityManager().getAbility(16).run(event);
-                RacesPlugin.getAbilityManager().getAbility(18).run(event);
-                RacesPlugin.getAbilityManager().getAbility(19).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(12).run(event);
+        RacesPlugin.getAbilityManager().getAbility(14).run(event);
+        RacesPlugin.getAbilityManager().getAbility(16).run(event);
+        RacesPlugin.getAbilityManager().getAbility(18).run(event);
+        RacesPlugin.getAbilityManager().getAbility(19).run(event);
     }
 
     @EventHandler
     public void onHit(ProjectileHitEvent event) {
-        if (event.getEntity().getShooter() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-                RacesPlugin.getAbilityManager().getAbility(19).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(19).run(event);
     }
 
     @EventHandler
     public void onTarget(EntityTargetLivingEntityEvent event) {
-        if (event.getTarget() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-                RacesPlugin.getAbilityManager().getAbility(14).run(event);
-                RacesPlugin.getAbilityManager().getAbility(15).run(event);
-                RacesPlugin.getAbilityManager().getAbility(16).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(14).run(event);
+        RacesPlugin.getAbilityManager().getAbility(15).run(event);
+        RacesPlugin.getAbilityManager().getAbility(16).run(event);
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+        RacesPlugin.getAbilityManager().getAbility(15).run(event);
 
-        if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-            RacesPlugin.getAbilityManager().getAbility(15).run(event);
-        }
     }
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-            if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-                RacesPlugin.getAbilityManager().getAbility(15).run(event);
-            }
-        }
+        RacesPlugin.getAbilityManager().getAbility(15).run(event);
     }
 
     @EventHandler

@@ -31,7 +31,7 @@ public class RaceManager {
     public RaceManager() {
         this.raceMap = Maps.newHashMap();
 
-        raceMap.put(ANGEL, newArrayList(new ThroneRace(), new CherubimRace(), new SeraphimRace()));
+        raceMap.put(ANGEL, newArrayList(new CherubimRace(), new ThroneRace(), new SeraphimRace()));
         raceMap.put(DEMON, newArrayList(new TieflingRace(), new LemureRace(), new DevilRace()));
         raceMap.put(DWARF, newArrayList(new DerroRace(), new UrdunnirRace(), new DuergarRace()));
         // UPDATE 3 raceMap.put(ELF, newArrayList(new VanyarRace(), new NoldorRace(), new TeleriRace()));
@@ -55,7 +55,7 @@ public class RaceManager {
                 }
             }
         }
-        return null;
+        return getDefaultRace();
     }
 
     public Race getRace(RaceType type, int level) {

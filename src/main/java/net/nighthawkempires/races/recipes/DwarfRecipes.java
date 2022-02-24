@@ -22,6 +22,11 @@ public class DwarfRecipes {
         return itemStack;
     }
 
+    public static boolean isMinersTrophy(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getPersistentDataContainer().has(RacesPlugin.MINERS_TROPHY, PersistentDataType.STRING);
+    }
+
     public ShapelessRecipe recipeMinersTrophy() {
         return new ShapelessRecipe(RacesPlugin.MINERS_TROPHY_RECIPE, itemMinersTrophy())
                 .addIngredient(Material.DIAMOND_PICKAXE).addIngredient(Material.DIAMOND).addIngredient(Material.EMERALD)

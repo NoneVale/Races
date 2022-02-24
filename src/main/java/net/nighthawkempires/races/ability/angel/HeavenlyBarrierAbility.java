@@ -53,7 +53,11 @@ public class HeavenlyBarrierAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase duration to 8s, gain Speed I", " and Jump Boost I."};
+            case 3 -> new String[] {"Increase duration to 10s, gain Regen I."};
+            default -> new String[] {"Angels summon a barrier around them", "that prevents them from taking and", "receiving damage.", "", "Duration: 5s"};
+        };
     }
 
     public void run(Player player) {
@@ -95,7 +99,9 @@ public class HeavenlyBarrierAbility implements Ability {
                 if (userModel.hasAbility(this) && angelData.heavenlyBarrier.contains(player.getUniqueId())) {
                     event.setCancelled(true);
                 }
-            } else if (event.getEntity() instanceof Player player) {
+            }
+
+            if (event.getEntity() instanceof Player player) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this) && angelData.heavenlyBarrier.contains(player.getUniqueId())) {

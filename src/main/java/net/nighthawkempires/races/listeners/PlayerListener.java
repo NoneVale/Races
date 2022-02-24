@@ -5,6 +5,7 @@ import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -29,6 +30,10 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         UserModel user = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
+        if (user.getRace() == null || user.getRace().getRaceType() == null) {
+            user.setRace(RacesPlugin.getRaceManager().getDefaultRace());
+        }
+
         player.setHealthScaled(true);
         player.setHealthScale(user.getRace().getRaceType().getBaseHealth() + (double) user.getRace().getTier());
         player.discoverRecipes(recipes);
@@ -52,9 +57,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
-            RacesPlugin.getAbilityManager().getAbility(1).run(event);
-        }
+
     }
 
     @EventHandler

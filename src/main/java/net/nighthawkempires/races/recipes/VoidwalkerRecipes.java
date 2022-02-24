@@ -23,6 +23,11 @@ public class VoidwalkerRecipes {
         return itemStack;
     }
 
+    public static boolean isVoidForgedPendant(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getPersistentDataContainer().has(RacesPlugin.VOID_FORGED_PENDANT, PersistentDataType.STRING);
+    }
+
     public ShapedRecipe recipeVoidForgedPendant() {
         return new ShapedRecipe(RacesPlugin.VOID_FORGED_PENDANT_RECIPE, itemVoidForgedPendant())
                 .shape("OCO", "PEP", "ORO")

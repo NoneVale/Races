@@ -65,7 +65,13 @@ public class ConcentratedGroundAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase duration to 15s."};
+            case 3 -> new String[] {"Increase radius to 8 blocks."};
+            case 4 -> new String[] {"Reduce cooldown to " + getCooldown(level) + "s."};
+            case 5 -> new String[] {"Doubles the burn damage, and increases", "duration to 20s."};
+            default -> new String[] {"Angels can cleanse the land around", "them burning away impurities of others.", "", "Radius: 5 Blocks", "Duration: 10s"};
+        };
     }
 
     public void run(Player player) {
@@ -97,8 +103,8 @@ public class ConcentratedGroundAbility implements Ability {
                 };
 
                 double damage = switch (level) {
-                    case 5 -> 1.5;
-                    default -> .75;
+                    case 5 -> 1;
+                    default -> .50;
                 };
 
                 Location location = player.getLocation();
@@ -126,12 +132,12 @@ public class ConcentratedGroundAbility implements Ability {
                                 target.damage(damage, player);
                             }
                         }
-                    }, 0, 10);
+                    }, 0, 15);
 
                     particleTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RacesPlugin.getPlugin(), () -> {
                         for (Block block : blocks) {
-                            location.getWorld().spawnParticle(Particle.WAX_ON, block.getLocation(), 10, 1, 1, 1);
-                            location.getWorld().spawnParticle(Particle.WAX_OFF, block.getLocation(), 10, 1, 1, 1);
+                            location.getWorld().spawnParticle(Particle.WAX_ON, block.getLocation(), 5, .75, .5, .75);
+                            location.getWorld().spawnParticle(Particle.WAX_OFF, block.getLocation(), 5, .75, .5, .75);
                         }
                     }, 0, 30L);
 
