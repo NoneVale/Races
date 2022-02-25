@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -90,6 +91,7 @@ public class DemonListener implements Listener {
 
     @EventHandler
     public void onHit(ProjectileHitEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(13).run(event);
         RacesPlugin.getAbilityManager().getAbility(19).run(event);
     }
 

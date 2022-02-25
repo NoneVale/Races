@@ -57,7 +57,13 @@ public class NoLongerAGuestAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Nether mobs no longer attack you."};
+            case 3 -> new String[]{"Gain Jump Boost in the Nether."};
+            case 4 -> new String[]{"Gain Slow Falling in the Nether."};
+            case 5 -> new String[]{"Gain Jump Boost II in the Nether."};
+            default ->  new String[] {"Demons adapt to the harsh environment", "in the Nether, and become more", "skilled in traversing it.", "", "Demons no longer take fall damage", "in the Nether."};
+        };
     }
 
     public void run(Player player) {
@@ -99,8 +105,10 @@ public class NoLongerAGuestAbility implements Ability {
             if (event.getEntity() instanceof Player player && event.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-                if (userModel.hasAbility(this)) {
-                    event.setCancelled(true);
+                if (event.getEntity().getLocation().getWorld().getEnvironment() == World.Environment.NETHER) {
+                    if (userModel.hasAbility(this)) {
+                        event.setCancelled(true);
+                    }
                 }
             }
         } else if (e instanceof EntityTargetLivingEntityEvent event) {

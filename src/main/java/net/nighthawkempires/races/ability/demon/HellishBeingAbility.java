@@ -51,7 +51,12 @@ public class HellishBeingAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Gain Speed I in the Nether."};
+            case 3 -> new String[]{"Gain Strength I in the Nether."};
+            case 4 -> new String[]{"Gain Regeneration I in the Nether."};
+            default ->  new String[] {"Demons obtain passive boosts while in", "the Nether.", "", "Gain Fire Resistance (Regardless of world)."};
+        };
     }
 
     public void run(Player player) {

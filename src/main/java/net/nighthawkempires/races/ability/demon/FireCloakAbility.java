@@ -58,7 +58,12 @@ public class FireCloakAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] { "Attacking enemies now gain Slowness I." };
+            case 3 -> new String[] { "Entities in a 5 block radius", "are set on fire." };
+            case 4 -> new String[] { "Attacking enemies now gain Slowness II", "and Weakness I."};
+            default -> new String[] { "By drawing energy from the underworld", "demons are able to set those", "who attack them on fire.", "", "Duration: 10s" };
+        };
     }
 
     public void run(Player player) {

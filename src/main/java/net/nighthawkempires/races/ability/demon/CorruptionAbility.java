@@ -49,9 +49,14 @@ public class CorruptionAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"10% chance to deal 5% more", "damage to living creatures."};
+            case 3 -> new String[] {"Increases extra damage to living", "creatures to 4."};
+            case 4 -> new String[] {"20% chance to deal 15% more", "damage to living creatures."};
+            case 5 -> new String[] {"Increases extra damage to living", "creatures to 6."};
+            default-> new String[] {"Angels deal more damage to living", "creatures.", "", "Deal 2 extra damage to living", "creatures."};
+        };
     }
-
     public void run(Player player) {
 
     }

@@ -59,7 +59,11 @@ public class SyphonAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Increase duration to 10s."};
+            case 3 -> new String[]{"You now steal health from syphoned", "players, increase duration to 15s."};
+            default -> new String[]{"Demons can syphon the powers of", "others, making them unable to use", "their abilities.", "", "Duration 5s"};
+        };
     }
 
     public void run(Player player) {

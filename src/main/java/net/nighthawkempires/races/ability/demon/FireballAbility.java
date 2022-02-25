@@ -17,6 +17,8 @@ import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import static org.bukkit.ChatColor.RED;
 
@@ -55,7 +57,13 @@ public class FireballAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Fireball will now set blocks on", "fire."};
+            case 3 -> new String[] {"Doubles fireball explosion radius."};
+            case 4 -> new String[] {"Fireball velocity increased."};
+            case 5 -> new String[] {"Fireball has a aftershock effect that", "stuns nearby entities."};
+            default -> new String[] {"Demons are capable of shooting fireballs."};
+        };
     }
 
     public void run(Player player) {
@@ -114,8 +122,17 @@ public class FireballAbility implements Ability {
                                     (event.getHitBlock() != null ? event.getHitBlock().getLocation() : null));
 
                             if (hitLocation != null) {
+                                for (Entity entity : hitLocation.getNearbyEntities(5, 5, 5)) {
+                                    if (entity instanceof LivingEntity livingEntity) {
+                                        if ((!(livingEntity instanceof Player) || !AllyUtil.isAlly((Player) livingEntity, player))) {
+                                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
+                                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
+                                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
+                                        }
+                                    }
+                                }
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                                    hitLocation.getWorld().createExplosion(hitLocation, 5f, false, false);
+                                    hitLocation.getWorld().createExplosion(hitLocation, 2f, false, false);
                                 }, 30);
                             }
                         }

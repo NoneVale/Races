@@ -125,12 +125,7 @@ public class ShatteringForceAbility implements Ability {
                                         Block spike = block.getRelative(BlockFace.UP, finalJ);
                                         if (spike.getType().isAir()) {
                                             spike.setType(Material.DEEPSLATE);
-
-                                            Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                                                if (spike.getType() == Material.DEEPSLATE) {
-                                                    block.setType(Material.AIR);
-                                                }
-                                            }, 120 - (finalJ * 20));
+                                            removeBlock(spike, 120 - finalJ * 20);
                                         }
                                     }, j * 6);
                                 }
@@ -156,6 +151,14 @@ public class ShatteringForceAbility implements Ability {
 
             return location.getBlock().getRelative(BlockFace.DOWN, 3);
         }
+    }
+
+    private void removeBlock(Block block, int delay) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
+            if (block.getType() == Material.DEEPSLATE) {
+                block.setType(Material.AIR);
+            }
+        }, delay);
     }
 
     public int getId() {

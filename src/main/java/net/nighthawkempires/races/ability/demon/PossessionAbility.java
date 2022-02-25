@@ -58,7 +58,11 @@ public class PossessionAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Increase duration to 15s and radius", "to 8 blocks."};
+            case 3 -> new String[]{"Demons can now possess other's summoned", "mobs."};
+            default -> new String[]{"Demons are able to possess unholy", "creatures, bending them to their will.", "", "Duration: 10s", "Radius: 5 Blocks"};
+        };
     }
 
     public void run(Player player) {}

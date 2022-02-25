@@ -54,7 +54,12 @@ public class HellRiftAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Pull from the rift is twice", "as strong."};
+            case 3 -> new String[]{"Duration is increased to 16s."};
+            case 4 -> new String[]{"The rift explodes when it closes."};
+            default ->  new String[] {"Demons can summon a rift that", "draws enemies inwards.", "", "Duration: 8s"};
+        };
     }
 
     public void run(Player player) {

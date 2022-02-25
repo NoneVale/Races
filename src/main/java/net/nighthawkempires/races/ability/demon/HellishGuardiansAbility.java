@@ -59,9 +59,14 @@ public class HellishGuardiansAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"A Hoglin now comes to your", "aid."};
+            case 3 -> new String[]{"2 Blazes now come to your", "aid."};
+            case 4 -> new String[]{"2 Ghast now come to your", "aid."};
+            case 5 -> new String[]{"2 Piglin Brutes now come to", "your aid."};
+            default ->  new String[] {"When a demon is low on health", "guardians from hell come to your", "aid", "", "3 Piglins come to your aid."};
+        };
     }
-
     public void run(Player player) {
 
     }

@@ -4,52 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e6f64dc-0d4f-413a-ad06-f66d6b23fac7" name="Changes" comment="Tie in Voidwalker Abilities">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/RecipeInventory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/tabcompleters/BindTabCompleter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/tabcompleters/RaceAdminTabCompleter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/tabcompleters/RaceTabCompleter.java" afterDir="false" />
+    <list default="true" id="7e6f64dc-0d4f-413a-ad06-f66d6b23fac7" name="Changes" comment="Finish Inventory GUIs, Tab Completers, Ability Bug Fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/RacesPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/Ability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/Ability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/AbilityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/AbilityManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/AerialDashAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/AerialDashAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/AngelicFaithAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/AngelicFaithAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/ConcentratedGroundAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/ConcentratedGroundAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/HeavenlyBarrierAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/HeavenlyBarrierAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/HeavensGraceAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/HeavensGraceAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/LanceOfLonginusAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/LanceOfLonginusAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/PurgeAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/PurgeAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/ShelteringWingsAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/ShelteringWingsAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/WhirlwindAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/angel/WhirlwindAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/CorruptionAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/CorruptionAbility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/FireCloakAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/FireCloakAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/FireballAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/FireballAbility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/HellRiftAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/HellRiftAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/HellishBeingAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/HellishBeingAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/HellishGuardiansAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/HellishGuardiansAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/NoLongerAGuestAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/NoLongerAGuestAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/PossessionAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/PossessionAbility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/SyphonAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/demon/SyphonAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/MyPreciousAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/MyPreciousAbility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/ShatteringForceAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/ShatteringForceAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/StonewallAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/dwarf/StonewallAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/QuenAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/human/QuenAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/KnowledgeOfThePearlsAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/ability/voidwalker/KnowledgeOfThePearlsAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesAdminCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesAdminCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/commands/RacesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/InventoryData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/InventoryData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/PlayerData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/data/PlayerData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/enchantment/BlankPotionEnchantment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/enchantment/BlankPotionEnchantment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/PerksInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/PerksInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/RaceListInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/RaceListInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/RaceRecipeInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/inventory/RaceRecipeListInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InventoryListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/InventoryListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/PlayerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/AngelListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/AngelListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/DemonListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/DemonListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/DwarfListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/listeners/races/DwarfListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/races/RaceType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/CelestialRecipes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/AngelRecipes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/DwarfRecipes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/DwarfRecipes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/HumanRecipes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/HumanRecipes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/InfernalRecipes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/DemonRecipes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/VoidwalkerRecipes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/nighthawkempires/races/recipes/VoidwalkerRecipes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +120,9 @@
       <workItem from="1645419550490" duration="1831000" />
       <workItem from="1645488523809" duration="5990000" />
       <workItem from="1645576757670" duration="8775000" />
+      <workItem from="1645741089754" duration="1059000" />
+      <workItem from="1645761903431" duration="295000" />
+      <workItem from="1645762555069" duration="1550000" />
     </task>
     <task id="LOCAL-00001" summary="Minor Changes">
       <created>1628881181143</created>
@@ -238,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645325349469</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Finish Inventory GUIs, Tab Completers, Ability Bug Fixes">
+      <created>1645741172547</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1645741172547</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,6 +245,7 @@
     <MESSAGE value="Tie in Dwarf Abilities" />
     <MESSAGE value="Tie in Human Abilities" />
     <MESSAGE value="Tie in Voidwalker Abilities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tie in Voidwalker Abilities" />
+    <MESSAGE value="Finish Inventory GUIs, Tab Completers, Ability Bug Fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish Inventory GUIs, Tab Completers, Ability Bug Fixes" />
   </component>
 </project>
