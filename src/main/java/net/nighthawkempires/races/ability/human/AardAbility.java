@@ -60,7 +60,12 @@ public class AardAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase radius to 10 blocks."};
+            case 3 -> new String[] {"35% chance to disarm enemies."};
+            case 4 -> new String[] {"15% chance to stun knocked back", "enemies."};
+            default -> new String[] {"Witchers are capable of manipulating", "surrounding air to knock nearby enemies", "backwards.", "", "5 block radius."};
+        };
     }
 
     public void run(Player player) {

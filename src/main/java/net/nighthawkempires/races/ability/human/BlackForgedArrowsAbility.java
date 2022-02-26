@@ -56,7 +56,11 @@ public class BlackForgedArrowsAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase duration to 5s."};
+            case 3 -> new String[] {"Increase duration to 7s."};
+            default -> new String[] {"Rangers can shoot arrows that", "give the hit target wither effect.", "", "Duration: 3s"};
+        };
     }
 
     public void run(Player player) {

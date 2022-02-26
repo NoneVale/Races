@@ -29,15 +29,11 @@ public class PiercingEdgeAbility implements Ability {
     }
 
     public int getCooldown(int level) {
-        switch (level) {
-            case 3:
-            case 4:
-                return 25 + getDuration(level);
-            case 5:
-                return 15 + getDuration(level);
-            default:
-                return 30 + getDuration(level);
-        }
+        return switch (level) {
+            case 3, 4 -> 25 + getDuration(level);
+            case 5 -> 15 + getDuration(level);
+            default -> 30 + getDuration(level);
+        };
     }
 
     public int getMaxLevel() {
@@ -65,7 +61,13 @@ public class PiercingEdgeAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase bleed chance to 15%, and", "duration to 3s."};
+            case 3 -> new String[] {"Increase duration to 4s, and reduce", "cooldown to " + getCooldown(level) + "s."};
+            case 4 -> new String[] {"Increase bleed chance to 20%, and", "duration to 5s."};
+            case 5 -> new String[] {"Reduce cooldown to " + getCooldown(level) + "s."};
+            default -> new String[] {"Attacking enemies with a sword or", "axe deals a chance to make", "them bleed.", "", "10% bleed chance", "Duration: 2s"};
+        };
     }
 
     public void run(Player player) {

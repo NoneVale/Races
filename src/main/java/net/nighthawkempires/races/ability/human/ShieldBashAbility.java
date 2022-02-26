@@ -60,7 +60,11 @@ public class ShieldBashAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase slowness to Slowness IV, and", "reduce cooldown to " + getCooldown(level) + "s."};
+            case 3 -> new String[] {"Increase blindness duration to 4s, and", "deals 2 damage."};
+            default -> new String[] {"Humans are capable of attacking foes", "with their shield in order to", "stun them.", "", "Deals Blindness 2s, Slowness II 1s", "and Nausea 5s"};
+        };
     }
 
     public void run(Player player) {

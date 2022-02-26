@@ -47,7 +47,11 @@ public class MasterAlchemistAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase duration by 35%, and double", "potion strength."};
+            case 3 -> new String[] {"Increase duration by 50%. Now works", "with splash and lingering potions."};
+            default -> new String[] {"Masters of Alchemy, Witchers are able", "to increase the effects of consumed", "potions.", "", "Increase duration by 20%."};
+        };
     }
 
     public void run(Player player) {

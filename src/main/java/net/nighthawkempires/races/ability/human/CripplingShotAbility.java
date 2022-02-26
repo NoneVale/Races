@@ -61,7 +61,11 @@ public class CripplingShotAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Reduce cooldown to " + getCooldown(level) + "s, increase", "slowness effect to Slowness IV"};
+            case 3 -> new String[] {"Increase blindness duration to 4s."};
+            default -> new String[] {"Rangers are able to shoot arrows", "that stun the hit target."};
+        };
     }
 
     public void run(Player player) {

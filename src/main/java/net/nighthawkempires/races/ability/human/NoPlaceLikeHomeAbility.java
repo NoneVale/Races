@@ -32,15 +32,11 @@ public class NoPlaceLikeHomeAbility implements Ability {
     }
 
     public int getCost(int level) {
-        switch (level) {
-            case 1:
-            case 2:
-            case 3:
-                return 1;
-            case 4:
-                return 2;
-        }
-        return 0;
+        return switch (level) {
+            case 1, 2, 3 -> 1;
+            case 4 -> 2;
+            default -> 0;
+        };
     }
 
     public Material getDisplayItem() {
@@ -60,7 +56,12 @@ public class NoPlaceLikeHomeAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Gain Strength I in the Overworld."};
+            case 3 -> new String[] {"Gain Regeneration I in the Overworld."};
+            case 4 -> new String[] {"Increase Speed effect."};
+            default -> new String[] {"While in the Overworld, humans receive", "passive buffs.", "", "Gain Speed I in the Overworld."};
+        };
     }
 
     public void run(Player player) {

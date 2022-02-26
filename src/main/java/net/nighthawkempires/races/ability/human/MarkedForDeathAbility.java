@@ -25,14 +25,11 @@ public class MarkedForDeathAbility implements Ability {
     }
 
     public int getCooldown(int level) {
-        switch (level) {
-            case 2:
-                return 60 + getDuration(level);
-            case 3:
-                return 45 + getDuration(level);
-            default:
-                return 90 + getDuration(level);
-        }
+        return switch (level) {
+            case 2 -> 60 + getDuration(level);
+            case 3 -> 45 + getDuration(level);
+            default -> 90 + getDuration(level);
+        };
     }
 
     public int getMaxLevel() {
@@ -40,12 +37,10 @@ public class MarkedForDeathAbility implements Ability {
     }
 
     public int getCost(int level) {
-        switch (level) {
-            case 3:
-                return 2;
-            default:
-                return 1;
-        }
+        return switch (level) {
+            case 3 -> 2;
+            default -> 1;
+        };
     }
 
     public Material getDisplayItem() {
@@ -65,7 +60,11 @@ public class MarkedForDeathAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase mark chance to 15%, increase", "damage to 20%, and reduce cooldown", "to " + getCooldown(level) + "s."};
+            case 3 -> new String[] {"Increase mark chance to 20%, increase", "duration to 15s, and reduce cooldown", "to " + getCooldown(level) + "s."};
+            default -> new String[] {"Attacking enemies with ranged weapons", "has a chance to mark them", "for death.", "", "10% chance to mark enemy", "15% damage increase if marked", "Duration: 10s"};
+        };
     }
 
     public void run(Player player) {

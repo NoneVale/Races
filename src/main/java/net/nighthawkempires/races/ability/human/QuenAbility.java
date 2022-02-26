@@ -56,7 +56,10 @@ public class QuenAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Knocks attacking enemy backwards."};
+            default -> new String[] {"Forms a protective shield around the", "Witcher that protects them from an", "incoming attack.", "", "Duration: 10s"};
+        };
     }
 
     public void run(Player player) {
@@ -112,8 +115,8 @@ public class QuenAbility implements Ability {
                                 LivingEntity entity = (LivingEntity) event.getDamager();
 
                                 Vector center = player.getLocation().toVector();
-                                center.subtract(entity.getLocation().toVector());
-                                entity.setVelocity(center.normalize().multiply(-1.7).setY(0.14));
+                                Vector vector = entity.getLocation().toVector().subtract(center);
+                                entity.setVelocity(vector.normalize().multiply(1.7).setY(0.14));
                             }
                         }
                     }
