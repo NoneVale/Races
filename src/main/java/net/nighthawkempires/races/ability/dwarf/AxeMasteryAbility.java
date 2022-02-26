@@ -53,7 +53,11 @@ public class AxeMasteryAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"10% chance to deal 15% more", "damage."};
+            case 3 -> new String[] {"Reduce cooldown to " + getCooldown(level) + "s."};
+            default -> new String[] {"Dwarves are masters of their axes", "and are capable of dealing devastating", "blows.", "", "5% chance to deal 10% more", "damage."};
+        };
     }
 
     public void run(Player player) {

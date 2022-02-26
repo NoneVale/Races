@@ -58,7 +58,13 @@ public class BattleCryAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase regeneration effect."};
+            case 3 -> new String[] {"Gain Absorption for 30s"};
+            case 4 -> new String[] {"15% chance to stun enemies that", "were knocked backwards."};
+            case 5 -> new String[] {"30% chance to stun enemies that", "were knocked backwards.  Reduce cooldown to", getCooldown(level) + "s."};
+            default -> new String[] {"Dwarves are capable of emitting a", "deafening battle cry that knocks nearby", "enemies backwards. Also grants regeneration for", "10s."};
+        };
     }
 
     public void run(Player player) {

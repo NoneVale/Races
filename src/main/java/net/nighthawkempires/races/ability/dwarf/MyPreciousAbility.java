@@ -1,5 +1,6 @@
 package net.nighthawkempires.races.ability.dwarf;
 
+import net.nighthawkempires.core.util.RandomUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
@@ -49,7 +50,12 @@ public class MyPreciousAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase chance to 30%."};
+            case 3 -> new String[] {"Increase chance to 45%."};
+            default -> new String[] {"Masters of mining, dwarves are able", "to manipulate the stone around",
+                    "deepslate ores to yield more profit.", "", "15% for an extra drop on", "deepslate ores."};
+        };
     }
 
     public void run(Player player) {
@@ -64,55 +70,64 @@ public class MyPreciousAbility implements Ability {
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
 
-                ItemStack itemStack = player.getInventory().getItemInMainHand();
-                if (!itemStack.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH)) {
-                    switch (itemStack.getType()) {
-                        case DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, NETHERITE_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE -> {
-                            switch (event.getBlock().getType()) {
-                                case DEEPSLATE_COAL_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.COAL));
+                int chance = switch (level) {
+                    case 2 -> 30;
+                    case 3 -> 45;
+                    default -> 15;
+                };
+
+                if (RandomUtil.chance(chance)) {
+                    ItemStack itemStack = player.getInventory().getItemInMainHand();
+                    if (!itemStack.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH)) {
+                        switch (itemStack.getType()) {
+                            case DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, NETHERITE_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE -> {
+                                switch (event.getBlock().getType()) {
+                                    case DEEPSLATE_COAL_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.COAL));
+                                        }
+                                    }
+                                    case DEEPSLATE_COPPER_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.RAW_COPPER));
+                                        }
+                                    }
+                                    case DEEPSLATE_IRON_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.RAW_IRON));
+                                        }
+                                    }
+                                    case DEEPSLATE_LAPIS_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.LAPIS_LAZULI));
+                                        }
+                                    }
+                                    case DEEPSLATE_REDSTONE_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.REDSTONE));
+                                        }
+                                    }
+                                    case DEEPSLATE_GOLD_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.RAW_GOLD));
+                                        }
+                                    }
+                                    case DEEPSLATE_EMERALD_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.EMERALD));
+                                        }
+                                    }
+                                    case DEEPSLATE_DIAMOND_ORE -> {
+                                        if (event.isDropItems()) {
+                                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.DIAMOND));
+                                        }
+                                    }
+                                    default -> {
                                     }
                                 }
-                                case DEEPSLATE_COPPER_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.RAW_COPPER));
-                                    }
-                                }
-                                case DEEPSLATE_IRON_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.RAW_IRON));
-                                    }
-                                }
-                                case DEEPSLATE_LAPIS_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.LAPIS_LAZULI));
-                                    }
-                                }
-                                case DEEPSLATE_REDSTONE_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.REDSTONE));
-                                    }
-                                }
-                                case DEEPSLATE_GOLD_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.RAW_GOLD));
-                                    }
-                                }
-                                case DEEPSLATE_EMERALD_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.EMERALD));
-                                    }
-                                }
-                                case DEEPSLATE_DIAMOND_ORE -> {
-                                    if (event.isDropItems()) {
-                                        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.DIAMOND));
-                                    }
-                                }
-                                default -> {}
                             }
+                            default -> {}
                         }
-                        default -> {}
                     }
                 }
             }

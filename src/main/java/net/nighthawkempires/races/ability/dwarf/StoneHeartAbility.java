@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 public class StoneHeartAbility implements Ability {
@@ -51,7 +52,13 @@ public class StoneHeartAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase negate chance to 40%."};
+            case 3 -> new String[] {"Increase negate chance to 55%.", "20% chance to deflect back."};
+            case 4 -> new String[] {"Increase negate chance to 70%.", "Increase deflect chance to 35%."};
+            case 5 -> new String[] {"Increase negate chance to 85%.", "Increase deflect chance to 50%."};
+            default -> new String[] {"Dwarves become capable of negating", "negative potion effects.", "", "25% chance to negate negative", "potion effects."};
+        };
     }
 
     public void run(Player player) {
@@ -83,30 +90,34 @@ public class StoneHeartAbility implements Ability {
                 }
             }
         } if (e instanceof PotionSplashEvent event) {
-            for (LivingEntity entity : event.getAffectedEntities()) {
-                if (entity instanceof Player player) {
-                    UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+            for (PotionEffect effect : event.getPotion().getEffects()) {
+                if (PotionUtil.isNegativeEffect(effect.getType())) {
+                    for (LivingEntity entity : event.getAffectedEntities()) {
+                        if (entity instanceof Player player) {
+                            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-                    if (userModel.hasAbility(this)) {
-                        int level = userModel.getLevel(this);
+                            if (userModel.hasAbility(this)) {
+                                int level = userModel.getLevel(this);
 
-                        int chance = switch (level) {
-                            case 3 -> 20;
-                            case 4 -> 35;
-                            case 5 -> 50;
-                            default -> -1;
-                        };
+                                int chance = switch (level) {
+                                    case 3 -> 20;
+                                    case 4 -> 35;
+                                    case 5 -> 50;
+                                    default -> -1;
+                                };
 
-                        int random = Double.valueOf(Math.random() * 100).intValue();
-                        // if this doesn't work cancel event, and launch projectile from player.
-                        if (random <= chance) {
-                            if (event.getEntity().getShooter() instanceof Entity target) {
-                                Vector to = target.getLocation().toVector();
-                                Vector from = player.getLocation().toVector();
+                                int random = Double.valueOf(Math.random() * 100).intValue();
+                                // if this doesn't work cancel event, and launch projectile from player.
+                                if (random <= chance) {
+                                    if (event.getEntity().getShooter() instanceof Entity target) {
+                                        Vector to = target.getLocation().toVector();
+                                        Vector from = player.getLocation().toVector();
 
-                                Vector direction = to.subtract(from).normalize();
+                                        Vector direction = to.subtract(from).normalize();
 
-                                event.getPotion().setVelocity(direction.multiply(1.5));
+                                        event.getPotion().setVelocity(direction.multiply(1.5));
+                                    }
+                                }
                             }
                         }
                     }

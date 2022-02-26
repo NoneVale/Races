@@ -1,8 +1,10 @@
 package net.nighthawkempires.races.listeners;
 
+import com.google.common.collect.Lists;
 import net.nighthawkempires.core.CorePlugin;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.event.AbilitiesResetEvent;
 import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.event.RaceChangeEvent;
 import net.nighthawkempires.races.inventory.*;
@@ -112,6 +114,7 @@ public class InventoryListener implements Listener {
                         } else if (clickedSlot == 53) {
                             if (getInventoryData().perkResetList.contains(player.getUniqueId())) {
                                 event.getWhoClicked().closeInventory();
+                                Bukkit.getPluginManager().callEvent(new AbilitiesResetEvent(player, Lists.newArrayList(userModel.getAbilities())));
                                 userModel.clearAbilities();
                                 //TODO: give player 75% of perk points back
                                 getInventoryData().perkResetList.remove(player.getUniqueId());

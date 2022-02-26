@@ -66,7 +66,12 @@ public class ShatteringForceAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase duration to 15s."};
+            case 3 -> new String[] {"Staggering effect twice as strong."};
+            case 4 -> new String[] {"The ground around enemies will distort.", "Reduce cooldown to " + getCooldown(level) + "s."};
+            default -> new String[] {"Dwarves are able to manipulate", "the ground under them to", "disorient foes.", "", "Staggers nearby enemies.", "Duration: 10s"};
+        };
     }
 
     public void run(Player player) {

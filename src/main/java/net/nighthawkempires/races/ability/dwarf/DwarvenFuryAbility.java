@@ -48,7 +48,12 @@ public class DwarvenFuryAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Gain Speed I for 5s."};
+            case 3 -> new String[] {"Increase Strength effect."};
+            case 4 -> new String[] {"Increase Speed effect."};
+            default -> new String[] {"By killing entities, dwarves are able", "to feed their dwarven fury, and", "receive buffs.", "", "Gain Strength I for 5s."};
+        };
     }
 
     public void run(Player player) {

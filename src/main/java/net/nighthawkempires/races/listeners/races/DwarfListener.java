@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.binding.BindingManager;
+import net.nighthawkempires.races.event.AbilitiesResetEvent;
 import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.event.RaceChangeEvent;
 import net.nighthawkempires.races.races.Race;
@@ -145,5 +146,12 @@ public class DwarfListener implements Listener {
                 event.getAbility().run(event);
             }
         }
+
+        RacesPlugin.getAbilityManager().getAbility(25).run(event);
+    }
+
+    @EventHandler
+    public void onReset(AbilitiesResetEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(25).run(event);
     }
 }

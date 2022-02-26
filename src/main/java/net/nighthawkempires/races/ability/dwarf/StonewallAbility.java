@@ -68,7 +68,11 @@ public class StonewallAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Knocks enemies backwards, Increase duration", "to 10s."};
+            case 3 -> new String[] {"Breaking any part of the dome now", "creates a small explosion that damages", "and stuns enemies."};
+            default -> new String[] {"Dwarves are able to create a", "dome around them, effectively trapping or", "blocking enemies.", "", "Duration: 6s"};
+        };
     }
 
     public void run(Player player) {

@@ -55,7 +55,12 @@ public class RockNStoneAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Gain Nightvision below Y 63."};
+            case 3 -> new String[] {"Gain Haste II below Y 0."};
+            case 4 -> new String[] {"Gain Fire Resistance below Y 0."};
+            default -> new String[] {"While underground, dwarves receive", "passive buffs.", "", "Gain Haste I below Y 63."};
+        };
     }
 
     public void run(Player player) {
@@ -77,15 +82,23 @@ public class RockNStoneAbility implements Ability {
                             }
                         }
                         case 3 -> {
+                            if (location.getBlockY() < 63) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
+                            }
+
                             if (location.getBlockY() < 0) {
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 1));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
                             }
                         }
                         case 4 -> {
+                            if (location.getBlockY() < 63) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
+                            }
+
                             if (location.getBlockY() < 0) {
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 1));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0));
                             }
                         }
