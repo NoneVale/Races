@@ -147,7 +147,7 @@ public class PlayerData {
 
     public class VoidwalkerData {
 
-        public List<UUID> activePhaseAbility;
+        public List<UUID> phase;
         public List<UUID> displacement;
 
         public HashMap<UUID, List<UUID>> endermen;
@@ -159,7 +159,7 @@ public class PlayerData {
         public HashMap<UUID, Integer> waterMap;
 
         public VoidwalkerData() {
-            activePhaseAbility = Lists.newArrayList();
+            phase = Lists.newArrayList();
             displacement = Lists.newArrayList();
 
             endermen = Maps.newHashMap();

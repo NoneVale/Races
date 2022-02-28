@@ -63,24 +63,6 @@ public class DemonListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-        if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-            BindingManager bindingManager = RacesPlugin.getBindingManager();
-            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                if (player.getEquipment().getItemInMainHand() != null
-                        && player.getEquipment().getItemInMainHand().getItemMeta() != null) {
-                    if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
-                        bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
-                    }
-                }
-            }
-        }
-    }
-
-    @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
         RacesPlugin.getAbilityManager().getAbility(12).run(event);
         RacesPlugin.getAbilityManager().getAbility(14).run(event);

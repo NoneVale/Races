@@ -60,7 +60,11 @@ public class CallOfTheVoidAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[] { "" };
+        return switch (level) {
+            case 2 -> new String[] {"Summons an additional Enderman to help."};
+            case 3 -> new String[] {"Summons another additional Enderman to help."};
+            default -> new String[] {"Voidwalkers can summon Enderman to help", "them in combat.", "", "Summons an Enderman to help you."};
+        };
     }
 
     public void run(Player player) {

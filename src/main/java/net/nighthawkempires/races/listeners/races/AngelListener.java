@@ -19,7 +19,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -56,24 +55,6 @@ public class AngelListener implements Listener {
                                 Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
                             }
                         }
-                    }
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
-
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
-            BindingManager bindingManager = RacesPlugin.getBindingManager();
-            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                if (player.getEquipment().getItemInMainHand() != null
-                        && player.getEquipment().getItemInMainHand().getItemMeta() != null) {
-                    if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
-                        bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
                     }
                 }
             }

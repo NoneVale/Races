@@ -55,7 +55,13 @@ public class EnderShieldAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase absorbed damage to 50%."};
+            case 3 -> new String[] {"Add additional pearl to shield."};
+            case 4 -> new String[] {"Deflect 10% of damage when shield", "is broken."};
+            case 5 -> new String[] {"Increase deflect to 20%."};
+            default -> new String[] {"Dropping an Ender Pearl summons a", "shield around the Voidwalker.", "", "Absorb 20% combat damage."};
+        };
     }
 
     public void run(Player player) {

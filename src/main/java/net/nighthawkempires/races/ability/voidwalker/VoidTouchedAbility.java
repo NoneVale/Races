@@ -30,7 +30,7 @@ public class VoidTouchedAbility implements Ability {
     }
 
     public int getCost(int level) {
-        return level > 4 ? 1 : 2;
+        return level >= 4 ? 1 : 2;
     }
 
     public Material getDisplayItem() {
@@ -50,7 +50,12 @@ public class VoidTouchedAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[]{"Gain Strength I in the end."};
+            case 3 -> new String[]{"Gain Regeneration I in the end."};
+            case 4 -> new String[]{"Gain Speed II in the end."};
+            default ->  new String[] {"Voidwalkers obtain passive boosts while in", "the End", "", "Gain Speed I in the end."};
+        };
     }
 
     public void run(Player player) {

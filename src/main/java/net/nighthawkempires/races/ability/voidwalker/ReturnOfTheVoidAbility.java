@@ -49,7 +49,11 @@ public class ReturnOfTheVoidAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Increase base chance to 15%, night", "chance increased to 30%. (Drops 1-2", "additional pearls.)"};
+            case 3 -> new String[] {"Increase base chance to 30%, night", "chance increased to 50%. (Drops 2-3", "additional pearls.)"};
+            default -> new String[] {"Voidwalkers are able to gain Ender", "Pearls killing undead mobs.", "", "5% base chance for undead mobs", "to drop an additional Ender Pearl.", "15% chance at night."};
+        };
     }
 
     public void run(Player player) {

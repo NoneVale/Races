@@ -32,7 +32,7 @@ public class EnderRightsAbility implements Ability {
     }
 
     public int getMaxLevel() {
-        return 2;
+        return 3;
     }
 
     public int getCost(int level) {
@@ -56,7 +56,11 @@ public class EnderRightsAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"End mobs no longer attack you."};
+            case 3 -> new String[] {"Gain Nightvision."};
+            default -> new String[] {"After spending their share of time", "in the End, Voidwalkers are given", "buffs that assist them.", "", "No longer take fall damage in", "the End."};
+        };
     }
 
     public void run(Player player) {

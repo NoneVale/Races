@@ -69,7 +69,11 @@ public class AbyssalDisplacementAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"20% chance to spawn endermite", "where you were standing."};
+            case 3 -> new String[] {"Increase block radius to 8."};
+            default -> new String[] {"Voidwalkers can displace themselves on the", "next incoming attack.", "", "Randomly teleport to a block in", "a 5 block radius."};
+        };
     }
 
     public void run(Player player) {

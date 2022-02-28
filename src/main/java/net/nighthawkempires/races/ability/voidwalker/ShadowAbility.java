@@ -7,7 +7,6 @@ import net.minecraft.server.network.PlayerConnection;
 import net.minecraft.world.entity.EnumItemSlot;
 import net.minecraft.world.item.ItemStack;
 import net.nighthawkempires.core.CorePlugin;
-import net.nighthawkempires.core.cooldown.Cooldown;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.races.Race;
@@ -45,7 +44,7 @@ public class ShadowAbility implements Ability {
 
     public int getCost(int level) {
         return switch (level) {
-            case 3, 5 -> 2;
+            case 3, 4 -> 2;
             default -> 1;
         };
     }
@@ -67,14 +66,18 @@ public class ShadowAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[] { "" };
+        return switch (level) {
+            case 2 -> new String[] {"Gain Jump + Speed boost while", "active."};
+            case 3 -> new String[] {"Increase duration to 10s."};
+            case 4 -> new String[] {"Mobs no longer target you while", "in shadow form."};
+            default -> new String[] {"Voidwalkers can completely vanish from", "the sight of others", "", "Duration: 5s"};
+        };
     }
 
     public void run(Player player) {}
 
     public void run(Event e) {
-        if (e instanceof PlayerInteractEvent) {
-            PlayerInteractEvent event = (PlayerInteractEvent) e;
+        if (e instanceof PlayerInteractEvent event) {
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
@@ -96,13 +99,17 @@ public class ShadowAbility implements Ability {
                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have activated ability "
                         + getRaceType().getRaceColor() + this.getName() + ChatColor.GRAY + "."));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration * 20, 1, false, true, true));
-                RacesPlugin.getPlayerData().voidwalker.activePhaseAbility.add(player.getUniqueId());
+                RacesPlugin.getPlayerData().voidwalker.phase.add(player.getUniqueId());
+
+                if (level > 1) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration * 20, 1, false, false, true));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration * 20, 1, false, false, true));
+                }
 
                 if (userModel.getLevel(this) == getMaxLevel()) {
-                    if (RacesPlugin.getPlayerData().voidwalker.activePhaseAbility.contains(player.getUniqueId())) {
+                    if (RacesPlugin.getPlayerData().voidwalker.phase.contains(player.getUniqueId())) {
                         for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
-                            if (entity instanceof Mob) {
-                                Mob mob = (Mob) entity;
+                            if (entity instanceof Mob mob) {
                                 if (mob.getTarget() != null && mob.getTarget().getEntityId() == player.getEntityId()) {
                                     mob.setTarget(null);
                                 }
@@ -122,15 +129,17 @@ public class ShadowAbility implements Ability {
 
                     PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment(player.getEntityId(), equipment);
 
-                    for (Player otherPlayer : player.getWorld().getPlayers()) {
-                        PlayerConnection conn = ((CraftPlayer) otherPlayer).getHandle().b;
-                        conn.a(packet);
+                    for (Player online : player.getWorld().getPlayers()) {
+                        if (!online.getUniqueId().toString().equals(player.getUniqueId().toString())) {
+                            PlayerConnection conn = ((CraftPlayer) online).getHandle().b;
+                            conn.a(packet);
+                        }
                     }
                 }, 5, 5);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
                     Bukkit.getScheduler().cancelTask(id);
 
-                    RacesPlugin.getPlayerData().voidwalker.activePhaseAbility.remove(player.getUniqueId());
+                    RacesPlugin.getPlayerData().voidwalker.phase.remove(player.getUniqueId());
 
                     List<Pair<EnumItemSlot, ItemStack>> equipment = Lists.newArrayList();
                     equipment.add(new Pair<>(EnumItemSlot.f, CraftItemStack.asNMSCopy(player.getEquipment().getHelmet())));
@@ -153,12 +162,11 @@ public class ShadowAbility implements Ability {
         } else if (e instanceof EntityTargetLivingEntityEvent) {
             EntityTargetLivingEntityEvent event = (EntityTargetLivingEntityEvent) e;
 
-            if (event.getTarget() instanceof Player) {
-                Player player = (Player) event.getTarget();
+            if (event.getTarget() instanceof Player player) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this) && userModel.getLevel(this) == getMaxLevel()) {
-                    if (RacesPlugin.getPlayerData().voidwalker.activePhaseAbility.contains(player.getUniqueId())) {
+                    if (RacesPlugin.getPlayerData().voidwalker.phase.contains(player.getUniqueId())) {
                         event.setCancelled(true);
                     }
                 }
@@ -171,10 +179,9 @@ public class ShadowAbility implements Ability {
     }
 
     public int getDuration(int level) {
-        int duration = switch (level) {
-            case 4 -> 10;
+        return switch (level) {
+            case 3, 4 -> 10;
             default -> 5;
         };
-        return duration;
     }
 }

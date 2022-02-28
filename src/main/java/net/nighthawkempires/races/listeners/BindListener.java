@@ -20,9 +20,9 @@ public class BindListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         UserModel user = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+        BindingManager bindingManager = RacesPlugin.getBindingManager();
 
-        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            BindingManager bindingManager = RacesPlugin.getBindingManager();
+        if (event.getAction().isRightClick()) {
             ItemStack itemStack = player.getInventory().getItemInMainHand();
 
             if (bindingManager.getBindings(itemStack).size() >= 1
@@ -57,6 +57,10 @@ public class BindListener implements Listener {
                             + ChatColor.of(user.getRace().getRaceType().getRaceColor().name()) + "" + ChatColor.BOLD + "" + ChatColor.ITALIC
                             + bindingManager.getCurrentAbility(itemStack).getName()));
                 }
+            }
+        } else if (event.getAction().isLeftClick()) {
+            if (bindingManager.getBindings(player.getEquipment().getItemInMainHand()).size() > 0) {
+                bindingManager.getCurrentAbility(player.getEquipment().getItemInMainHand()).run(event);
             }
         }
     }

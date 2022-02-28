@@ -33,13 +33,10 @@ public class SyphonAbility implements Ability {
     }
 
     public int getCost(int level) {
-        int cost = 0;
-        switch (level) {
-            case 2:
-            case 3: cost = 1; break;
-            default: cost = 2; break;
-        }
-        return cost;
+        return switch (level) {
+            case 2, 3 -> 1;
+            default -> 2;
+        };
     }
 
     public Material getDisplayItem() {
@@ -182,12 +179,10 @@ public class SyphonAbility implements Ability {
     }
 
     public int getDuration(int level) {
-        int duration = 0;
-        switch (level) {
-            case 2: duration = 10; break;
-            case 3: duration = 15; break;
-            default: duration = 5; break;
-        }
-        return duration;
+        return switch (level) {
+            case 2 -> 10;
+            case 3 -> 15;
+            default -> 5;
+        };
     }
 }

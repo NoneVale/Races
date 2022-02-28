@@ -55,7 +55,12 @@ public class VoidBlastAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"Now knocks enemies backwards."};
+            case 3 -> new String[] {"Increase radius to 8 blocks."};
+            case 4 -> new String[] {"Staggers enemies for 5s."};
+            default -> new String[] {"By manipulating the End's energy", "Voidwalkers are able to summon a", "blast that stuns enemies.", "", "5 Block Radius"};
+        };
     }
 
     public void run(Player player) {

@@ -72,7 +72,13 @@ public class KnowledgeOfThePearlsAbility implements Ability {
     }
 
     public String[] getDescription(int level) {
-        return new String[0];
+        return switch (level) {
+            case 2 -> new String[] {"No longer take damage from Ender", "Pearls."};
+            case 3 -> new String[] {"Unlock Minion Mode."};
+            case 4 -> new String[] {"50% chance to keep thrown pearls."};
+            case 5 -> new String[] {"Unlock Explode Mode."};
+            default -> new String[] {"Having a deeper understanding of Ender", "Pearls, Voidwalkers can unlock powers unknown.", "", "Unlock Vacuum Mode.", "(Shift Hit to change pearl mode)."};
+        };
     }
 
     public void run(Player player) {
@@ -203,7 +209,7 @@ public class KnowledgeOfThePearlsAbility implements Ability {
 
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
-                if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if (event.getAction().isLeftClick()) {
                     if (player.isSneaking()) {
                         PlayerData.VoidwalkerData.PearlMode pearlMode = voidwalkerData.pearlmode.getOrDefault(player.getUniqueId(), PlayerData.VoidwalkerData.PearlMode.NORMAL);
 
