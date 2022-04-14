@@ -66,7 +66,7 @@ public interface Ability {
         } else if (e instanceof AbilityUnlockEvent event) {
             Player player = event.getPlayer();
 
-            if (event.getAbility() == a) {
+            if (event.getAbility().getId() == a.getId()) {
                 if (a.getAbilityType() == AbilityType.PASSIVE) {
                     int taskId = RacesPlugin.getPlayerData().getTaskId(player, a);
                     if (taskId != -1) {

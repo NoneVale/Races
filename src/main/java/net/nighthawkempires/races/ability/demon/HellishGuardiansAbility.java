@@ -109,31 +109,41 @@ public class HellishGuardiansAbility implements Ability {
                             default -> 0;
                         };
 
-                        for (int i = 0; i > piglin; i++) {
+                        List<UUID> guardians = Lists.newArrayList();
+
+                        for (int i = 0; i < piglin; i++) {
                             Mob mob = (Mob) player.getWorld().spawnEntity(player.getLocation(), EntityType.PIGLIN, true);
                             mob.setTarget((LivingEntity) event.getDamager());
                             RacesPlugin.getMobData().addPet(mob);
+                            guardians.add(mob.getUniqueId());
                         }
-                        for (int i = 0; i > hoglin; i++) {
+                        for (int i = 0; i < hoglin; i++) {
                             Mob mob = (Mob) player.getWorld().spawnEntity(player.getLocation(), EntityType.HOGLIN, true);
                             mob.setTarget((LivingEntity) event.getDamager());
                             RacesPlugin.getMobData().addPet(mob);
+                            guardians.add(mob.getUniqueId());
                         }
-                        for (int i = 0; i > blaze; i++) {
+                        for (int i = 0; i < blaze; i++) {
+
                             Mob mob = (Mob) player.getWorld().spawnEntity(player.getLocation(), EntityType.BLAZE, true);
                             mob.setTarget((LivingEntity) event.getDamager());
                             RacesPlugin.getMobData().addPet(mob);
+                            guardians.add(mob.getUniqueId());
                         }
-                        for (int i = 0; i > ghast; i++) {
+                        for (int i = 0; i < ghast; i++) {
                             Mob mob = (Mob) player.getWorld().spawnEntity(player.getLocation(), EntityType.GHAST, true);
                             mob.setTarget((LivingEntity) event.getDamager());
                             RacesPlugin.getMobData().addPet(mob);
+                            guardians.add(mob.getUniqueId());
                         }
-                        for (int i = 0; i > brute; i++) {
+                        for (int i = 0; i < brute; i++) {
                             Mob mob = (Mob) player.getWorld().spawnEntity(player.getLocation(), EntityType.PIGLIN_BRUTE, true);
                             mob.setTarget((LivingEntity) event.getDamager());
                             RacesPlugin.getMobData().addPet(mob);
+                            guardians.add(mob.getUniqueId());
                         }
+
+                        demonData.guardians.put(player.getUniqueId(), guardians);
 
                         Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
                             if (demonData.guardians.containsKey(player.getUniqueId())) {

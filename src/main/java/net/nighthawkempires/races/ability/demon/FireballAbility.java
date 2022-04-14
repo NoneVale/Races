@@ -15,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
@@ -138,6 +139,10 @@ public class FireballAbility implements Ability {
                         }
                     }
                 }
+            }
+        } else if (e instanceof EntityExplodeEvent event) {
+            if (event.getEntity() instanceof Fireball) {
+
             }
         }
     }

@@ -76,17 +76,11 @@ public class NoLongerAGuestAbility implements Ability {
 
                 if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
                     switch (level) {
-                        case 2 -> {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0));
-                        }
                         case 3 -> {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0));
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0));
                         }
-                        case 4 -> {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0));
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0));
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 0));
+                        case 5 -> {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 1));
                         }
                         default -> {}
                     }

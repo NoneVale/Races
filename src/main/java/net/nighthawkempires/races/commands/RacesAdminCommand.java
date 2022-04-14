@@ -25,7 +25,7 @@ public class RacesAdminCommand implements CommandExecutor {
 
     public RacesAdminCommand() {
         getCommandManager().registerCommands("racesadmin", new String[] {
-                "ne.racesadmin"
+                "ne.races.admin"
         });
     }
 
@@ -41,10 +41,9 @@ public class RacesAdminCommand implements CommandExecutor {
     };
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
-            if (!player.hasPermission("ne.racesadmin")) {
+            if (!player.hasPermission("ne.races.admin")) {
                 player.sendMessage(getMessages().getChatTag(Messages.NO_PERMS));
                 return true;
             }

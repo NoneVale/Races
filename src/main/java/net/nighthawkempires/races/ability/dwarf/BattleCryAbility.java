@@ -109,7 +109,7 @@ public class BattleCryAbility implements Ability {
 
                         Vector center = player.getLocation().toVector();
                         center.subtract(livingEntity.getLocation().toVector());
-                        livingEntity.setVelocity(center.normalize().multiply(2.5).setY(0.8));
+                        livingEntity.setVelocity(center.normalize().multiply(-2.5).setY(0.8));
 
                         if (level >= 4) {
                             int chance = level == 4 ? 15 : 30;

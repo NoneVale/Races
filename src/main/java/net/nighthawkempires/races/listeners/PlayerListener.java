@@ -1,11 +1,14 @@
 package net.nighthawkempires.races.listeners;
 
 import com.google.common.collect.Lists;
+import net.nighthawkempires.core.CorePlugin;
+import net.nighthawkempires.core.cooldown.Cooldown;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -15,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -48,24 +52,21 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent event) {
+    public void onKill(PlayerDeathEvent event) {
         Player player = event.getPlayer();
-    }
+        if (player.getKiller() != null) {
+            Player killer = player.getKiller();
 
-    @EventHandler
-    public void onUnlock(AbilityUnlockEvent event) {
-        Player player = event.getPlayer();
-        UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+            if (!CorePlugin.getCooldowns().hasActiveCooldown(killer.getUniqueId(), "perk-" + player.getUniqueId().toString())) {
+                killer.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have received a perk point for killing "
+                        + ChatColor.GREEN + player.getName() + ChatColor.GRAY + "."));
+                CorePlugin.getCooldowns().addCooldown(new Cooldown(killer.getUniqueId(),
+                        "perk-" + player.getUniqueId().toString(),
+                        (System.currentTimeMillis() + (86400000L))));
 
-
-    }
-
-    @EventHandler
-    public void onDeath(EntityDeathEvent event) {
-        Entity entity = event.getEntity();
-
-        if (entity instanceof Creeper) {
-            Creeper creeper = (Creeper) entity;
+                UserModel userModel = RacesPlugin.getUserRegistry().getUser(killer.getUniqueId());
+                userModel.addPerkPoints(1);
+            }
         }
     }
 }

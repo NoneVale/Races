@@ -85,7 +85,6 @@ public class RecipeInventory {
                         finalItem.setItemMeta(potionMeta);
                     }
 
-                    player.sendMessage(pos + " " + row);
                     inventory.setItem(pos, finalItem);
                     row++;
                     pos++;

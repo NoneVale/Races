@@ -8,8 +8,10 @@ import net.nighthawkempires.core.datasection.Model;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.ability.AbilityManager;
+import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.races.Race;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +24,14 @@ public class UserModel implements Model {
     private String key;
     private Race race;
     private int perkPoints;
+    private int spentPoints;
     private HashMap<Ability, Integer> abilities;
 
     public UserModel(UUID uuid) {
         this.key = uuid.toString();
         this.race = RacesPlugin.getRaceManager().getDefaultRace();
         this.perkPoints = 0;
+        this.spentPoints = 0;
         this.abilities = Maps.newHashMap();
     }
 
@@ -35,6 +39,7 @@ public class UserModel implements Model {
         this.key = key;
         this.race = RacesPlugin.getRaceManager().getRace(data.getString("race"));
         this.perkPoints = data.getInt("perk_points");
+        this.spentPoints = data.getInt("spent_points", 0);
 
         this.abilities = Maps.newHashMap();
         if (data.isSet("abilities")) {
@@ -84,6 +89,19 @@ public class UserModel implements Model {
         this.setPerkPoints(this.getPerkPoints() - perkPoints);
     }
 
+    public int getSpentPoints() {
+        return this.spentPoints;
+    }
+
+    public void setSpentPoints(int spentPoints) {
+        this.spentPoints = spentPoints;
+        RacesPlugin.getUserRegistry().register(this);
+    }
+
+    public void addSpentPoints(int spentPoints) {
+        this.setSpentPoints(this.getSpentPoints() + spentPoints);
+    }
+
     public ImmutableList<Ability> getAbilities() {
         List<Ability> abilities = Lists.newArrayList();
         abilities.addAll(this.abilities.keySet());
@@ -124,6 +142,7 @@ public class UserModel implements Model {
 
         map.put("race", this.race.getName());
         map.put("perk_points", this.perkPoints);
+        map.put("spent_points", this.spentPoints);
 
         Map<String, Object> abilityMap = Maps.newHashMap();
         for (Ability ability : this.abilities.keySet()) {

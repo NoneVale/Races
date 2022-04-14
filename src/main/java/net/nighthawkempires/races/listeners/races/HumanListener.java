@@ -51,7 +51,7 @@ public class HumanListener implements Listener {
 
     @EventHandler
     public void onPrepare(PrepareItemCraftEvent event) {
-        if (event.getRecipe() != null && event.getRecipe().getResult().isSimilar(HumanRecipes.itemElixirOfLife())) {
+        /**if (event.getRecipe() != null && event.getRecipe().getResult().isSimilar(HumanRecipes.itemElixirOfLife())) {
             event.getInventory().setResult(null);
             if (event.getInventory().getMatrix()[4].getType() == Material.POTION) {
                 ItemStack itemStack = event.getInventory().getMatrix()[4];
@@ -65,7 +65,7 @@ public class HumanListener implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
@@ -96,7 +96,7 @@ public class HumanListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+        if (userModel.getRace().getRaceType() == RaceType.HUMAN) {
             RacesPlugin.getAbilityManager().getAbility(32).run(event);
         }
     }
@@ -106,7 +106,7 @@ public class HumanListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+        if (userModel.getRace().getRaceType() == RaceType.HUMAN) {
             RacesPlugin.getAbilityManager().getAbility(32).run(event);
         }
     }
@@ -116,7 +116,7 @@ public class HumanListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (event.getAbility().getRaceType() == RaceType.ANGEL) {
+        if (event.getAbility().getRaceType() == RaceType.HUMAN) {
             if (event.getAbility().getAbilityType() == Ability.AbilityType.PASSIVE) {
                 event.getAbility().run(event);
             }

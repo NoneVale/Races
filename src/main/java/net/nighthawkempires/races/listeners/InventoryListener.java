@@ -7,6 +7,7 @@ import net.nighthawkempires.races.ability.Ability;
 import net.nighthawkempires.races.event.AbilitiesResetEvent;
 import net.nighthawkempires.races.event.AbilityUnlockEvent;
 import net.nighthawkempires.races.event.RaceChangeEvent;
+import net.nighthawkempires.races.event.RaceUpgradeEvent;
 import net.nighthawkempires.races.inventory.*;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
@@ -30,8 +31,7 @@ public class InventoryListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getWhoClicked() instanceof Player) {
-            Player player = (Player) event.getWhoClicked();
+        if (event.getWhoClicked() instanceof Player player) {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (getInventoryData().perksInventoryList.contains(event.getView().getTopInventory())) {
@@ -62,17 +62,11 @@ public class InventoryListener implements Listener {
                                     return;
                                 }
 
-                                event.getWhoClicked().closeInventory();
-                                userModel.addAbility(ability, level);
-                                Bukkit.getPluginManager().callEvent(new AbilityUnlockEvent(player, ability));
-                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have purchased "
-                                        + ability.getRaceType().getRaceColor() + ability.getName() + ChatColor.GRAY + " Level "
-                                        + ChatColor.GOLD + level + ChatColor.GRAY + "."));
-                                new PerksInventory().open(player);
-
-                                /*if (userModel.getPerkPoints() >= ability.getCost(level)) {
+                                if (userModel.getPerkPoints() >= ability.getCost(level)) {
                                     event.getWhoClicked().closeInventory();
                                     userModel.setPerkPoints(userModel.getPerkPoints() - ability.getCost(level));
+                                    userModel.addSpentPoints(ability.getCost(level));
+                                    Bukkit.getPluginManager().callEvent(new AbilityUnlockEvent(player, ability));
                                     userModel.addAbility(ability, level);
                                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have purchased "
                                             + ability.getRaceType().getRaceColor() + ability.getName() + ChatColor.GRAY + " Level "
@@ -80,8 +74,7 @@ public class InventoryListener implements Listener {
                                     new PerksInventory().open(player);
                                 } else {
                                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You do not have enough perk points to buy this ability."));
-                                    return;
-                                }*/
+                                }
                             }
                         } else if (clickedSlot == 45) {
                             event.getWhoClicked().closeInventory();
@@ -92,31 +85,37 @@ public class InventoryListener implements Listener {
                                 int nextTier = userModel.getRace().getTier() + 1;
                                 int cost = userModel.getRace().getTier() * 5;
 
-                                event.getWhoClicked().closeInventory();
-                                Race race = RacesPlugin.getRaceManager().getRace(userModel.getRace().getRaceType(), nextTier);
-                                Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
-                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have ranked up to "
-                                        + userModel.getRace().getRaceType().getRaceColor() + race.getName() + ChatColor.GRAY + "."));
-                                new PerksInventory().open(player);
-
-                                /*if (userModel.getPerkPoints() >= cost) {
+                                if (userModel.getPerkPoints() >= cost) {
                                     event.getWhoClicked().closeInventory();
-                                    userModel.removePerkPoints(10);
+                                    userModel.removePerkPoints(cost);
                                     Race race = RacesPlugin.getRaceManager().getRace(userModel.getRace().getRaceType(), nextTier);
-                                    Bukkit.getPluginManager().callEvent(new RaceChangeEvent(player, race));
+                                    Bukkit.getPluginManager().callEvent(new RaceUpgradeEvent(player, race));
                                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have ranked up to "
                                             + userModel.getRace().getRaceType().getRaceColor() + race.getName() + ChatColor.GRAY + "."));
                                     new PerksInventory().open(player);
                                 } else {
                                     player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You do not have enough perk points to rank up."));
-                                }*/
+                                }
+                            }
+                        } else if (clickedSlot == 51) {
+                            net.nighthawkempires.core.user.UserModel tokens = CorePlugin.getUserRegistry().getUser(player.getUniqueId());
+                            if (tokens.getTokens() >= 10) {
+                                event.getWhoClicked().closeInventory();
+                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have purchased a Perk Point for " + ChatColor.GOLD + "10 tokens" + ChatColor.GRAY + "."));
+                                tokens.removeTokens(10);
+                                userModel.addPerkPoints(1);
+                                new PerksInventory().open(player);
                             }
                         } else if (clickedSlot == 53) {
                             if (getInventoryData().perkResetList.contains(player.getUniqueId())) {
                                 event.getWhoClicked().closeInventory();
                                 Bukkit.getPluginManager().callEvent(new AbilitiesResetEvent(player, Lists.newArrayList(userModel.getAbilities())));
                                 userModel.clearAbilities();
-                                //TODO: give player 75% of perk points back
+
+                                int returned = (int) (userModel.getSpentPoints() * .75);
+                                userModel.setSpentPoints(0);
+                                userModel.addPerkPoints(returned);
+
                                 getInventoryData().perkResetList.remove(player.getUniqueId());
                                 new PerksInventory().open(player);
                             } else {

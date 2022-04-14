@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -67,7 +68,6 @@ public class HellishBeingAbility implements Ability {
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
 
-                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0));
                 if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
                     switch (level) {
                         case 2 -> {
@@ -88,13 +88,29 @@ public class HellishBeingAbility implements Ability {
             } else {
                 Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));
             }
-        }, 20, 20);
+        }, 10, 20);
 
         RacesPlugin.getPlayerData().setTaskId(player, this, taskId);
     }
 
     public void run(Event e) {
         passive(e, this);
+
+        if (e instanceof EntityDamageEvent event) {
+            if (event.getEntity() instanceof Player player) {
+                UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+
+                if (userModel.hasAbility(this)) {
+                    if (event.getCause() == EntityDamageEvent.DamageCause.FIRE ||
+                            event.getCause() == EntityDamageEvent.DamageCause.LAVA ||
+                            event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK ||
+                            event.getCause() == EntityDamageEvent.DamageCause.HOT_FLOOR) {
+                        player.setFireTicks(0);
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
     }
 
     public int getId() {

@@ -69,8 +69,7 @@ public class SyphonAbility implements Ability {
 
     public void run(Event e) {
         PlayerData.DemonData infernalData = RacesPlugin.getPlayerData().demon;
-        if (e instanceof PlayerInteractEvent) {
-            PlayerInteractEvent event = (PlayerInteractEvent) e;
+        if (e instanceof PlayerInteractEvent event) {
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
@@ -96,34 +95,16 @@ public class SyphonAbility implements Ability {
 
                 addCooldown(this, player, level);
             }
-        } else if (e instanceof EntityDamageByEntityEvent) {
-            EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
+        } else if (e instanceof EntityDamageByEntityEvent event) {
             if (event.getDamager() instanceof Player player) {
                 UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
                 if (userModel.hasAbility(this)) {
                     int level = userModel.getLevel(this);
-                    if (event.getEntity() instanceof Player) {
-                        Player target = (Player) event.getEntity();
-                        if (infernalData.syphoned.contains(player.getUniqueId())) return;
-
+                    if (event.getEntity() instanceof Player target) {
                         if (infernalData.syphon.contains(player.getUniqueId())) {
                             infernalData.syphon.remove(player.getUniqueId());
                             infernalData.syphoned.add(target.getUniqueId());
-
-                            target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are being syphoned."));
-                            player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You are syphoning " + ChatColor.GREEN
-                                    + target.getName() + "'s" + ChatColor.GRAY + " powers."));
-
-                            if (level == getMaxLevel()) {
-                                if (target.getHealth() <= 4.0) {
-                                    player.setHealth(player.getHealth() + (target.getHealth() - 2.0));
-                                    target.setHealth(2.0);
-                                } else {
-                                    target.setHealth(target.getHealth() - 4.0);
-                                    player.setHealth(player.getHealth() + 4.0);
-                                }
-                            }
 
                             Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
                                 infernalData.syphoned.remove(target.getUniqueId());
@@ -131,6 +112,24 @@ public class SyphonAbility implements Ability {
                                 player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GREEN + target.getName() + "'s" + ChatColor.GRAY
                                         + " powers are no longer being syphoned."));
                             }, getDuration(level) * 20L);
+
+                            if (level == getMaxLevel()) {
+                                if (target.getHealth() <= 4.0) {
+                                    player.setHealth(player.getHealth() + (target.getHealth() - 2.0));
+                                    target.setHealth(2.0);
+                                } else {
+                                    target.setHealth(target.getHealth() - 4.0);
+                                    if (player.getHealth() + 4 > player.getHealthScale()) {
+                                        player.setHealth(player.getHealthScale());
+                                    } else {
+                                        player.setHealth(player.getHealth() + 4.0);
+                                    }
+                                }
+                            }
+
+                            target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are being syphoned."));
+                            player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You are syphoning " + ChatColor.GREEN
+                                    + target.getName() + "'s" + ChatColor.GRAY + " powers."));
                         }
                     }
                 }
@@ -139,17 +138,18 @@ public class SyphonAbility implements Ability {
 
                 if (userModel.hasAbility(this)) {
                     int level = userModel.getLevel(this);
-                    if (event.getEntity() instanceof Player) {
-                        Player target = (Player) event.getEntity();
-                        if (infernalData.syphoned.contains(player.getUniqueId())) return;
+                    if (event.getEntity() instanceof Player target) {
 
                         if (infernalData.syphon.contains(player.getUniqueId())) {
                             infernalData.syphon.remove(player.getUniqueId());
                             infernalData.syphoned.add(target.getUniqueId());
 
-                            target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are being syphoned."));
-                            player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You are syphoning " + ChatColor.GREEN
-                                    + target.getName() + "'s" + ChatColor.GRAY + " powers."));
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
+                                infernalData.syphoned.remove(target.getUniqueId());
+                                target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are no longer being syphoned."));
+                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GREEN + target.getName() + "'s" + ChatColor.GRAY
+                                        + " powers are no longer being syphoned."));
+                            }, getDuration(level) * 20L);
 
                             if (level == getMaxLevel()) {
                                 if (target.getHealth() <= 4.0) {
@@ -161,12 +161,9 @@ public class SyphonAbility implements Ability {
                                 }
                             }
 
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                                infernalData.syphoned.remove(target.getUniqueId());
-                                target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are no longer being syphoned."));
-                                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GREEN + target.getName() + "'s" + ChatColor.GRAY
-                                        + " powers are no longer being syphoned."));
-                            }, getDuration(level) * 20L);
+                            target.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "Your powers are being syphoned."));
+                            player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You are syphoning " + ChatColor.GREEN
+                                    + target.getName() + "'s" + ChatColor.GRAY + " powers."));
                         }
                     }
                 }

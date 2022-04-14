@@ -109,9 +109,9 @@ public class HellRiftAbility implements Ability {
                                 return entity.getLocation().distance(location) <= 8D;
                             }).forEach((entity) -> {
                                 if ((!(entity instanceof Player) || !AllyUtil.isAlly((Player) entity, player))) {
-                                    double x = player.getLocation().getX() - location.getX();
-                                    double y = player.getLocation().getY() - location.getY();
-                                    double z = player.getLocation().getZ() - location.getZ();
+                                    double x = entity.getLocation().getX() - location.getX();
+                                    double y = entity.getLocation().getY() - location.getY();
+                                    double z = entity.getLocation().getZ() - location.getZ();
 
                                     Vector vector = new Vector(x, y, z);
                                     vector.normalize();
@@ -126,7 +126,7 @@ public class HellRiftAbility implements Ability {
 
                 if (explode) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () -> {
-                        location.getWorld().createExplosion(location, 5, false, false);
+                        location.getWorld().createExplosion(location, 3, false, false);
                     }, getDuration(level) * 20L);
                 }
                 addCooldown(this, player, level);

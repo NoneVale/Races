@@ -117,14 +117,14 @@ public class FireCloakAbility implements Ability {
                     int level = userModel.getLevel(this);
 
                     if (event.getDamager() instanceof LivingEntity entity) {
-                        entity.setFireTicks(getDuration(level) * 5);
+                        entity.setFireTicks(200);
                         if (level > 1) {
-                            entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, getDuration(level) * 5, 0));
+                            entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 200, 0));
                         }
 
                         if (level > 3) {
-                            entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, getDuration(level) * 5, 1));
-                            entity.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, getDuration(level) * 5, 0));
+                            entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 200, 1));
+                            entity.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 200, 0));
                         }
                     }
                 }

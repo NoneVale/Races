@@ -91,20 +91,19 @@ public class VoidBlastAbility implements Ability {
                 player.getWorld().getEntitiesByClasses(new Class[] {LivingEntity.class, Projectile.class, Item.class }).stream().filter(
                         (target) -> target.getLocation().distance(player.getLocation()) <= radius).forEach((target) -> {
                             if (target instanceof LivingEntity entity) {
-                                if ((!(entity instanceof Player) || !AllyUtil.isAlly((Player) entity, player))) {
+                                if (!(entity instanceof Player) || !AllyUtil.isAlly(player, (Player) entity)) {
                                     entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
                                     entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
                                     entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
-                                }
 
+                                    if (level > 1) {
+                                        double x = entity.getLocation().getX() - player.getLocation().getX();
+                                        double z = entity.getLocation().getZ() - player.getLocation().getZ();
 
-                                if (level > 1) {
-                                    double x = entity.getLocation().getX() - player.getLocation().getX();
-                                    double z = entity.getLocation().getZ() - player.getLocation().getZ();
+                                        Vector vector = new Vector(x, 0.14, z);
 
-                                    Vector vector = new Vector(x, 0.14, z);
-
-                                    entity.setVelocity(vector.normalize().multiply(1.5));
+                                        entity.setVelocity(vector.normalize().multiply(1.5));
+                                    }
                                 }
                             }
                 });

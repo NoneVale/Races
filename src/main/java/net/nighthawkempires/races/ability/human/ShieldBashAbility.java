@@ -14,6 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -77,43 +78,47 @@ public class ShieldBashAbility implements Ability {
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
             if (event.getRightClicked() instanceof Player target) {
-                if (AllyUtil.isAlly(player, target)) return;
+                ItemStack mainHand = player.getInventory().getItemInMainHand();
+                ItemStack offHand = player.getInventory().getItemInOffHand();
+                if (mainHand.getType() == Material.SHIELD || offHand.getType() == Material.SHIELD) {
+                    if (AllyUtil.isAlly(player, target)) return;
 
-                if (userModel.hasAbility(this)) {
-                    if (checkCooldown(this, player, false)) return;
+                    if (userModel.hasAbility(this)) {
+                        if (checkCooldown(this, player, false)) return;
 
-                    if (!canUseRaceAbility(player)) {
-                        return;
-                    } else if (isSyphoned(player)) {
-                        return;
+                        if (!canUseRaceAbility(player)) {
+                            return;
+                        } else if (isSyphoned(player)) {
+                            return;
+                        }
+
+                        int level = userModel.getLevel(this);
+
+                        player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have used Shield Bash on "
+                                + ChatColor.GREEN + target.getName() + ChatColor.GRAY + "."));
+                        player.getWorld().playSound(target.getLocation(), Sound.ITEM_SHIELD_BREAK, 1f, 0.4f);
+
+                        switch (level) {
+                            case 2 -> {
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 3));
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
+                            }
+                            case 3 -> {
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 3));
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
+                                target.damage(2.0, player);
+                            }
+                            default -> {
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
+                            }
+                        }
+
+                        addCooldown(this, player, level);
                     }
-
-                    int level = userModel.getLevel(this);
-
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have used Shield Bash on "
-                            + ChatColor.GREEN + target.getName() + ChatColor.GRAY + "."));
-                    player.getWorld().playSound(target.getLocation(), Sound.ITEM_SHIELD_BREAK, 1f, 0.4f);
-
-                    switch (level) {
-                        case 2 -> {
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 3));
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
-                        }
-                        case 3 -> {
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 3));
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
-                            target.damage(2.0, player);
-                        }
-                        default -> {
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
-                        }
-                    }
-
-                    addCooldown(this, player, level);
                 }
             }
         }

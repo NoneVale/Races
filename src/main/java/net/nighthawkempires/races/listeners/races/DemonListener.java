@@ -92,6 +92,7 @@ public class DemonListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(11).run(event);
         RacesPlugin.getAbilityManager().getAbility(15).run(event);
     }
 
@@ -104,11 +105,11 @@ public class DemonListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        player.setVisualFire(false);
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-            RacesPlugin.getAbilityManager().getAbility(11).run(event);
-        }
+        RacesPlugin.getAbilityManager().getAbility(11).run(event);
+        RacesPlugin.getAbilityManager().getAbility(15).run(event);
     }
 
     @EventHandler
@@ -116,9 +117,8 @@ public class DemonListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.DEMON) {
-            RacesPlugin.getAbilityManager().getAbility(11).run(event);
-        }
+        RacesPlugin.getAbilityManager().getAbility(11).run(event);
+        RacesPlugin.getAbilityManager().getAbility(15).run(event);
     }
 
     @EventHandler

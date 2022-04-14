@@ -72,7 +72,7 @@ public class EnderRightsAbility implements Ability {
                 int level = userModel.getLevel(this);
 
                 if (level > 2) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 300, 0));
                 }
             } else {
                 Bukkit.getScheduler().cancelTask(RacesPlugin.getPlayerData().getTaskId(player, this));

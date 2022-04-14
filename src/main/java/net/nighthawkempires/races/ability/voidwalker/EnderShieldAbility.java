@@ -71,31 +71,33 @@ public class EnderShieldAbility implements Ability {
     public void run(Event e) {
         PlayerData.VoidwalkerData voidwalkerData = RacesPlugin.getPlayerData().voidwalker;
         if (e instanceof PlayerDropItemEvent event) {
-            Player player = event.getPlayer();
-            UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
+            if (event.getItemDrop().getItemStack().getType() == Material.ENDER_PEARL) {
+                Player player = event.getPlayer();
+                UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-            if (userModel.hasAbility(this)) {
-                if (checkCooldown(this, player)) return;
+                if (userModel.hasAbility(this)) {
+                    if (checkCooldown(this, player)) return;
 
-                if (!canUseRaceAbility(player)) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You can not use Race Abilities here."));
-                    return;
-                } else if (isSyphoned(player)) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "Your powers are being syphoned by a demon."));
-                    return;
+                    if (!canUseRaceAbility(player)) {
+                        player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You can not use Race Abilities here."));
+                        return;
+                    } else if (isSyphoned(player)) {
+                        player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "Your powers are being syphoned by a demon."));
+                        return;
+                    }
+
+                    int level = userModel.getLevel(this);
+
+                    if ((level < 3 && voidwalkerData.getPearls(player) > 0) || (level > 2 && voidwalkerData.getPearls(player) > 1)) {
+                        player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You already have the max amount of charges added to your shield."));
+                        return;
+                    }
+
+                    voidwalkerData.addPearl(player);
+                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have added a charge to your Ender Shield"));
+
+                    addCooldown(this, player, level);
                 }
-
-                int level = userModel.getLevel(this);
-
-                if ((level < 3 && voidwalkerData.getPearls(player) > 0) || (level > 2 && voidwalkerData.getPearls(player) > 1)) {
-                    player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.RED + "You already have the max amount of charges added to your shield."));
-                    return;
-                }
-
-                voidwalkerData.addPearl(player);
-                player.sendMessage(CorePlugin.getMessages().getChatMessage(ChatColor.GRAY + "You have added a charge to your Ender Shield"));
-
-                addCooldown(this, player, level);
             }
         } else if (e instanceof EntityDamageByEntityEvent event) {
             if (event.getEntity() instanceof Player player) {

@@ -71,35 +71,37 @@ public class RockNStoneAbility implements Ability {
             if (userModel.hasAbility(this)) {
                 int level = userModel.getLevel(this);
 
-                long time = player.getWorld().getTime();
                 if (player.getWorld().getEnvironment() == World.Environment.NORMAL) {
                     Location location = player.getLocation();
                     switch (level) {
                         case 2 -> {
                             if (location.getBlockY() < 63) {
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 400, 0));
                             }
                         }
                         case 3 -> {
                             if (location.getBlockY() < 63) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 400, 0));
+                                if (location.getBlockY() < 0) {
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 1));
+                                } else {
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
+                                }
                             }
 
                             if (location.getBlockY() < 0) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 1));
                             }
                         }
                         case 4 -> {
                             if (location.getBlockY() < 63) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
-                            }
-
-                            if (location.getBlockY() < 0) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 1));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 400, 0));
+                                if (location.getBlockY() < 0) {
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 1));
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0));
+                                } else {
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0));
+                                }
                             }
                         }
                         default -> {

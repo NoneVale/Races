@@ -163,7 +163,7 @@ public class VoidwalkerListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+        if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
             RacesPlugin.getAbilityManager().getAbility(41).run(event);
             RacesPlugin.getAbilityManager().getAbility(46).run(event);
         }
@@ -174,7 +174,7 @@ public class VoidwalkerListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+        if (userModel.getRace().getRaceType() == RaceType.VOIDWALKER) {
             RacesPlugin.getAbilityManager().getAbility(41).run(event);
             RacesPlugin.getAbilityManager().getAbility(46).run(event);
         }
@@ -185,7 +185,7 @@ public class VoidwalkerListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (event.getAbility().getRaceType() == RaceType.ANGEL) {
+        if (event.getAbility().getRaceType() == RaceType.VOIDWALKER) {
             if (event.getAbility().getAbilityType() == Ability.AbilityType.PASSIVE) {
                 event.getAbility().run(event);
             }

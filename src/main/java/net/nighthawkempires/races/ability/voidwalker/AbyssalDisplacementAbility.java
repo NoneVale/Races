@@ -41,7 +41,7 @@ public class AbyssalDisplacementAbility implements Ability {
     }
 
     public int getCooldown(int level) {
-        return 90 + getDuration(level);
+        return 0;
     }
 
     public int getMaxLevel() {
@@ -160,7 +160,7 @@ public class AbyssalDisplacementAbility implements Ability {
                         y = location.getY() + (double)(RandomUtil.randomNumber(radius * 2) - radius);
 
                         block = location.getWorld().getBlockAt((int) x, (int) y, (int) z);
-                    } while (!block.getType().isAir() && !block.getRelative(BlockFace.DOWN).getType().isSolid());
+                    } while (!block.getType().isAir() || !block.getRelative(BlockFace.DOWN).getType().isSolid());
 
                     Location to = block.getLocation();
                     RegionModel regionTo = getRegionRegistry().getObeyRegion(location);
@@ -177,7 +177,7 @@ public class AbyssalDisplacementAbility implements Ability {
 
                     location.setPitch(player.getLocation().getPitch());
                     location.setYaw(player.getLocation().getYaw());
-                    player.teleport(location);
+                    player.teleport(to);
                     voidwalkerData.displacement.remove(player.getUniqueId());
                 }
             }

@@ -38,7 +38,7 @@ public class HumanRecipes {
                 .setIngredient('I', Material.IRON_NUGGET)
                 .setIngredient('G', Material.GLOWSTONE_DUST)
                 .setIngredient('B', Material.GLOW_BERRIES)
-                .setIngredient('P', Material.POTION)
+                .setIngredient('P', Material.GLASS_BOTTLE)
                 .setIngredient('M', Material.MOSS_BLOCK);
     }
 }

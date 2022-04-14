@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -76,6 +77,11 @@ public class AngelListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         RacesPlugin.getAbilityManager().getAbility(4).run(event);
+    }
+
+    @EventHandler
+    public void onKick(PlayerKickEvent event) {
+        RacesPlugin.getAbilityManager().getAbility(7).run(event);
     }
 
     @EventHandler

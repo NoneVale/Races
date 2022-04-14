@@ -118,8 +118,16 @@ public class PerksInventory {
             inventory.setItem(49, itemStack);
         }
 
-        ItemStack itemStack = ItemUtil.getPlayerHead(player.getUniqueId());
+        ItemStack itemStack = new ItemStack(Material.EMERALD);
         ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.GRAY + "Purchase Perk Point");
+        itemMeta.setLore(Lists.newArrayList(
+                ChatColor.GRAY + "Cost: " + ChatColor.GOLD + "10 Tokens"));
+        itemStack.setItemMeta(itemMeta);
+        inventory.setItem(51, itemStack);
+
+        itemStack = ItemUtil.getPlayerHead(player.getUniqueId());
+        itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.DARK_GREEN + "Your Info");
         itemMeta.setLore(Lists.newArrayList(
                 ChatColor.GRAY + "Race Type: " + userModel.getRace().getRaceType().getRaceColor() + userModel.getRace().getRaceType().getName(),

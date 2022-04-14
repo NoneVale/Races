@@ -62,6 +62,7 @@ public class PlayerData {
         public List<UUID> heavenlyResistance;
         public List<UUID> heavenlyBarrier;
         public List<World> rainList;
+        public List<UUID> whirlwind;
 
         public HashMap<UUID, List<Block>> concentratedGround;
         public HashMap<UUID, List<UUID>> vexMap;
@@ -72,6 +73,7 @@ public class PlayerData {
             heavenlyResistance = Lists.newArrayList();
             heavenlyBarrier = Lists.newArrayList();
             rainList = Lists.newArrayList();
+            whirlwind = Lists.newArrayList();
 
             concentratedGround = Maps.newHashMap();
             vexMap = Maps.newHashMap();

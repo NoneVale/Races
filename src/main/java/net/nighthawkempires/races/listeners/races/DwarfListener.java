@@ -103,7 +103,8 @@ public class DwarfListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+            RacesPlugin.getAbilityManager().getAbility(21).run(event);
             RacesPlugin.getAbilityManager().getAbility(22).run(event);
         }
     }
@@ -113,7 +114,8 @@ public class DwarfListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (userModel.getRace().getRaceType() == RaceType.ANGEL) {
+        if (userModel.getRace().getRaceType() == RaceType.DWARF) {
+            RacesPlugin.getAbilityManager().getAbility(21).run(event);
             RacesPlugin.getAbilityManager().getAbility(22).run(event);
         }
     }
@@ -123,7 +125,7 @@ public class DwarfListener implements Listener {
         Player player = event.getPlayer();
         UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
 
-        if (event.getAbility().getRaceType() == RaceType.ANGEL) {
+        if (event.getAbility().getRaceType() == RaceType.DWARF) {
             if (event.getAbility().getAbilityType() == Ability.AbilityType.PASSIVE) {
                 event.getAbility().run(event);
             }

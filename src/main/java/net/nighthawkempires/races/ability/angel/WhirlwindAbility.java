@@ -6,6 +6,7 @@ import net.nighthawkempires.core.util.RandomUtil;
 import net.nighthawkempires.guilds.util.AllyUtil;
 import net.nighthawkempires.races.RacesPlugin;
 import net.nighthawkempires.races.ability.Ability;
+import net.nighthawkempires.races.data.PlayerData;
 import net.nighthawkempires.races.races.Race;
 import net.nighthawkempires.races.races.RaceType;
 import net.nighthawkempires.races.user.UserModel;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.util.Vector;
 
 import static org.bukkit.ChatColor.RED;
@@ -69,6 +71,7 @@ public class WhirlwindAbility implements Ability {
     }
 
     public void run(Event e) {
+        PlayerData.AngelData angel = RacesPlugin.getPlayerData().angel;
         if (e instanceof PlayerInteractEvent event) {
             Player player = event.getPlayer();
             UserModel userModel = RacesPlugin.getUserRegistry().getUser(player.getUniqueId());
@@ -112,10 +115,10 @@ public class WhirlwindAbility implements Ability {
                             location.getWorld().getEntitiesByClasses(new Class[] { LivingEntity.class, Item.class, Projectile.class }).stream().filter(
                                     (entity) -> entity.getLocation().distance(location) <= 15D).forEach((entity) -> {
                                 if ((!(entity instanceof Player) || !AllyUtil.isAlly((Player) entity, player))) {
-                                    double angle = Math.toRadians(14D);
+                                    double angle = Math.toRadians(14);
                                     double radius = Math.abs(entity.getLocation().distance(location));
-                                    double x = player.getLocation().getX() - location.getX();
-                                    double z = player.getLocation().getZ() - location.getZ();
+                                    double x = entity.getLocation().getX() - location.getX();
+                                    double z = entity.getLocation().getZ() - location.getZ();
                                     double dx = x * Math.cos(angle) - z * Math.sin(angle);
                                     double dz = x * Math.sin(angle) + z * Math.cos(angle);
                                     Location target = new Location(entity.getWorld(), dx + location.getX(), entity.getLocation().getY(), dz + location.getZ());
@@ -130,6 +133,13 @@ public class WhirlwindAbility implements Ability {
 
                                     double amplifier = strength + 2D / radius;
                                     entity.setVelocity(entity.getVelocity().add(vector).multiply(-amplifier));
+
+                                    if (entity instanceof Player effected) {
+                                        if (!angel.whirlwind.contains(effected.getUniqueId())) angel.whirlwind.add(effected.getUniqueId());
+
+                                        Bukkit.getScheduler().scheduleSyncDelayedTask(RacesPlugin.getPlugin(), () ->
+                                                angel.whirlwind.remove(effected.getUniqueId()), 100);
+                                    }
                                 }
                             });
                         }, i);
@@ -137,6 +147,14 @@ public class WhirlwindAbility implements Ability {
                 }
 
                 addCooldown(this, player, level);
+            }
+        } else if (e instanceof PlayerKickEvent event) {
+            Player player = event.getPlayer();
+
+            if (event.getCause() == PlayerKickEvent.Cause.FLYING_PLAYER) {
+                if (angel.whirlwind.contains(player.getUniqueId())) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
